@@ -2,13 +2,26 @@ import { breadcrumbLd } from "@/lib/site";
 import { JsonLd } from "./JsonLd";
 import { TornEdge } from "./TornEdge";
 
-export function PageHero({ title, intro, crumb, path, seed = 5 }: { title: string; intro: string; crumb: string; path: string; seed?: number }) {
+// Hero halaman dalam, satu keluarga dengan hero Home: baris pertama di atas merah,
+// baris berikutnya di atas panel krem, seluruh blok dimiringkan. `children` = gambar/stiker di sisi kanan.
+export function PageHero({ lines, intro, crumb, path, seed = 5, children }: { lines: string[]; intro: string; crumb: string; path: string; seed?: number; children?: React.ReactNode }) {
+  const [first, ...rest] = lines;
   return (
     <section className="phero sunburst">
       <JsonLd data={breadcrumbLd(crumb, path)} />
-      <div className="wrap">
-        <h1 className="display display--page">{title}</h1>
-        <p className="phero__intro">{intro}</p>
+      <div className="wrap phero__in">
+        <div className="phero__type">
+          <h1 className="display phero__h1">
+            <span className="hero__l1">{first} </span>
+            {rest.length > 0 && (
+              <span className="hero__paper">
+                {rest.map((l) => <span key={l}>{l} </span>)}
+              </span>
+            )}
+          </h1>
+          <p className="phero__intro">{intro}</p>
+        </div>
+        {children && <div className="phero__art">{children}</div>}
       </div>
       <TornEdge color="var(--cream)" seed={seed} />
     </section>

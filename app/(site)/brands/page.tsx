@@ -1,4 +1,5 @@
-import { BrandImage } from "@/components/BrandImage";
+import Image from "next/image";
+import { brand } from "@/config/brand";
 import { Button } from "@/components/Button";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
@@ -33,26 +34,29 @@ export default async function Brands() {
   return (
     <>
       <JsonLd data={ld} />
-      <PageHero crumb="Our Brands & Products" path="/brands" seed={9} title="Brand dan menu kami" intro="Saat ini rumah kami diisi Cimol Bojot AA. Semua menu dan harganya ada di halaman ini." />
+      <PageHero crumb="Our Brands & Products" path="/brands" seed={9} lines={["Menu", "dan harga."]} intro="Saat ini rumah kami diisi Cimol Bojot AA. Semua menu dan harganya ada di halaman ini.">
+        <Image className="phero__mascot" {...brand.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
+      </PageHero>
 
       <section className="sec">
         <div className="wrap split">
           <div className="prose">
             <p className="hand">Kasta tertinggi cimol</p>
             <h2 className="h2">Cimol Bojot AA</h2>
-            <p>Cimol dari aci, digoreng, lalu dibalur bumbu bojot sampai nempel. Asalnya jajanan pinggir jalan Bandung, sekarang ada di 400+ titik.</p>
-            <Button href="/locations" variant="red">Cari outlet terdekat</Button>
+            <p>Cimol dari aci, digoreng, lalu dibalur bumbu bojot sampai nempel. Asalnya jajanan pinggir jalan Bandung, sekarang ada di 500+ titik gerobak dan kios.</p>
+            <Button href="/locations" variant="red">Cari kios terdekat</Button>
           </div>
-          <BrandImage variant="torn" ratio="5 / 4" alt="Aneka menu Cimol Bojot AA" label="Semua varian dalam satu foto" className="tilt-r" />
+          <Image className="art-kiosk" {...brand.kiosk} alt="Kios Cimol Bojot AA" sizes="(max-width: 900px) 90vw, 520px" />
         </div>
       </section>
 
       <section className="sec sec--red">
         <div className="wrap">
           <div className="panel menu">
+            <Image className="menu__logo" {...brand.logo} alt="" sizes="200px" />
             <div className="menu__head">
               <h2 className="h2">Menu dan harga</h2>
-              <p>Dalam rupiah. Harga bisa beda sedikit di beberapa outlet dan di aplikasi ojol.</p>
+              <p>Dalam rupiah. Harga bisa beda sedikit di beberapa gerobak, kios, dan di aplikasi ojol.</p>
             </div>
             {menu.map((c) => (
               <table key={c.name} className="menu__t">

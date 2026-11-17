@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
 import { getNews } from "@/lib/api";
@@ -14,7 +15,9 @@ export default async function News() {
   const [first, ...rest] = news;
   return (
     <>
-      <PageHero crumb="News & Updates" path="/news" seed={19} title="Kabar terbaru" intro="Outlet baru, produk baru, promo, dan cerita dari dapur CRK Group." />
+      <PageHero crumb="News & Updates" path="/news" seed={19} lines={["Kabar", "terbaru."]} intro="Kios baru, produk baru, promo, dan cerita dari dapur CRK Group.">
+        <Image className="phero__mascot phero__mascot--s" src="/brand/mascot-small.png" width={332} height={302} alt="" priority sizes="(max-width: 900px) 40vw, 260px" />
+      </PageHero>
       <section className="sec">
         <div className="wrap">
           {!first ? (

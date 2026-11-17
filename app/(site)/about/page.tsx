@@ -1,21 +1,25 @@
-import { BrandImage } from "@/components/BrandImage";
+import Image from "next/image";
 import { Button } from "@/components/Button";
 import { PageHero } from "@/components/PageHero";
 import { brand } from "@/config/brand";
+import { getOutlets } from "@/lib/api";
 import { pageMeta } from "@/lib/site";
 
 export const metadata = pageMeta({
   title: "About Us",
-  description: "Cerita CRK Group, perusahaan di balik Cimol Bojot AA: dari gerobak di Bandung sampai 400+ titik di Bandung dan Jabodetabek.",
+  description: "Cerita CRK Group, perusahaan di balik Cimol Bojot AA: dari gerobak di Bandung sampai 500+ titik gerobak dan kios di Bandung dan Jabodetabek.",
   path: "/about",
 });
 
-const milestones = ["[ISI: tahun] Gerobak pertama", "[ISI: tahun] Kios pertama", "[ISI: tahun] Masuk Jabodetabek", "[ISI: tahun] Tembus 400+ titik"];
+const milestones = ["[ISI: tahun] Gerobak pertama", "[ISI: tahun] Kios pertama", "[ISI: tahun] Masuk Jabodetabek", "[ISI: tahun] Tembus 500+ titik gerobak"];
 
-export default function About() {
+export default async function About() {
+  const kios = (await getOutlets()).length;
   return (
     <>
-      <PageHero crumb="About Us" path="/about" title="Dari gerobak, naik kelas." intro="CRK Group adalah perusahaan di balik Cimol Bojot AA. Kami mengerjakan jajanan kaki lima dengan cara kerja brand besar." />
+      <PageHero crumb="About Us" path="/about" lines={["Dari gerobak,", "naik kelas."]} intro="CRK Group adalah perusahaan di balik Cimol Bojot AA. Kami mengerjakan jajanan kaki lima dengan cara kerja brand besar.">
+        <Image className="phero__kiosk" {...brand.kiosk} alt="Kios Cimol Bojot AA" priority sizes="(max-width: 900px) 80vw, 460px" />
+      </PageHero>
 
       <section className="sec">
         <div className="wrap split">
@@ -24,7 +28,7 @@ export default function About() {
             <p>[ISI: cerita asli brand, paragraf 1. Ditulis tim CRK: siapa yang memulai, kapan, dan di mana gerobak pertamanya.]</p>
             <p>[ISI: cerita asli brand, paragraf 2. Kenapa cimol, dan apa yang berubah sejak hari pertama.]</p>
           </div>
-          <BrandImage variant="torn" ratio="4 / 5" alt="Gerobak atau kios pertama Cimol Bojot AA" label="Gerobak atau kios pertama" className="tilt-r" />
+          <Image className="art-mascot" {...brand.mascot} alt="Maskot Cimol Bojot AA" sizes="(max-width: 900px) 60vw, 380px" />
         </div>
       </section>
 
@@ -49,8 +53,8 @@ export default function About() {
           </ul>
         </div>
         <div className="wrap"><div className="facts">
-          <p><b>400+</b> titik outlet</p>
-          <p><b>2</b> wilayah: Bandung dan Jabodetabek</p>
+          <p><b>500+</b> titik gerobak</p>
+          <p><b>{kios > 0 ? kios : "[ISI]"}</b> kios, termasuk yang segera buka</p>
           <p><b>[ISI]</b> crew dan karyawan</p>
         </div></div>
         <div className="wrap closing">

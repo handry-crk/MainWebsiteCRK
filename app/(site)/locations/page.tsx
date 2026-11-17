@@ -1,6 +1,7 @@
 import { JsonLd } from "@/components/JsonLd";
 import { OutletFinder } from "@/components/OutletFinder";
 import { PageHero } from "@/components/PageHero";
+import { Starburst } from "@/components/Starburst";
 import { getOutlets } from "@/lib/api";
 import { pageMeta, siteUrl } from "@/lib/site";
 
@@ -26,7 +27,9 @@ export default async function Locations() {
   return (
     <>
       <JsonLd data={ld} />
-      <PageHero crumb="Store Locations" path="/locations" seed={13} title="Outlet terdekat" intro="Ketik nama kota atau jalan, atau pakai lokasi Kakak supaya langsung diurutkan dari yang paling dekat." />
+      <PageHero crumb="Store Locations" path="/locations" seed={13} lines={["Kios", "terdekat."]} intro="Ketik nama kota atau jalan, atau pakai lokasi Kakak supaya langsung diurutkan dari yang paling dekat. Daftar ini memuat kios; gerobak Cimol Bojot AA ada di 500+ titik lain dan tidak didaftar satu per satu.">
+        {outlets.length > 0 && <Starburst className="phero__burst">{outlets.length}<small>kios</small></Starburst>}
+      </PageHero>
       <section className="sec">
         <div className="wrap">
           <OutletFinder outlets={outlets} />

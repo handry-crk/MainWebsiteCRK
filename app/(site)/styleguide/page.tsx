@@ -51,7 +51,7 @@ export default function Styleguide() {
 
         <h2 className="h2">Starburst dan foto</h2>
         <div className="sg__ondark sg__flex">
-          <Starburst>400+<small>outlet</small></Starburst>
+          <Starburst>500+<small>gerobak</small></Starburst>
           <BrandImage variant="cutout" ratio="1 / 1" alt="" label="Cutout: objek tanpa latar" className="sg__img" />
           <BrandImage variant="torn" ratio="4 / 5" alt="" label="Torn: foto sobekan kertas" className="sg__img" />
         </div>

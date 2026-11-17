@@ -1,95 +1,81 @@
+import Image from "next/image";
 import Link from "next/link";
-import { BrandImage } from "@/components/BrandImage";
-import { Button } from "@/components/Button";
 import { Starburst } from "@/components/Starburst";
 import { TornEdge } from "@/components/TornEdge";
 import { brand } from "@/config/brand";
-import { getBestSellers, getCities, getLatestNews, rupiah } from "@/lib/api";
+import { getBestSellers, getCities, getLatestNews, getOutlets, rupiah } from "@/lib/api";
 
+// Home disusun seperti poster yang bisa di-scroll: tiap bagian satu komposisi,
+// teks sedikit, elemen saling menimpa. Tanpa kotak placeholder.
 export default async function Home() {
-  const [menu, news, cities] = await Promise.all([getBestSellers(), getLatestNews(), getCities()]);
+  const [menu, news, cities, outlets] = await Promise.all([getBestSellers(), getLatestNews(), getCities(), getOutlets()]);
+  const soon = outlets.filter((o) => o.soon).slice(0, 5);
 
   return (
     <>
       <section className="hero sunburst">
-        <div className="wrap hero__grid">
-          <div className="hero__copy">
+        <div className="wrap hero__in">
+          <div className="hero__type">
             <h1 className="display hero__h1">
-              <span>Jajanan</span>
-              <span>pinggir jalan,</span>
-              <span>naik kelas.</span>
+              <span className="hero__l1">Jajanan </span>
+              <span className="hero__paper">
+                <span>pinggir jalan, </span>
+                <span>naik kelas.</span>
+              </span>
             </h1>
-            <div className="panel hero__panel">
-              <p>
-                CRK Group meracik jajanan kaki lima jadi brand yang rapi dan konsisten. Rumahnya Cimol Bojot AA,
-                sekarang ada di 400+ titik Bandung dan Jabodetabek.
-              </p>
-              <div className="btns">
-                <Button href="/brands" variant="red">Kenalan sama brand kami</Button>
-                <Button href="/partnership" variant="line">Jualan bareng</Button>
+            <p className="hero__sub">
+              CRK Group, rumahnya Cimol Bojot AA. Ada di 500+ titik gerobak dan kios di Bandung dan Jabodetabek.
+            </p>
+            <form className="search hero__search" action="/locations" role="search">
+              <label htmlFor="q">Lagi di mana, Kak?</label>
+              <div className="search__row">
+                <input id="q" name="q" type="search" placeholder="Ketik kota atau nama jalan" autoComplete="off" />
+                <button type="submit" className="btn btn--red btn--sm">Cari kios</button>
               </div>
-            </div>
+            </form>
           </div>
 
           <div className="hero__art">
-            <BrandImage
-              variant="cutout"
-              ratio="1 / 1"
-              alt="Kios Cimol Bojot AA"
-              label="Kios Cimol Bojot AA tanpa latar (PNG transparan)"
-              priority
-            />
+            <Image className="hero__kiosk" {...brand.kiosk} alt="Kios Cimol Bojot AA dengan awning merah putih" priority sizes="(max-width: 900px) 90vw, 560px" />
             <Starburst className="hero__burst">
-              400+<small>outlet</small>
+              500+<small>gerobak</small>
             </Starburst>
-          </div>
-
-          <form className="search hero__search" action="/locations" role="search">
-            <label htmlFor="q">Cari outlet terdekat</label>
-            <div className="search__row">
-              <input id="q" name="q" type="search" placeholder="Ketik kota atau nama jalan" autoComplete="off" />
-              <button type="submit" className="btn btn--red btn--sm">Cari</button>
-            </div>
-          </form>
-
-          <div className="hero__mascot" aria-hidden="true">
-            {brand.mascot ? <img src={brand.mascot} alt="" /> : <span>Maskot</span>}
+            <Image className="hero__mascot" {...brand.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
           </div>
         </div>
         <TornEdge color="var(--cream)" seed={11} />
       </section>
 
       <section className="why">
-        <div className="wrap why__grid">
+        <div className="wrap why__in">
           <h2 className="h2 why__h">Naik kelasnya di mana?</h2>
-          <ul className="why__list">
-            <li>
-              <h3>Rasa yang sama di tiap outlet</h3>
-              <p>Bumbu dan takarannya satu resep. Beli di Braga atau di Bekasi, gigitannya sama.</p>
+          <ul className="why__pile">
+            <li className="chip chip--red">
+              <b>Rasanya sama di tiap titik</b>
+              <span>Satu resep, satu takaran. Di Braga atau di Bekasi.</span>
             </li>
-            <li>
-              <h3>Gerobak dan kios yang rapi</h3>
-              <p>Bersih, terang, dan gampang dikenali dari jauh. Jajan kaki lima tanpa ragu.</p>
+            <li className="chip chip--paper">
+              <b>Gerobak dan kiosnya rapi</b>
+              <span>Bersih, terang, gampang dikenali dari jauh.</span>
             </li>
-            <li>
-              <h3>Harga tetap kaki lima</h3>
-              <p>Mulai Rp6.000. Naik kelasnya di cara kerja, bukan di harga.</p>
+            <li className="chip chip--tag">
+              <span>Harganya tetap kaki lima. Mulai</span>
+              <b>6.000</b>
             </li>
           </ul>
         </div>
       </section>
 
-      <section className="spot">
+      <section className="menu-p">
         <TornEdge color="var(--cream)" seed={23} flip />
-        <div className="wrap spot__grid">
-          <div className="spot__collage">
-            <BrandImage variant="torn" ratio="4 / 5" alt="Cimol ditarik dari bumbu" label="Tarik bumbu, close-up" className="spot__a" />
-            <BrandImage variant="torn" ratio="1 / 1" alt="Cimol Mozza ditarik" label="Mozza ditarik, dipegang tangan" className="spot__b" />
-          </div>
-          <div className="panel spot__panel">
+        <div className="wrap menu-p__in">
+          <div className="menu-p__say">
             <p className="hand">Kasta tertinggi cimol</p>
-            <h2 className="h2">Cimol Bojot AA</h2>
-            <p>Cimol dari aci, digoreng, lalu dibalur bumbu bojot sampai nempel.</p>
+            <h2 className="display menu-p__h">Bumbunya nempel. Kejunya narik.</h2>
+            <Link href="/brands" className="btn btn--cream">Lihat semua menu</Link>
+          </div>
+          <div className="menu-p__board">
+            <Image className="menu-p__logo" {...brand.logo} alt="Cimol Bojot AA" sizes="200px" />
             <ul className="board">
               {menu.map((m) => (
                 <li key={m.name}>
@@ -102,63 +88,77 @@ export default async function Home() {
                 </li>
               ))}
             </ul>
-            <Button href="/brands" variant="red">Lihat semua menu</Button>
           </div>
         </div>
         <TornEdge color="var(--cream)" seed={31} />
       </section>
 
       <section className="where">
-        <div className="wrap where__grid">
-          <div className="where__copy">
-            <h2 className="h2">Ada di kota Kakak?</h2>
-            <p>Pilih kotanya, nanti kami tunjukkan outlet paling dekat lengkap dengan petunjuk arah.</p>
-            <ul className="cities">
+        <div className="wrap where__in">
+          <div className="where__say">
+            <h2 className="display display--paper where__h">Hey, Kak!</h2>
+            <p className="where__label">Kios Cimol Bojot AA ada di kota-kota ini.</p>
+            <ul className="pins">
               {cities.map((c) => (
                 <li key={c.name}>
-                  <Link href={`/locations?q=${encodeURIComponent(c.name)}`}>{c.name}</Link>
+                  <Link href={`/locations?q=${encodeURIComponent(c.name)}`}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-7.1 7-12.3A7 7 0 0 0 5 9.7C5 14.9 12 22 12 22Z" /><circle cx="12" cy="9.6" r="2.6" /></svg>
+                    {c.name}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="where__map">
-            <BrandImage variant="torn" ratio="5 / 4" alt="Peta sebaran outlet" label="Peta sebaran outlet Bandung dan Jabodetabek" />
-            <span className="hand where__sign">Bandung</span>
-          </div>
+          {soon.length > 0 ? (
+            <div className="soon">
+              <p className="display soon__h">Coming soon!</p>
+              <ul>
+                {soon.map((o) => (
+                  <li key={o.id}><b>{o.name}</b><span>{o.hours}</span></li>
+                ))}
+              </ul>
+              <Link className="tlink" href="/locations">Lihat semua kios</Link>
+            </div>
+          ) : (
+            <Image className="where__mascot" src="/brand/mascot-small.png" width={332} height={302} alt="" sizes="(max-width: 900px) 50vw, 340px" />
+          )}
         </div>
 
-        {news.length > 0 && <div className="wrap news">
-          <div className="news__head">
-            <h2 className="h2">Kabar terbaru</h2>
-            <Link className="tlink" href="/news">Semua kabar</Link>
+        {news.length > 0 && (
+          <div className="wrap news">
+            <div className="news__head">
+              <h2 className="h2">Kabar terbaru</h2>
+              <Link className="tlink" href="/news">Semua kabar</Link>
+            </div>
+            <ul className="tickets">
+              {news.map((n) => (
+                <li key={n.slug}>
+                  <Link href={`/news/${n.slug}`}>
+                    <span className="tickets__date">{n.date}</span>
+                    <span className="tickets__title">{n.title}</span>
+                    <span className="tickets__cat">{n.category}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul className="tickets">
-            {news.map((n) => (
-              <li key={n.slug}>
-                <Link href="/news">
-                  <span className="tickets__date">{n.date}</span>
-                  <span className="tickets__title">{n.title}</span>
-                  <span className="tickets__cat">{n.category}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>}
+        )}
       </section>
 
       <section className="cta sunburst">
         <TornEdge color="var(--cream)" seed={43} flip />
-        <div className="wrap cta__grid">
-          <div className="panel">
-            <h2 className="h2">Mau jualan bareng?</h2>
-            <p>Pesanan acara kantor, hampers, reseller Frozen, sampai buka titik baru. Ngobrol aja dulu.</p>
-            <Button href="/partnership" variant="red">Lihat pilihan kerja sama</Button>
-          </div>
-          <div className="panel">
-            <h2 className="h2">Mau kerja bareng?</h2>
-            <p>Dari crew outlet sampai tim kantor. Cek posisi yang lagi dibuka.</p>
-            <Button href="/careers" variant="red">Lihat lowongan</Button>
-          </div>
+        <div className="wrap cta__in">
+          <Link href="/partnership" className="cta__card cta__card--a">
+            <span className="display cta__h">Jualan bareng?</span>
+            <span>Acara kantor, hampers, reseller Frozen, sampai buka titik baru.</span>
+            <b>Lihat pilihan kerja sama</b>
+          </Link>
+          <Image className="cta__mascot" src="/brand/mascot-small.png" width={332} height={302} alt="" sizes="200px" />
+          <Link href="/careers" className="cta__card cta__card--b">
+            <span className="display cta__h">Kerja bareng?</span>
+            <span>Dari crew gerobak dan kios sampai tim kantor.</span>
+            <b>Lihat lowongan</b>
+          </Link>
         </div>
       </section>
     </>
