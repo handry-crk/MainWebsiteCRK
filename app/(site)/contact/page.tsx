@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
@@ -14,7 +15,9 @@ export default async function Contact() {
   const st = await getSettings();
   return (
     <>
-      <PageHero crumb="Contact Us" path="/contact" seed={37} title="Ngobrol, yuk." intro="Pertanyaan, keluhan, atau ajakan kerja sama. Paling cepat lewat WhatsApp." />
+      <PageHero crumb="Contact Us" path="/contact" seed={37} lines={["Ngobrol,", "yuk."]} intro="Pertanyaan, keluhan, atau ajakan kerja sama. Paling cepat lewat WhatsApp.">
+        <Image className="phero__mascot phero__mascot--s" src="/brand/mascot-small.png" width={332} height={302} alt="" priority sizes="(max-width: 900px) 40vw, 260px" />
+      </PageHero>
       <section className="sec">
         <div className="wrap">
           <ul className="ptypes ptypes--3">

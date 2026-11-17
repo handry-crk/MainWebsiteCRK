@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { JsonLd } from "@/components/JsonLd";
+import { brand } from "@/config/brand";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
@@ -28,7 +30,9 @@ export default async function Partnership() {
   return (
     <>
       {faq.length > 0 && <JsonLd data={ld} />}
-      <PageHero crumb="Partnership" path="/partnership" seed={29} title="Jualan bareng CRK." intro="Buat acara kantor, hampers, reseller Frozen, sampai buka titik baru. Ngobrol aja dulu." />
+      <PageHero crumb="Partnership" path="/partnership" seed={29} lines={["Jualan", "bareng CRK."]} intro="Buat acara kantor, hampers, reseller Frozen, sampai buka titik baru. Ngobrol aja dulu.">
+        <Image className="phero__mascot" {...brand.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
+      </PageHero>
 
       <section className="sec">
         <div className="wrap">

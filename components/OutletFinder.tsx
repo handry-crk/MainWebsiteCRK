@@ -75,7 +75,7 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
     <div className="finder">
       <div className="finder__bar">
         <div className="search">
-          <label htmlFor="cari">Cari outlet</label>
+          <label htmlFor="cari">Cari kios</label>
           <div className="search__row">
             <input id="cari" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ketik kota, kecamatan, atau nama jalan" autoComplete="off" />
           </div>
@@ -88,11 +88,11 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
           <li key={c}><button type="button" aria-pressed={q.toLowerCase() === c.toLowerCase()} onClick={() => setQ(c)}>{c}</button></li>
         ))}
       </ul>
-      <p className="finder__msg" role="status">{geoMsg || `${list.length} outlet ditemukan.`}</p>
+      <p className="finder__msg" role="status">{geoMsg || `${list.length} kios ditemukan.`}</p>
 
       <div className="finder__grid">
         <ul className="outlets">
-          {list.length === 0 && <li className="outlets__empty">Belum ada outlet di sekitar situ, Kak. Coba kota lain.</li>}
+          {list.length === 0 && <li className="outlets__empty">Belum ada kios di sekitar situ, Kak. Coba kota lain.</li>}
           {list.map((o) => (
             <li key={o.id} id={`outlet-${o.id}`} className={active === o.id ? "is-active" : ""}>
               <button type="button" className="outlets__name" onClick={() => setActive(o.id)}>{o.name}</button>

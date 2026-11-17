@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
   title: { default: "CRK Group | Street food naik kelas", template: "%s | CRK Group" },
   description:
-    "CRK Group, rumah dari Cimol Bojot AA. Jajanan kaki lima dari Bandung yang sekarang ada di 400+ titik Bandung dan Jabodetabek.",
+    "CRK Group, rumah dari Cimol Bojot AA. Jajanan kaki lima dari Bandung yang sekarang ada di 500+ titik gerobak dan kios di Bandung dan Jabodetabek.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

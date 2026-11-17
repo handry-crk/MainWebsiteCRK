@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
@@ -14,7 +15,9 @@ export default async function Careers() {
   const [positions, st] = await Promise.all([getPositions(), getSettings()]);
   return (
     <>
-      <PageHero crumb="Careers" path="/careers" seed={17} title="Kerja bareng, naik kelas bareng." intro="Dari crew outlet sampai tim kantor. Posisi yang lagi dibuka ada di bawah, lamarannya bisa lewat form atau WhatsApp." />
+      <PageHero crumb="Careers" path="/careers" seed={17} lines={["Kerja bareng,", "naik kelas", "bareng."]} intro="Dari crew gerobak dan kios sampai tim kantor. Posisi yang lagi dibuka ada di bawah, lamarannya bisa lewat form atau WhatsApp.">
+        <Image className="phero__mascot phero__mascot--s" src="/brand/mascot-small.png" width={332} height={302} alt="" priority sizes="(max-width: 900px) 40vw, 260px" />
+      </PageHero>
 
       <section className="sec">
         <div className="wrap split split--top">

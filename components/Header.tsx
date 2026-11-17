@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { brand, nav } from "@/config/brand";
@@ -16,14 +17,14 @@ export function Header() {
     <header className="hdr">
       <div className="wrap hdr__in">
         <Link href="/" className="hdr__logo" onClick={() => setOpen(false)}>
-          {brand.company}
+          <Image {...brand.logo} alt="Cimol Bojot AA, CRK Group" priority sizes="120px" />
         </Link>
         <nav className="hdr__nav" aria-label="Utama">
           {nav.map((n) => (
             <Link key={n.href} href={n.href}>{n.label}</Link>
           ))}
         </nav>
-        <Link href="/locations" className="btn btn--cream btn--sm hdr__cta">Cari outlet</Link>
+        <Link href="/locations" className="btn btn--cream btn--sm hdr__cta">Cari kios</Link>
         <button className="hdr__burger" aria-expanded={open} aria-controls="menu" onClick={() => setOpen(!open)}>
           {open ? "Tutup" : "Menu"}
         </button>
