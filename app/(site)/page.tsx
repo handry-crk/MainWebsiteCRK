@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Starburst } from "@/components/Starburst";
+import { Tape } from "@/components/Tape";
 import { TornEdge } from "@/components/TornEdge";
 import { brand } from "@/config/brand";
 import { getBestSellers, getCities, getLatestNews, getOutlets, rupiah } from "@/lib/api";
@@ -68,6 +69,10 @@ export default async function Home() {
 
       <section className="menu-p">
         <TornEdge color="var(--cream)" seed={23} flip />
+        <div className="menu-p__tapes">
+          <Tape items={["Kasta tertinggi cimol", "Bumbunya nempel", "Kejunya narik", "Mulai 6.000"]} />
+          <Tape variant="red" reverse items={["Cimol Bojot", "Cimol Mozza", "Kuah Keju", "Mix", "New Series", "Frozen"]} />
+        </div>
         <div className="wrap menu-p__in">
           <div className="menu-p__say">
             <p className="hand">Kasta tertinggi cimol</p>
