@@ -1,5 +1,6 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { Motion } from "@/components/Motion";
 
 export default function SiteLayout({ children }: LayoutProps<"/">) {
   return (
@@ -8,6 +9,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       <Header />
       <main id="main">{children}</main>
       <Footer />
+      <Motion />
     </>
   );
 }
