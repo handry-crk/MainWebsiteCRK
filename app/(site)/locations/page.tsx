@@ -27,12 +27,13 @@ export default async function Locations() {
   return (
     <>
       <JsonLd data={ld} />
-      <PageHero crumb="Store Locations" path="/locations" seed={13} lines={["Kios", "terdekat."]} intro="Ketik nama kota atau jalan, atau pakai lokasi Kakak supaya langsung diurutkan dari yang paling dekat. Daftar ini memuat kios; gerobak Cimol Bojot AA ada di 500+ titik lain dan tidak didaftar satu per satu.">
+      <PageHero crumb="Store Locations" path="/locations" seed={13} lines={["Kios", "terdekat."]} compact intro="Pilih kota, ketik nama jalan, atau pakai lokasi Kakak.">
         {outlets.length > 0 && <Starburst className="phero__burst">{outlets.length}<small>kios</small></Starburst>}
       </PageHero>
-      <section className="sec">
+      <section className="sec sec--finder">
         <div className="wrap">
           <OutletFinder outlets={outlets} />
+          <p className="finder__foot">Daftar ini memuat kios. Gerobak Cimol Bojot AA ada di 500+ titik lain dan tidak didaftar satu per satu.</p>
         </div>
       </section>
     </>

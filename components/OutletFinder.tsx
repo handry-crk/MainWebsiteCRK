@@ -1,8 +1,10 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Map as LMap, CircleMarker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { Outlet } from "@/data/seed";
+
+type Row = Outlet & { d: number | null };
 
 const km = (a: [number, number], b: [number, number]) => {
   const r = Math.PI / 180, dLat = (b[0] - a[0]) * r, dLng = (b[1] - a[1]) * r;
@@ -10,104 +12,216 @@ const km = (a: [number, number], b: [number, number]) => {
   return 12742 * Math.asin(Math.sqrt(h));
 };
 
+// "08.00–22.00" → status buka/tutup menurut jam Jakarta. null bila jam tidak terbaca.
+function openState(hours: string, nowMin: number): { open: boolean; text: string } | null {
+  const m = hours.match(/(\d{1,2})[.:](\d{2})\s*[–-]\s*(\d{1,2})[.:](\d{2})/);
+  if (!m) return null;
+  const from = +m[1] * 60 + +m[2];
+  let to = +m[3] * 60 + +m[4];
+  if (to <= from) to += 1440;
+  const now = nowMin < from && to > 1440 ? nowMin + 1440 : nowMin;
+  const open = now >= from && now < to;
+  return { open, text: open ? `Buka sampai ${m[3].padStart(2, "0")}.${m[4]}` : `Tutup, buka ${m[1].padStart(2, "0")}.${m[2]}` };
+}
+const jakartaMinutes = () => {
+  const p = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Jakarta", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(new Date());
+  return +p.find((x) => x.type === "hour")!.value * 60 + +p.find((x) => x.type === "minute")!.value;
+};
+const dist = (d: number) => (d < 1 ? `${Math.round(d * 1000)} m` : `${d.toFixed(1)} km`);
+const mapsUrl = (o: Outlet) => o.gmaps || `https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}`;
+
 export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
   const [q, setQ] = useState("");
-  // ?q= dari pencarian di Home dibaca setelah halaman tampil, supaya daftar outlet tetap ada di HTML statis.
-  useEffect(() => {
-    const v = new URLSearchParams(window.location.search).get("q");
-    if (v) setQ(v);
-  }, []);
+  const [city, setCity] = useState("");
+  const [only, setOnly] = useState<"" | "open" | "soon">("");
   const [pos, setPos] = useState<[number, number] | null>(null);
   const [active, setActive] = useState<string | null>(null);
   const [geoMsg, setGeoMsg] = useState("");
+  const [now, setNow] = useState<number | null>(null); // diisi setelah tampil, supaya HTML server dan browser sama
   const mapEl = useRef<HTMLDivElement>(null);
+  const listEl = useRef<HTMLDivElement>(null);
   const map = useRef<LMap | null>(null);
   const markers = useRef<Record<string, CircleMarker>>({});
-  const cities = useMemo(() => [...new Set(outlets.map((o) => o.city))], [outlets]);
+  const fromScroll = useRef(false);
 
-  const list = useMemo(() => {
+  useEffect(() => {
+    setNow(jakartaMinutes());
+    const v = new URLSearchParams(window.location.search).get("q");
+    if (v) {
+      const hit = outlets.find((o) => o.city.toLowerCase() === v.toLowerCase());
+      if (hit) setCity(hit.city); else setQ(v);
+    }
+    const t = setInterval(() => setNow(jakartaMinutes()), 60000);
+    return () => clearInterval(t);
+  }, [outlets]);
+
+  const cities = useMemo(() => {
+    const c = new Map<string, number>();
+    for (const o of outlets) c.set(o.city, (c.get(o.city) ?? 0) + 1);
+    return [...c.entries()];
+  }, [outlets]);
+  const soonCount = useMemo(() => outlets.filter((o) => o.soon).length, [outlets]);
+
+  const list: Row[] = useMemo(() => {
     const t = q.trim().toLowerCase();
-    const f = outlets.filter((o) => !t || `${o.name} ${o.city} ${o.address} ${o.landmark}`.toLowerCase().includes(t));
-    const withD = f.map((o) => ({ ...o, d: pos ? km(pos, [o.lat, o.lng]) : null }));
-    return pos ? withD.sort((a, b) => a.d! - b.d!) : withD;
-  }, [outlets, q, pos]);
+    const f = outlets.filter((o) => {
+      if (city && o.city !== city) return false;
+      if (only === "soon" && !o.soon) return false;
+      if (only === "open" && (o.soon || now == null || !openState(o.hours, now)?.open)) return false;
+      return !t || `${o.name} ${o.city} ${o.address} ${o.landmark}`.toLowerCase().includes(t);
+    });
+    const rows = f.map((o) => ({ ...o, d: pos ? km(pos, [o.lat, o.lng]) : null }));
+    return pos ? rows.sort((a, b) => a.d! - b.d!) : rows;
+  }, [outlets, q, city, only, pos, now]);
 
+  const grouped = !pos && !q.trim() && !city;
+
+  // peta
   useEffect(() => {
     let dead = false;
     import("leaflet").then((L) => {
       if (dead || !mapEl.current || map.current) return;
-      const m = L.map(mapEl.current, { scrollWheelZoom: false }).setView([-6.6, 107.2], 8);
+      const m = L.map(mapEl.current, { scrollWheelZoom: false, zoomControl: false }).setView([-6.5, 107], 9);
+      L.control.zoom({ position: "bottomright" }).addTo(m);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap", maxZoom: 18 }).addTo(m);
-      outlets.forEach((o) => {
-        markers.current[o.id] = L.circleMarker([o.lat, o.lng], { radius: 9, color: "#8f211c", weight: 3, fillColor: o.soon ? "#f3ebdd" : "#e9a227", fillOpacity: 1 })
-          .addTo(m).bindTooltip(o.name).on("click", () => setActive(o.id));
-      });
+      for (const o of outlets) {
+        markers.current[o.id] = L.circleMarker([o.lat, o.lng], { radius: 9, color: "#1e1a17", weight: 3, fillColor: o.soon ? "#fffaf1" : "#e9a227", fillOpacity: 1 })
+          .addTo(m).bindTooltip(o.name, { direction: "top", offset: [0, -8] }).on("click", () => { fromScroll.current = false; setActive(o.id); });
+      }
       map.current = m;
+      m.fitBounds(outlets.map((o) => [o.lat, o.lng] as [number, number]), { padding: [36, 36] });
     });
-    return () => { dead = true; map.current?.remove(); map.current = null; };
+    return () => { dead = true; map.current?.remove(); map.current = null; markers.current = {}; };
   }, [outlets]);
 
   useEffect(() => {
     const m = map.current;
     if (!m) return;
     const ids = new Set(list.map((o) => o.id));
-    Object.entries(markers.current).forEach(([id, mk]) => (ids.has(id) ? mk.addTo(m) : mk.remove()));
-    if (list.length) m.fitBounds(list.map((o) => [o.lat, o.lng] as [number, number]), { padding: [40, 40], maxZoom: 13 });
-  }, [list]);
+    for (const [id, mk] of Object.entries(markers.current)) (ids.has(id) ? mk.addTo(m) : mk.remove());
+    if (list.length && !active) m.fitBounds(list.map((o) => [o.lat, o.lng] as [number, number]), { padding: [36, 36], maxZoom: 13 });
+  }, [list, active]);
 
   useEffect(() => {
+    for (const [id, mk] of Object.entries(markers.current)) {
+      const o = outlets.find((x) => x.id === id);
+      const on = id === active;
+      mk.setStyle({ radius: on ? 14 : 9, fillColor: on ? "#bf3229" : o?.soon ? "#fffaf1" : "#e9a227" });
+      if (on) mk.bringToFront();
+    }
     if (!active) return;
     const o = outlets.find((x) => x.id === active);
-    if (o) map.current?.setView([o.lat, o.lng], 15);
-    document.getElementById(`outlet-${active}`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    if (o) map.current?.flyTo([o.lat, o.lng], Math.max(map.current.getZoom(), 14), { duration: 0.6 });
+    if (!fromScroll.current) {
+      const el = document.getElementById(`kios-${active}`), box = listEl.current;
+      if (el && box) {
+        if (box.scrollWidth > box.clientWidth + 8) box.scrollTo({ left: el.offsetLeft - (box.clientWidth - el.offsetWidth) / 2, behavior: "smooth" });
+        else box.scrollTo({ top: el.offsetTop - 56, behavior: "smooth" });
+      }
+    }
+    fromScroll.current = false;
   }, [active, outlets]);
+
+  // di HP daftar digeser ke samping; kartu yang di tengah jadi kios aktif
+  const onListScroll = useCallback(() => {
+    const box = listEl.current;
+    if (!box || box.scrollWidth <= box.clientWidth + 8) return;
+    const mid = box.scrollLeft + box.clientWidth / 2;
+    let best: string | null = null, gap = Infinity;
+    for (const el of box.querySelectorAll<HTMLElement>("[data-id]")) {
+      const g = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid);
+      if (g < gap) { gap = g; best = el.dataset.id!; }
+    }
+    if (best && best !== active) { fromScroll.current = true; setActive(best); }
+  }, [active]);
+  useEffect(() => {
+    const box = listEl.current;
+    if (!box) return;
+    let t: ReturnType<typeof setTimeout>;
+    const h = () => { clearTimeout(t); t = setTimeout(onListScroll, 140); };
+    box.addEventListener("scroll", h, { passive: true });
+    return () => { box.removeEventListener("scroll", h); clearTimeout(t); };
+  }, [onListScroll]);
 
   function locate() {
     if (!navigator.geolocation) return setGeoMsg("Browser ini tidak mendukung lokasi.");
     setGeoMsg("Mencari lokasi Kakak...");
     navigator.geolocation.getCurrentPosition(
-      (p) => { setPos([p.coords.latitude, p.coords.longitude]); setGeoMsg("Diurutkan dari yang paling dekat."); },
-      () => setGeoMsg("Lokasi tidak bisa diakses. Ketik nama kota saja, Kak."),
+      (p) => { setPos([p.coords.latitude, p.coords.longitude]); setCity(""); setQ(""); setActive(null); setGeoMsg(""); listEl.current?.scrollTo({ top: 0, left: 0 }); },
+      () => setGeoMsg("Lokasi tidak bisa diakses. Pilih kota atau ketik nama jalan saja, Kak."),
+      { timeout: 10000 },
     );
   }
+  const reset = () => { setQ(""); setCity(""); setOnly(""); setPos(null); setActive(null); setGeoMsg(""); };
+  const filtered = Boolean(q || city || only || pos);
 
+  let lastCity = "";
   return (
     <div className="finder">
-      <div className="finder__bar">
-        <div className="search">
-          <label htmlFor="cari">Cari kios</label>
-          <div className="search__row">
-            <input id="cari" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ketik kota, kecamatan, atau nama jalan" autoComplete="off" />
+      <div className="finder__top">
+        <div className="finder__search">
+          <label htmlFor="cari" className="sr">Cari kios</label>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 5 5" /></svg>
+          <input id="cari" type="search" value={q} onChange={(e) => { setQ(e.target.value); setActive(null); }} placeholder="Cari nama kios, jalan, atau kota" autoComplete="off" />
+        </div>
+        <button type="button" className={`btn btn--red finder__near${pos ? " is-on" : ""}`} onClick={locate}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-7.1 7-12.3A7 7 0 0 0 5 9.7C5 14.9 12 22 12 22Z" /><circle cx="12" cy="9.6" r="2.6" /></svg>
+          {pos ? "Terdekat dari saya" : "Kios terdekat dari saya"}
+        </button>
+      </div>
+
+      <div className="finder__chips" role="group" aria-label="Saring kios">
+        <button type="button" aria-pressed={!city} onClick={() => { setCity(""); setActive(null); }}>Semua <b>{outlets.length}</b></button>
+        {cities.map(([c, n]) => (
+          <button key={c} type="button" aria-pressed={city === c} onClick={() => { setCity(city === c ? "" : c); setActive(null); }}>{c} <b>{n}</b></button>
+        ))}
+        <span className="finder__sep" aria-hidden="true" />
+        <button type="button" className="finder__flag" aria-pressed={only === "open"} onClick={() => { setOnly(only === "open" ? "" : "open"); setActive(null); }}>Buka sekarang</button>
+        {soonCount > 0 && <button type="button" className="finder__flag" aria-pressed={only === "soon"} onClick={() => { setOnly(only === "soon" ? "" : "soon"); setActive(null); }}>Segera buka <b>{soonCount}</b></button>}
+      </div>
+
+      <div className="finder__panel">
+        <div className="finder__side">
+          <p className="finder__msg" role="status">
+            <span>{geoMsg || (pos ? `${list.length} kios, dari yang paling dekat` : `${list.length} kios`)}</span>
+            {filtered && <button type="button" className="tlink" onClick={reset}>Hapus saringan</button>}
+          </p>
+          <div className="finder__list" ref={listEl}>
+            {list.length === 0 && <p className="finder__empty">Belum ada kios yang cocok, Kak. Coba kota lain atau hapus saringan.</p>}
+            {list.map((o, i) => {
+              const head = grouped && o.city !== lastCity ? o.city : "";
+              if (head) lastCity = o.city;
+              const st = !o.soon && now != null ? openState(o.hours, now) : null;
+              const on = active === o.id;
+              return (
+                <div key={o.id} className="finder__item">
+                  {head && <h3 className="finder__city">{head}</h3>}
+                  <article id={`kios-${o.id}`} data-id={o.id} className={`kios${on ? " is-active" : ""}${o.soon ? " is-soon" : ""}`}>
+                    <button type="button" className="kios__head" aria-expanded={on} onClick={() => { fromScroll.current = false; setActive(on ? null : o.id); }}>
+                      <span className="kios__name">{o.name}</span>
+                      <span className="kios__meta">
+                        {o.d != null && <b className="kios__dist">{dist(o.d)}</b>}
+                        {o.soon ? <i className="kios__tag kios__tag--soon">Segera buka</i> : st ? <i className={`kios__tag${st.open ? " kios__tag--open" : ""}`}>{st.text}</i> : o.hours ? <i className="kios__tag">{o.hours}</i> : null}
+                        {pos && i === 0 && <i className="kios__tag kios__tag--near">Paling dekat</i>}
+                      </span>
+                    </button>
+                    <div className="kios__more">
+                      <p>{o.address}</p>
+                      {o.landmark && <p className="kios__note">Patokan: {o.landmark}</p>}
+                      <p className="kios__note">{o.soon ? o.hours : o.hours ? `Jam buka ${o.hours}` : ""}</p>
+                      <div className="kios__act">
+                        <a className="btn btn--red btn--sm" href={mapsUrl(o)} target="_blank" rel="noopener">Petunjuk arah</a>
+                        {o.gofood && <a className="btn btn--line btn--sm" href={o.gofood} target="_blank" rel="noopener">GoFood</a>}
+                        {o.grabfood && <a className="btn btn--line btn--sm" href={o.grabfood} target="_blank" rel="noopener">GrabFood</a>}
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              );
+            })}
           </div>
         </div>
-        <button type="button" className="btn btn--line" onClick={locate}>Pakai lokasi saya</button>
-      </div>
-      <ul className="cities" aria-label="Pilih kota">
-        <li><button type="button" aria-pressed={!q} onClick={() => setQ("")}>Semua kota</button></li>
-        {cities.map((c) => (
-          <li key={c}><button type="button" aria-pressed={q.toLowerCase() === c.toLowerCase()} onClick={() => setQ(c)}>{c}</button></li>
-        ))}
-      </ul>
-      <p className="finder__msg" role="status">{geoMsg || `${list.length} kios ditemukan.`}</p>
-
-      <div className="finder__grid">
-        <ul className="outlets">
-          {list.length === 0 && <li className="outlets__empty">Belum ada kios di sekitar situ, Kak. Coba kota lain.</li>}
-          {list.map((o) => (
-            <li key={o.id} id={`outlet-${o.id}`} className={active === o.id ? "is-active" : ""}>
-              <button type="button" className="outlets__name" onClick={() => setActive(o.id)}>{o.name}</button>
-              {o.soon && <span className="outlets__soon">Segera buka</span>}
-              <p>{o.address}</p>
-              <p className="outlets__meta">{[o.landmark, o.hours, o.d != null ? `${o.d.toFixed(1)} km` : ""].filter(Boolean).join(" · ")}</p>
-              <div className="btns">
-                <a className="btn btn--red btn--sm" href={o.gmaps || `https://www.google.com/maps/dir/?api=1&destination=${o.lat},${o.lng}`} target="_blank" rel="noopener">Petunjuk arah</a>
-                {o.gofood && <a className="btn btn--line btn--sm" href={o.gofood} target="_blank" rel="noopener">GoFood</a>}
-                {o.grabfood && <a className="btn btn--line btn--sm" href={o.grabfood} target="_blank" rel="noopener">GrabFood</a>}
-              </div>
-            </li>
-          ))}
-        </ul>
-        <div className="finder__map" ref={mapEl} aria-label="Peta outlet" />
+        <div className="finder__map" ref={mapEl} aria-label="Peta kios" />
       </div>
     </div>
   );

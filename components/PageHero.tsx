@@ -4,10 +4,10 @@ import { TornEdge } from "./TornEdge";
 
 // Hero halaman dalam, satu keluarga dengan hero Home: baris pertama di atas merah,
 // baris berikutnya di atas panel krem, seluruh blok dimiringkan. `children` = gambar/stiker di sisi kanan.
-export function PageHero({ lines, intro, crumb, path, seed = 5, children }: { lines: string[]; intro: string; crumb: string; path: string; seed?: number; children?: React.ReactNode }) {
+export function PageHero({ lines, intro, crumb, path, seed = 5, compact = false, children }: { lines: string[]; intro: string; crumb: string; path: string; seed?: number; compact?: boolean; children?: React.ReactNode }) {
   const [first, ...rest] = lines;
   return (
-    <section className="phero sunburst">
+    <section className={`phero sunburst${compact ? " phero--compact" : ""}`}>
       <JsonLd data={breadcrumbLd(crumb, path)} />
       <div className="wrap phero__in">
         <div className="phero__type">
