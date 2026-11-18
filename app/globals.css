@@ -967,7 +967,7 @@ body { overflow-x: clip; }
 .adm-f small b { font-weight: 600; }
 .adm-f small .adm-over { color: var(--red); }
 
-/* ---------- Tambahan 20 Nov: form, galat, admin ---------- */
+/* ---------- Tambahan 19 Nov: form, galat, admin ---------- */
 .form__consent { font-size: var(--t-small); opacity: 0.85; margin: 0; }
 .ftr__legal a { color: inherit; text-underline-offset: 0.25em; }
 .stub__acts { display: flex; flex-wrap: wrap; gap: var(--s3); }
