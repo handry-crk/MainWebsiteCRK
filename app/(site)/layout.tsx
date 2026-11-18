@@ -8,7 +8,7 @@ import { getContent, getSettings } from "@/lib/api";
 import { siteUrl } from "@/lib/site";
 
 export default async function SiteLayout({ children }: LayoutProps<"/">) {
-  const [{ logo }, st] = await Promise.all([getContent(), getSettings()]);
+  const [{ logo, t }, st] = await Promise.all([getContent(), getSettings()]);
   const abs = (u: string) => (u.startsWith("http") ? u : siteUrl + u);
   const org = {
     "@context": "https://schema.org",
@@ -28,13 +28,13 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
   // WebSite: nama situs yang ditampilkan Google di hasil pencarian
   const site = { "@context": "https://schema.org", "@type": "WebSite", "@id": siteUrl + "/#website", name: brand.company, alternateName: ["Cimol Bojot AA", "CRK"], url: siteUrl, inLanguage: "id-ID", publisher: { "@id": siteUrl + "/#organization" } };
   return (
-    <CartProvider whatsapp={st.whatsappCs}>
+    <CartProvider whatsapp={st.whatsappCs} hint={t("cart_hint")}>
       <JsonLd data={org} />
       <JsonLd data={site} />
       <a className="skip" href="#main">Langsung ke isi</a>
       <Header logo={logo} />
       <main id="main">{children}</main>
-      <Footer />
+      <Footer lead={t("footer_lead")} count={t("footer_tape_count")} />
       <Motion />
     </CartProvider>
   );

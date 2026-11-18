@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Bento } from "@/components/shop/Bento";
@@ -8,9 +7,9 @@ import { SpiceMeter } from "@/components/shop/SpiceMeter";
 import { Starburst } from "@/components/Starburst";
 import { Tape } from "@/components/Tape";
 import { TornEdge } from "@/components/TornEdge";
-import { getCities, getContent, getLatestNews, getMenu, getOutlets } from "@/lib/api";
+import { getCities, getContent, getLatestNews, getMenu, getOutlets, seoMeta } from "@/lib/api";
 
-export const metadata: Metadata = { alternates: { canonical: "/" }, openGraph: { url: "/", images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "CRK Group, rumahnya Cimol Bojot AA" }] } };
+export const generateMetadata = () => seoMeta("home", "/");
 
 // Home disusun seperti poster yang bisa di-scroll: tiap bagian satu komposisi,
 // teks sedikit, elemen saling menimpa. Tanpa kotak placeholder.
@@ -53,7 +52,7 @@ export default async function Home() {
           <div className="hero__art">
             <Image className="hero__kiosk" {...c.kiosk} alt="Kios Cimol Bojot AA dengan awning merah putih" priority sizes="(max-width: 900px) 90vw, 560px" />
             <Starburst className="hero__burst">
-              500+<small>gerobak</small>
+              {c.t("home_burst_number")}<small>{c.t("home_burst_label")}</small>
             </Starburst>
             <Image className="hero__mascot" {...c.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
           </div>
@@ -63,7 +62,7 @@ export default async function Home() {
 
       <section className="why">
         <div className="wrap why__in">
-          <h2 className="h2 why__h">Naik kelasnya di mana?</h2>
+          <h2 className="h2 why__h">{c.t("home_why_title")}</h2>
           <ul className="why__pile">
             <li className="chip chip--red">
               <b>{c.t("home_why_1_title")}</b>
@@ -84,7 +83,7 @@ export default async function Home() {
       <section className="menu-p" id="menu">
         <TornEdge color="var(--cream)" seed={23} flip />
         <div className="menu-p__tapes">
-          <Tape items={["Kasta tertinggi cimol", "Bumbunya nempel", "Kejunya narik", "Mulai 6.000"]} />
+          <Tape items={["Kasta tertinggi cimol", "Bumbunya nempel", "Kejunya narik", `Mulai ${c.t("home_why_3_price")}`]} />
           <Tape variant="red" reverse items={["Cimol Bojot", "Cimol Mozza", "Kuah Keju", "Mix", "New Series", "Frozen"]} />
         </div>
         <div className="wrap menu-p__in">
@@ -101,13 +100,13 @@ export default async function Home() {
         <TornEdge color="var(--cream)" seed={31} />
       </section>
 
-      <SpiceMeter mascot={c.mascot} spicy={spicy} />
+      <SpiceMeter mascot={c.mascot} spicy={spicy} title={c.t("home_spice_title")} lead={c.t("home_spice_lead")} />
 
       <section className="where">
         <div className="wrap where__in">
           <div className="where__say">
             <h2 className="display display--paper where__h">Hey, Kak!</h2>
-            <p className="where__label">Kios Cimol Bojot AA ada di kota-kota ini.</p>
+            <p className="where__label">{c.t("home_where_label")}</p>
             <ul className="pins">
               {cities.map((c) => (
                 <li key={c.name}>
@@ -160,14 +159,14 @@ export default async function Home() {
         <div className="wrap cta__in">
           <Link href="/partnership" className="cta__card cta__card--a">
             <span className="display cta__h">Jualan bareng?</span>
-            <span>Acara kantor, hampers, reseller Frozen, sampai buka titik baru.</span>
-            <b>Lihat pilihan kerja sama</b>
+            <span>{c.t("home_cta_1_text")}</span>
+            <b>{c.t("home_cta_1_button")}</b>
           </Link>
           <Image className="cta__mascot" {...c.mascotSmall} alt="" sizes="200px" />
           <Link href="/careers" className="cta__card cta__card--b">
             <span className="display cta__h">Kerja bareng?</span>
-            <span>Dari crew gerobak dan kios sampai tim kantor.</span>
-            <b>Lihat lowongan</b>
+            <span>{c.t("home_cta_2_text")}</span>
+            <b>{c.t("home_cta_2_button")}</b>
           </Link>
         </div>
       </section>

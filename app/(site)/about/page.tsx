@@ -2,14 +2,9 @@ import Image from "next/image";
 import { Button } from "@/components/Button";
 import { PageHero } from "@/components/PageHero";
 import { brand } from "@/config/brand";
-import { getContent, getOutlets } from "@/lib/api";
-import { pageMeta } from "@/lib/site";
+import { getContent, getOutlets, seoMeta } from "@/lib/api";
 
-export const metadata = pageMeta({
-  title: "Tentang Kami dan Cerita Cimol Bojot AA",
-  description: "Cerita CRK Group, perusahaan di balik Cimol Bojot AA: dari gerobak di Bandung sampai 500+ titik gerobak dan kios di Bandung dan Jabodetabek.",
-  path: "/about",
-});
+export const generateMetadata = () => seoMeta("about", "/about");
 
 export default async function About() {
   const [outlets, c] = await Promise.all([getOutlets(), getContent()]);

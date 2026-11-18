@@ -65,11 +65,12 @@ export function ContentEditor() {
               {f.type === "image" ? (
                 <ImageField value={v} onChange={(nv) => setVals({ ...vals, [f.key]: nv })} folder="halaman" label={f.label} />
               ) : f.type === "textarea" ? (
-                <textarea id={`c-${f.key}`} rows={3} value={v} placeholder={f.def ?? ""} onChange={(e) => setVals({ ...vals, [f.key]: e.target.value })} />
+                <textarea id={`c-${f.key}`} rows={3} maxLength={f.max ? f.max + 40 : undefined} value={v} placeholder={f.def ?? ""} onChange={(e) => setVals({ ...vals, [f.key]: e.target.value })} />
               ) : (
-                <input id={`c-${f.key}`} value={v} placeholder={f.def ?? ""} onChange={(e) => setVals({ ...vals, [f.key]: e.target.value })} />
+                <input id={`c-${f.key}`} maxLength={f.max} value={v} placeholder={f.def ?? ""} onChange={(e) => setVals({ ...vals, [f.key]: e.target.value })} />
               )}
               <small>
+                {f.max ? <b className={v.length > f.max ? "adm-over" : undefined}>{v.length || (f.def ?? "").length}/{f.max} karakter. </b> : null}
                 {f.hint ? f.hint + ". " : ""}
                 {f.type !== "image" && (f.def ? "Kosong = memakai teks bawaan (tertulis samar di kolom)." : f.ph ? `Kosong = tampil sebagai ${f.ph} atau disembunyikan, sesuai Pengaturan.` : "")}
               </small>

@@ -2,6 +2,7 @@
 // - Supabase belum diatur (env kosong): memakai data contoh di data/seed.ts.
 // - Supabase diatur: membaca database, di-cache dan diperbarui otomatis tiap beberapa menit.
 import { cacheLife } from "next/cache";
+import { pageMeta } from "./site";
 import { brand } from "@/config/brand";
 import * as seed from "@/data/seed";
 import type { Category, MenuItem, NewsItem, Outlet, Position } from "@/data/seed";
@@ -134,6 +135,15 @@ export async function getContent() {
     kiosk: img("img_kiosk", brand.kiosk),
     aboutStory: parseImg(raw.img_about_story),
   };
+}
+
+// Judul dan deskripsi halaman dari Admin > Konten halaman > SEO.
+export async function seoMeta(page: string, path: string) {
+  const c = await getContent();
+  const title = c.t(`seo_${page}_title`), description = c.t(`seo_${page}_desc`);
+  const meta = pageMeta({ title, description, path });
+  // Home memakai judul utuh, tanpa akhiran " | CRK Group".
+  return page === "home" ? { ...meta, title: { absolute: title } } : meta;
 }
 
 // Nomor WhatsApp dan tautan: dari tabel site_settings, cadangannya config/brand.ts.

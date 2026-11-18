@@ -3,14 +3,10 @@ import { Button } from "@/components/Button";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { AddToCart } from "@/components/shop/cart";
-import { getContent, getMenu, getSettings } from "@/lib/api";
-import { pageMeta, siteUrl } from "@/lib/site";
+import { getContent, getMenu, getSettings, seoMeta } from "@/lib/api";
+import { siteUrl } from "@/lib/site";
 
-export const metadata = pageMeta({
-  title: "Menu dan Harga Cimol Bojot AA",
-  description: "Menu dan harga Cimol Bojot AA: Cimol Bojot, Mozza, Beef, Ayam, Mix, Kuah Keju, New Series, dan Cimol Frozen. Harga Bandung dan Jabodetabek.",
-  path: "/brands",
-});
+export const generateMetadata = () => seoMeta("brands", "/brands");
 
 const firstPrice = (s: string) => s.split("/")[0].trim().replace(/\./g, "");
 

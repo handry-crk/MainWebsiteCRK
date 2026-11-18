@@ -24,7 +24,7 @@ export const useCart = () => useContext(CartCtx)!;
 
 const KEY = "crk-keranjang-v1";
 
-export function CartProvider({ whatsapp, children }: { whatsapp: string; children: React.ReactNode }) {
+export function CartProvider({ whatsapp, hint, children }: { whatsapp: string; hint: string; children: React.ReactNode }) {
   const [lines, setLines] = useState<Line[]>([]);
   const [region, setRegion] = useState<Region>("bandung");
   const [level, setLevel] = useState(3);
@@ -176,7 +176,7 @@ export function CartProvider({ whatsapp, children }: { whatsapp: string; childre
                     </AnimatePresence>
                   </ul>
                   <div className="cart__total"><span>Perkiraan total</span><b>{rp(total)}</b></div>
-                  <p className="cart__hint">Harga bisa beda sedikit di tiap gerobak dan kios. Tim kami mengonfirmasi total dan cara ambil atau kirim lewat WhatsApp.</p>
+                  <p className="cart__hint">{hint}</p>
                   <div className="cart__fields">
                     <label>Nama<input name="nama" required maxLength={80} autoComplete="name" /></label>
                     <label>Kota atau kios tujuan<input name="tujuan" required maxLength={120} placeholder="Mis. Kios Margonda, Depok" /></label>
