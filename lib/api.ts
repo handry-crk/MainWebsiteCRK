@@ -19,7 +19,7 @@ async function rows<T>(table: string, order: string, ascending = true): Promise<
   }
 }
 
-type ProductRow = { category: string; category_note: string | null; name: string; note: string | null; price_bandung: string; price_jabodetabek: string; is_bestseller: boolean; photo_url?: string | null };
+type ProductRow = { category: string; category_note: string | null; name: string; note: string | null; price_bandung: string; price_jabodetabek: string; is_bestseller: boolean; photo_url?: string | null; badge?: string | null; has_spice?: boolean | null };
 
 async function products(): Promise<ProductRow[] | null> {
   "use cache";
@@ -27,15 +27,21 @@ async function products(): Promise<ProductRow[] | null> {
   return rows<ProductRow>("products", "sort");
 }
 
+// Data cadangan bila Supabase belum diatur: menu asli dari seed, tiga yang pertama ditandai andalan.
+function seedMenu(): Category[] {
+  const best = new Map(seed.bestSellers.map((b) => [b.name, b.note]));
+  return seed.menu.map((c) => ({ ...c, items: c.items.map((i) => ({ ...i, category: c.name, best: best.has(i.name) || i.name === "Kuah Keju Mozza", note: best.get(i.name) })) }));
+}
+
 export async function getMenu(): Promise<Category[]> {
-  if (!supabaseConfigured) return seed.menu;
+  if (!supabaseConfigured) return seedMenu();
   const p = await products();
-  if (!p || p.length === 0) return seed.menu; // harga di seed adalah harga asli, aman sebagai cadangan
+  if (!p || p.length === 0) return seedMenu(); // harga di seed adalah harga asli, aman sebagai cadangan
   const out: Category[] = [];
   for (const r of p) {
     let c = out.find((x) => x.name === r.category);
     if (!c) out.push((c = { name: r.category, note: r.category_note ?? undefined, items: [] }));
-    c.items.push({ name: r.name, bandung: r.price_bandung, jabodetabek: r.price_jabodetabek, photo: parseImg(r.photo_url) ?? undefined });
+    c.items.push({ name: r.name, bandung: r.price_bandung, jabodetabek: r.price_jabodetabek, photo: parseImg(r.photo_url) ?? undefined, note: r.note ?? undefined, badge: r.badge ?? undefined, spice: Boolean(r.has_spice), best: r.is_bestseller, category: r.category });
   }
   return out;
 }

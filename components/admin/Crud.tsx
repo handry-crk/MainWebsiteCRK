@@ -45,7 +45,7 @@ export function Crud({ res, extra }: { res: Resource; extra?: (reload: () => voi
     const body: Row = {};
     for (const f of res.fields) {
       const v = edit[f.key];
-      const nullable = f.key.endsWith("_url") || f.key === "note" || f.key === "category_note";
+      const nullable = f.key.endsWith("_url") || f.key === "note" || f.key === "category_note" || f.key === "badge";
       if (f.type === "number") body[f.key] = v === "" || v == null ? null : Number(v);
       else if (f.type === "bool") body[f.key] = Boolean(v);
       else if (typeof v === "string") body[f.key] = v.trim() === "" && nullable ? null : v.trim();

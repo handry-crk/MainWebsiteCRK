@@ -1,19 +1,30 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Bento } from "@/components/shop/Bento";
+import { BouncyLink } from "@/components/shop/cart";
+import { Floaters } from "@/components/shop/Floaters";
+import { SpiceMeter } from "@/components/shop/SpiceMeter";
 import { Starburst } from "@/components/Starburst";
 import { Tape } from "@/components/Tape";
 import { TornEdge } from "@/components/TornEdge";
-import { getBestSellers, getCities, getContent, getLatestNews, getOutlets, rupiah } from "@/lib/api";
+import { getCities, getContent, getLatestNews, getMenu, getOutlets } from "@/lib/api";
 
 // Home disusun seperti poster yang bisa di-scroll: tiap bagian satu komposisi,
 // teks sedikit, elemen saling menimpa. Tanpa kotak placeholder.
 export default async function Home() {
-  const [menu, news, cities, outlets, c] = await Promise.all([getBestSellers(), getLatestNews(), getCities(), getOutlets(), getContent()]);
+  const [menu, news, cities, outlets, c] = await Promise.all([getMenu(), getLatestNews(), getCities(), getOutlets(), getContent()]);
+  // Bento: menu andalan dulu, lalu satu menu pertama dari tiap kategori lain, maksimal 7 kotak.
+  const all = menu.flatMap((cat) => cat.items);
+  const best = all.filter((i) => i.best).slice(0, 3);
+  const rest = menu.map((cat) => cat.items.find((i) => !best.includes(i))).filter((i): i is NonNullable<typeof i> => Boolean(i));
+  const bento = [...best, ...rest].slice(0, 7);
+  const spicy = all.filter((i) => i.spice).map((i) => i.name);
   const soon = outlets.filter((o) => o.soon).slice(0, 5);
 
   return (
     <>
       <section className="hero sunburst">
+        <Floaters />
         <div className="wrap hero__in">
           <div className="hero__type">
             <h1 className="display hero__h1">
@@ -26,6 +37,7 @@ export default async function Home() {
             <p className="hero__sub">
               {c.t("home_hero_sub")}
             </p>
+            <BouncyLink href="#menu" className="btn btn--cream hero__cta">Pesan sekarang</BouncyLink>
             <form className="search hero__search" action="/locations" role="search">
               <label htmlFor="q">Lagi di mana, Kak?</label>
               <div className="search__row">
@@ -66,7 +78,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="menu-p">
+      <section className="menu-p" id="menu">
         <TornEdge color="var(--cream)" seed={23} flip />
         <div className="menu-p__tapes">
           <Tape items={["Kasta tertinggi cimol", "Bumbunya nempel", "Kejunya narik", "Mulai 6.000"]} />
@@ -76,27 +88,17 @@ export default async function Home() {
           <div className="menu-p__say">
             <p className="hand">Kasta tertinggi cimol</p>
             <h2 className="display menu-p__h">Bumbunya nempel. Kejunya narik.</h2>
-            <Link href="/brands" className="btn btn--cream">Lihat semua menu</Link>
           </div>
-          <div className="menu-p__board">
-            <Image className="menu-p__logo" {...c.logo} alt="Cimol Bojot AA" sizes="200px" />
-            <ul className="board">
-              {menu.map((m) => (
-                <li key={m.name}>
-                  <div className="board__row">
-                    {m.photo && <Image className="board__photo" {...m.photo} alt="" sizes="64px" />}
-                    <span className="board__name">{m.name}</span>
-                    <span className="board__dots" aria-hidden="true" />
-                    <span className="board__price">{rupiah(m.price)}</span>
-                  </div>
-                  <p>{m.note}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Image className="menu-p__logo" {...c.logo} alt="Cimol Bojot AA" sizes="200px" />
+        </div>
+        <div className="wrap">
+          <Bento items={bento} />
+          <p className="menu-p__more"><Link href="/brands" className="btn btn--cream">Lihat semua menu dan harga</Link></p>
         </div>
         <TornEdge color="var(--cream)" seed={31} />
       </section>
+
+      <SpiceMeter mascot={c.mascot} spicy={spicy} />
 
       <section className="where">
         <div className="wrap where__in">
