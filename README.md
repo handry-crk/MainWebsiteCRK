@@ -57,8 +57,15 @@ Halaman publik membaca database dan diperbarui otomatis sekitar tiap 1 menit. Bi
 
 Admin: Ringkasan, Kotak masuk (status, catatan, unduh CSV), Menu dan harga, Outlet (impor/unduh CSV, perbarui berdasarkan `store_code`), Kabar, Lowongan, FAQ kemitraan, Pengaturan (nomor WhatsApp dan tautan), Pengguna.
 
+## Konten halaman dan foto
+Setup sekali: jalankan `supabase/cms-2026-11-19.sql` di SQL Editor (tabel `page_content`, kolom foto, bucket `media`).
+
+- **Admin > Konten halaman**: teks Home, About Us, Careers, Partnership, Contact Us, serta logo, maskot, dan foto kios. Daftar isiannya ada di `lib/content-schema.ts`; menambah isian baru cukup di file itu lalu dipakai di halaman lewat `c.t("kunci")`.
+- Isian kosong memakai teks bawaan bila ada. Isian wajib yang kosong tampil sebagai `[ISI: ...]` selama **Pengaturan > Tampilkan penanda** menyala, dan disembunyikan bila dimatikan (matikan sebelum launch).
+- **Unggah foto**: di Konten halaman (gambar halaman), Kabar (foto sampul), dan Menu dan harga (foto menu). Foto dikecilkan di browser ke maksimal 1600 px dan disimpan sebagai WebP di bucket `media`. File lama tidak dihapus otomatis saat diganti.
+
 ## Form
 Form Careers, Partnership, dan Contact menyimpan ke tabel `submissions` dan muncul di Admin > Kotak masuk. Bila penyimpanan gagal dan nomor WhatsApp sudah diisi, pengunjung ditawari kirim lewat WhatsApp.
 
 ## Belum dikerjakan
-GA4 dan event klik, halaman per outlet, unggah foto dari admin, notifikasi saat ada form masuk, data asli (outlet, lowongan, artikel, cerita brand).
+GA4 dan event klik, halaman per outlet, notifikasi saat ada form masuk, fitur lupa kata sandi di admin, isi konten dan aset asli dari klien.

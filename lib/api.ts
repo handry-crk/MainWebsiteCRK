@@ -5,6 +5,7 @@ import { cacheLife } from "next/cache";
 import { brand } from "@/config/brand";
 import * as seed from "@/data/seed";
 import type { Category, MenuItem, NewsItem, Outlet, Position } from "@/data/seed";
+import { contentFields, parseImg, type Img } from "./content-schema";
 import { publicClient, supabaseConfigured } from "./supabase";
 
 async function rows<T>(table: string, order: string, ascending = true): Promise<T[] | null> {
@@ -18,7 +19,7 @@ async function rows<T>(table: string, order: string, ascending = true): Promise<
   }
 }
 
-type ProductRow = { category: string; category_note: string | null; name: string; note: string | null; price_bandung: string; price_jabodetabek: string; is_bestseller: boolean };
+type ProductRow = { category: string; category_note: string | null; name: string; note: string | null; price_bandung: string; price_jabodetabek: string; is_bestseller: boolean; photo_url?: string | null };
 
 async function products(): Promise<ProductRow[] | null> {
   "use cache";
@@ -34,7 +35,7 @@ export async function getMenu(): Promise<Category[]> {
   for (const r of p) {
     let c = out.find((x) => x.name === r.category);
     if (!c) out.push((c = { name: r.category, note: r.category_note ?? undefined, items: [] }));
-    c.items.push({ name: r.name, bandung: r.price_bandung, jabodetabek: r.price_jabodetabek });
+    c.items.push({ name: r.name, bandung: r.price_bandung, jabodetabek: r.price_jabodetabek, photo: parseImg(r.photo_url) ?? undefined });
   }
   return out;
 }
@@ -43,10 +44,10 @@ export async function getBestSellers(): Promise<MenuItem[]> {
   if (!supabaseConfigured) return seed.bestSellers;
   const p = (await products())?.filter((r) => r.is_bestseller) ?? [];
   if (p.length === 0) return seed.bestSellers;
-  return p.map((r) => ({ name: r.name, note: r.note ?? "", price: Number(r.price_bandung.split("/")[0].replace(/\D/g, "")) }));
+  return p.map((r) => ({ name: r.name, note: r.note ?? "", price: Number(r.price_bandung.split("/")[0].replace(/\D/g, "")), photo: parseImg(r.photo_url) ?? undefined }));
 }
 
-type ArticleRow = { slug: string; title: string; category: string; excerpt: string; body: string; published_at: string };
+type ArticleRow = { slug: string; title: string; category: string; excerpt: string; body: string; published_at: string; cover_url?: string | null };
 const fmtDate = new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Jakarta" });
 
 export async function getNews(): Promise<NewsItem[]> {
@@ -58,6 +59,7 @@ export async function getNews(): Promise<NewsItem[]> {
     slug: r.slug, title: r.title, category: r.category, excerpt: r.excerpt,
     date: fmtDate.format(new Date(r.published_at)), isoDate: r.published_at,
     body: r.body.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean),
+    cover: parseImg(r.cover_url) ?? undefined,
   }));
 }
 export async function getLatestNews(limit = 3) { return (await getNews()).slice(0, limit); }
@@ -97,6 +99,37 @@ export async function getPartnership() {
   return { types: seed.partnershipTypes, faq: f.map((r) => ({ q: r.question, a: r.answer })) };
 }
 
+// Teks dan gambar halaman dari Admin > Konten halaman.
+async function contentRows(): Promise<Record<string, string>> {
+  "use cache";
+  cacheLife("minutes");
+  const out: Record<string, string> = {};
+  if (!supabaseConfigured) return out;
+  for (const r of (await rows<{ key: string; value: string }>("page_content", "key")) ?? []) out[r.key] = r.value;
+  return out;
+}
+
+export async function getContent() {
+  const [raw, st] = await Promise.all([contentRows(), getSettings()]);
+  // t(key): isi dari admin; bila kosong, teks bawaan; bila itu pun tidak ada, penanda [ISI: ...]
+  // (penanda hanya tampil selama Pengaturan > "Tampilkan penanda" menyala).
+  const t = (key: string) => {
+    const v = raw[key]?.trim();
+    if (v) return v;
+    const f = contentFields[key];
+    return f?.def ?? (st.showPlaceholders ? f?.ph ?? "" : "");
+  };
+  const img = (key: string, fallback: Img): Img => parseImg(raw[key]) ?? fallback;
+  return {
+    t,
+    logo: img("img_logo", brand.logo),
+    mascot: img("img_mascot", brand.mascot),
+    mascotSmall: img("img_mascot_small", brand.mascotSmall),
+    kiosk: img("img_kiosk", brand.kiosk),
+    aboutStory: parseImg(raw.img_about_story),
+  };
+}
+
 // Nomor WhatsApp dan tautan: dari tabel site_settings, cadangannya config/brand.ts.
 export async function getSettings() {
   "use cache";
@@ -104,6 +137,7 @@ export async function getSettings() {
   const s: Record<string, string> = {};
   if (supabaseConfigured) for (const r of (await rows<{ key: string; value: string }>("site_settings", "key")) ?? []) s[r.key] = r.value.trim();
   return {
+    showPlaceholders: s.show_placeholders !== "0",
     whatsappCs: s.whatsapp_cs || brand.whatsappCs,
     whatsappPartnership: s.whatsapp_partnership || brand.whatsappPartnership,
     instagram: s.instagram || brand.instagram,

@@ -6,6 +6,7 @@ export const brand = {
   // ASET SEMENTARA: dipotong dari poster CBAA (resolusi rendah). Ganti file di /public/brand dengan aset asli.
   logo: { src: "/brand/logo.png", width: 315, height: 162 },
   mascot: { src: "/brand/mascot.png", width: 428, height: 426 },
+  mascotSmall: { src: "/brand/mascot-small.png", width: 332, height: 302 },
   kiosk: { src: "/brand/kiosk.jpg", width: 604, height: 334 },
   whatsappCs: "", // [ISI: nomor WA CS, format 62xxxxxxxxxx]
   whatsappPartnership: "", // [ISI: nomor WA kemitraan]

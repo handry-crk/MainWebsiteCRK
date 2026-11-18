@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { browserClient, supabaseConfigured } from "@/lib/supabase";
+import { ContentEditor } from "./ContentEditor";
 import { Crud } from "./Crud";
 import { download, outletCsvCols, parseCsv, resources, settingKeys, toCsv } from "./resources";
 
@@ -10,7 +11,7 @@ type Row = Record<string, unknown>;
 
 const tabs: [string, string, boolean][] = [
   ["home", "Ringkasan", false], ["inbox", "Kotak masuk", false], ["products", "Menu dan harga", false], ["outlets", "Outlet", false],
-  ["articles", "Kabar", false], ["positions", "Lowongan", false], ["faqs", "FAQ kemitraan", false], ["settings", "Pengaturan", true], ["users", "Pengguna", true],
+  ["articles", "Kabar", false], ["positions", "Lowongan", false], ["faqs", "FAQ kemitraan", false], ["content", "Konten halaman", false], ["settings", "Pengaturan", true], ["users", "Pengguna", true],
 ];
 
 export function AdminApp() {
@@ -67,6 +68,7 @@ export function AdminApp() {
         {tab === "inbox" && <Inbox isAdmin={isAdmin} />}
         {tab === "outlets" && <Crud res={resources.outlets} extra={(reload, rows) => <OutletCsv reload={reload} rows={rows} />} />}
         {["products", "articles", "positions", "faqs"].includes(tab) && <Crud res={resources[tab]} />}
+        {tab === "content" && <ContentEditor />}
         {tab === "settings" && isAdmin && <Settings />}
         {tab === "users" && isAdmin && <Users me={session.user.id} />}
       </main>
@@ -298,12 +300,19 @@ function Settings() {
   }, [sb]);
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    const { error } = await sb.from("site_settings").upsert(settingKeys.map(([key]) => ({ key, value: (vals[key] ?? "").trim() })), { onConflict: "key" });
+    const { error } = await sb.from("site_settings").upsert([...settingKeys.map(([key]) => key), "show_placeholders"].map((key) => ({ key, value: (vals[key] ?? (key === "show_placeholders" ? "1" : "")).trim() })), { onConflict: "key" });
     setMsg(error ? "Gagal menyimpan: " + error.message : "Tersimpan. Website publik ikut berubah dalam beberapa menit.");
   }
   return (
     <form className="adm-form" onSubmit={save}>
       <h2>Pengaturan</h2>
+      <div className="adm-check">
+        <label>
+          <input type="checkbox" checked={(vals.show_placeholders ?? "1") !== "0"} onChange={(e) => setVals({ ...vals, show_placeholders: e.target.checked ? "1" : "0" })} />
+          Tampilkan penanda [ISI: ...] di website untuk teks yang belum diisi
+        </label>
+        <small>Nyalakan selama pengisian konten. Matikan sebelum launch: bagian yang belum diisi akan disembunyikan.</small>
+      </div>
       {settingKeys.map(([key, label, hint]) => (
         <div className="adm-f" key={key}>
           <label htmlFor={`s-${key}`}>{label}</label>

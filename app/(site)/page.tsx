@@ -3,13 +3,12 @@ import Link from "next/link";
 import { Starburst } from "@/components/Starburst";
 import { Tape } from "@/components/Tape";
 import { TornEdge } from "@/components/TornEdge";
-import { brand } from "@/config/brand";
-import { getBestSellers, getCities, getLatestNews, getOutlets, rupiah } from "@/lib/api";
+import { getBestSellers, getCities, getContent, getLatestNews, getOutlets, rupiah } from "@/lib/api";
 
 // Home disusun seperti poster yang bisa di-scroll: tiap bagian satu komposisi,
 // teks sedikit, elemen saling menimpa. Tanpa kotak placeholder.
 export default async function Home() {
-  const [menu, news, cities, outlets] = await Promise.all([getBestSellers(), getLatestNews(), getCities(), getOutlets()]);
+  const [menu, news, cities, outlets, c] = await Promise.all([getBestSellers(), getLatestNews(), getCities(), getOutlets(), getContent()]);
   const soon = outlets.filter((o) => o.soon).slice(0, 5);
 
   return (
@@ -25,7 +24,7 @@ export default async function Home() {
               </span>
             </h1>
             <p className="hero__sub">
-              CRK Group, rumahnya Cimol Bojot AA. Ada di 500+ titik gerobak dan kios di Bandung dan Jabodetabek.
+              {c.t("home_hero_sub")}
             </p>
             <form className="search hero__search" action="/locations" role="search">
               <label htmlFor="q">Lagi di mana, Kak?</label>
@@ -37,11 +36,11 @@ export default async function Home() {
           </div>
 
           <div className="hero__art">
-            <Image className="hero__kiosk" {...brand.kiosk} alt="Kios Cimol Bojot AA dengan awning merah putih" priority sizes="(max-width: 900px) 90vw, 560px" />
+            <Image className="hero__kiosk" {...c.kiosk} alt="Kios Cimol Bojot AA dengan awning merah putih" priority sizes="(max-width: 900px) 90vw, 560px" />
             <Starburst className="hero__burst">
               500+<small>gerobak</small>
             </Starburst>
-            <Image className="hero__mascot" {...brand.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
+            <Image className="hero__mascot" {...c.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
           </div>
         </div>
         <TornEdge color="var(--cream)" seed={11} />
@@ -52,16 +51,16 @@ export default async function Home() {
           <h2 className="h2 why__h">Naik kelasnya di mana?</h2>
           <ul className="why__pile">
             <li className="chip chip--red">
-              <b>Rasanya sama di tiap titik</b>
-              <span>Satu resep, satu takaran. Di Braga atau di Bekasi.</span>
+              <b>{c.t("home_why_1_title")}</b>
+              <span>{c.t("home_why_1_text")}</span>
             </li>
             <li className="chip chip--paper">
-              <b>Gerobak dan kiosnya rapi</b>
-              <span>Bersih, terang, gampang dikenali dari jauh.</span>
+              <b>{c.t("home_why_2_title")}</b>
+              <span>{c.t("home_why_2_text")}</span>
             </li>
             <li className="chip chip--tag">
-              <span>Harganya tetap kaki lima. Mulai</span>
-              <b>6.000</b>
+              <span>{c.t("home_why_3_text")}</span>
+              <b>{c.t("home_why_3_price")}</b>
             </li>
           </ul>
         </div>
@@ -80,11 +79,12 @@ export default async function Home() {
             <Link href="/brands" className="btn btn--cream">Lihat semua menu</Link>
           </div>
           <div className="menu-p__board">
-            <Image className="menu-p__logo" {...brand.logo} alt="Cimol Bojot AA" sizes="200px" />
+            <Image className="menu-p__logo" {...c.logo} alt="Cimol Bojot AA" sizes="200px" />
             <ul className="board">
               {menu.map((m) => (
                 <li key={m.name}>
                   <div className="board__row">
+                    {m.photo && <Image className="board__photo" {...m.photo} alt="" sizes="64px" />}
                     <span className="board__name">{m.name}</span>
                     <span className="board__dots" aria-hidden="true" />
                     <span className="board__price">{rupiah(m.price)}</span>
@@ -125,7 +125,7 @@ export default async function Home() {
               <Link className="tlink" href="/locations">Lihat semua kios</Link>
             </div>
           ) : (
-            <Image className="where__mascot" src="/brand/mascot-small.png" width={332} height={302} alt="" sizes="(max-width: 900px) 50vw, 340px" />
+            <Image className="where__mascot" {...c.mascotSmall} alt="" sizes="(max-width: 900px) 50vw, 340px" />
           )}
         </div>
 
@@ -158,7 +158,7 @@ export default async function Home() {
             <span>Acara kantor, hampers, reseller Frozen, sampai buka titik baru.</span>
             <b>Lihat pilihan kerja sama</b>
           </Link>
-          <Image className="cta__mascot" src="/brand/mascot-small.png" width={332} height={302} alt="" sizes="200px" />
+          <Image className="cta__mascot" {...c.mascotSmall} alt="" sizes="200px" />
           <Link href="/careers" className="cta__card cta__card--b">
             <span className="display cta__h">Kerja bareng?</span>
             <span>Dari crew gerobak dan kios sampai tim kantor.</span>

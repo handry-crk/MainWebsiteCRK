@@ -2,9 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { brand, nav } from "@/config/brand";
+import { nav } from "@/config/brand";
+import type { Img } from "@/lib/content-schema";
 
-export function Header() {
+export function Header({ logo }: { logo: Img }) {
   const [open, setOpen] = useState(false);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -17,7 +18,7 @@ export function Header() {
     <header className="hdr">
       <div className="wrap hdr__in">
         <Link href="/" className="hdr__logo" onClick={() => setOpen(false)}>
-          <Image {...brand.logo} alt="Cimol Bojot AA, CRK Group" priority sizes="120px" />
+          <Image {...logo} alt="Cimol Bojot AA, CRK Group" priority sizes="120px" />
         </Link>
         <nav className="hdr__nav" aria-label="Utama">
           {nav.map((n) => (
