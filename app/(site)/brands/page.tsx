@@ -31,7 +31,7 @@ export default async function Brands() {
   return (
     <>
       <JsonLd data={ld} />
-      <PageHero crumb="Our Brands & Products" path="/brands" seed={9} lines={["Menu", "dan harga."]} intro="Saat ini rumah kami diisi Cimol Bojot AA. Semua menu dan harganya ada di halaman ini.">
+      <PageHero crumb="Our Brands & Products" path="/brands" seed={9} lines={["Menu", "dan harga."]} intro={c.t("brands_intro")}>
         <Image className="phero__mascot" {...c.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
       </PageHero>
 
@@ -106,10 +106,12 @@ export default async function Brands() {
             ))}
           </ul>
         </div>
-        <div className="wrap closing">
-          <h2 className="h2">Brand lain</h2>
-          <p>[ISI: brand lain di bawah CRK Group, bila ada. Hapus bagian ini bila belum ada.]</p>
-        </div>
+        {c.t("brands_other") && (
+          <div className="wrap closing">
+            <h2 className="h2">Brand lain</h2>
+            <p>{c.t("brands_other")}</p>
+          </div>
+        )}
       </section>
     </>
   );

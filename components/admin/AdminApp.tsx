@@ -18,12 +18,15 @@ export function AdminApp() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [tab, setTab] = useState("home");
+  // Tautan "atur ulang kata sandi" dari email membuka /admin dengan #...type=recovery
+  const [recovery, setRecovery] = useState(() => typeof window !== "undefined" && window.location.hash.includes("type=recovery"));
+  const [fresh, setFresh] = useState<number | null>(null); // jumlah kiriman berstatus "baru"
 
   useEffect(() => {
     if (!supabaseConfigured) return;
     const sb = browserClient();
     sb.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data } = sb.auth.onAuthStateChange((_e, s) => setSession(s));
+    const { data } = sb.auth.onAuthStateChange((e, s) => { if (e === "PASSWORD_RECOVERY") setRecovery(true); setSession(s); });
     return () => data.subscription.unsubscribe();
   }, []);
 
@@ -32,9 +35,21 @@ export function AdminApp() {
     browserClient().from("profiles").select("*").eq("id", session.user.id).maybeSingle().then(({ data }) => setProfile((data as Profile) ?? null));
   }, [session]);
 
+  // Angka kiriman baru: dicek saat masuk, saat pindah menu, dan tiap menit selama admin terbuka.
+  const staff = Boolean(session && profile);
+  useEffect(() => {
+    if (!staff) return;
+    const load = () => browserClient().from("submissions").select("*", { count: "exact", head: true }).eq("status", "baru").then(({ count }) => setFresh(count ?? null));
+    load();
+    const id = setInterval(load, 60_000);
+    return () => clearInterval(id);
+  }, [staff, tab]);
+  useEffect(() => { document.title = fresh ? `(${fresh}) CRK Admin` : "CRK Admin"; }, [fresh]);
+
   if (!supabaseConfigured) return <Shell><p>Supabase belum diatur. Isi NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.</p></Shell>;
   if (session === undefined) return <Shell><p>Memuat...</p></Shell>;
   if (!session) return <Shell><Login /></Shell>;
+  if (recovery) return <Shell><NewPassword done={() => { setRecovery(false); history.replaceState(null, "", "/admin"); }} /></Shell>;
   if (profile === undefined) return <Shell><p>Memeriksa akses...</p></Shell>;
   if (profile === null)
     return (
@@ -53,12 +68,15 @@ export function AdminApp() {
         <p className="adm-brand">CRK Admin</p>
         <nav aria-label="Admin">
           {tabs.filter(([, , adminOnly]) => !adminOnly || isAdmin).map(([k, label]) => (
-            <button key={k} aria-current={tab === k ? "page" : undefined} onClick={() => setTab(k)}>{label}</button>
+            <button key={k} aria-current={tab === k ? "page" : undefined} onClick={() => setTab(k)}>
+              {label}{k === "inbox" && fresh ? <b className="adm-badge" aria-label={`${fresh} kiriman baru`}>{fresh}</b> : null}
+            </button>
           ))}
         </nav>
         <div className="adm-me">
           <span>{profile.full_name || session.user.email}</span>
           <small>{isAdmin ? "Admin" : "Editor"}</small>
+          <button className="adm-link" onClick={() => setRecovery(true)}>Ganti kata sandi</button>
           <button className="adm-link" onClick={() => browserClient().auth.signOut()}>Keluar</button>
           <a className="adm-link" href="/" target="_blank" rel="noopener">Lihat website</a>
         </div>
@@ -81,22 +99,66 @@ function Shell({ children }: { children: React.ReactNode }) {
 }
 
 function Login() {
-  const [msg, setMsg] = useState("");
+  const [msg, setMsg] = useState(() => {
+    // Tautan atur ulang yang sudah kedaluwarsa atau sudah dipakai kembali ke sini dengan #error=...
+    if (typeof window === "undefined" || !window.location.hash.includes("error")) return "";
+    return "Tautan atur ulang sudah kedaluwarsa atau sudah dipakai. Minta tautan baru lewat \"Lupa kata sandi\".";
+  });
   const [busy, setBusy] = useState(false);
+  const [forgot, setForgot] = useState(false);
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
+    const email = String(fd.get("email")).trim();
     setBusy(true);
-    const { error } = await browserClient().auth.signInWithPassword({ email: String(fd.get("email")), password: String(fd.get("password")) });
+    if (forgot) {
+      const { error } = await browserClient().auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + "/admin" });
+      setBusy(false);
+      // Sengaja tidak membedakan email terdaftar atau tidak.
+      return setMsg(error?.status === 429 ? "Terlalu sering meminta. Tunggu beberapa menit, lalu coba lagi." : "Kalau email itu terdaftar, tautan atur ulang sudah dikirim. Cek kotak masuk dan folder spam; tautannya berlaku sekitar 1 jam.");
+    }
+    const { error } = await browserClient().auth.signInWithPassword({ email, password: String(fd.get("password")) });
     setBusy(false);
     if (error) setMsg("Email atau kata sandi salah.");
   }
   return (
     <form className="adm-form" onSubmit={submit}>
-      <h1>Masuk ke CRK Admin</h1>
+      <h1>{forgot ? "Atur ulang kata sandi" : "Masuk ke CRK Admin"}</h1>
+      {forgot && <p>Masukkan email akun admin. Kami kirim tautan untuk membuat kata sandi baru.</p>}
       <div className="adm-f"><label htmlFor="email">Email</label><input id="email" name="email" type="email" required autoComplete="username" /></div>
-      <div className="adm-f"><label htmlFor="password">Kata sandi</label><input id="password" name="password" type="password" required autoComplete="current-password" /></div>
-      <button className="adm-btn adm-btn--main" disabled={busy}>{busy ? "Memeriksa..." : "Masuk"}</button>
+      {!forgot && <div className="adm-f"><label htmlFor="password">Kata sandi</label><input id="password" name="password" type="password" required autoComplete="current-password" /></div>}
+      <button className="adm-btn adm-btn--main" disabled={busy}>{busy ? "Memeriksa..." : forgot ? "Kirim tautan" : "Masuk"}</button>
+      <button type="button" className="adm-link" onClick={() => { setForgot(!forgot); setMsg(""); }}>{forgot ? "Kembali ke halaman masuk" : "Lupa kata sandi?"}</button>
+      <p role="alert" className="adm-msg">{msg}</p>
+    </form>
+  );
+}
+
+// Dipakai untuk tautan atur ulang dari email dan untuk "Ganti kata sandi" saat sudah masuk.
+function NewPassword({ done }: { done: () => void }) {
+  const [msg, setMsg] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [ok, setOk] = useState(false);
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const a = String(fd.get("baru")), b = String(fd.get("ulang"));
+    if (a.length < 10) return setMsg("Kata sandi minimal 10 karakter.");
+    if (a !== b) return setMsg("Dua isian kata sandi belum sama.");
+    setBusy(true);
+    const { error } = await browserClient().auth.updateUser({ password: a });
+    setBusy(false);
+    if (error) return setMsg("Gagal menyimpan: " + error.message);
+    setOk(true);
+  }
+  if (ok) return (<div className="adm-form"><h1>Kata sandi tersimpan</h1><p>Pakai kata sandi baru saat masuk berikutnya.</p><button className="adm-btn adm-btn--main" onClick={done}>Lanjut ke admin</button></div>);
+  return (
+    <form className="adm-form" onSubmit={submit}>
+      <h1>Kata sandi baru</h1>
+      <div className="adm-f"><label htmlFor="baru">Kata sandi baru</label><input id="baru" name="baru" type="password" required minLength={10} autoComplete="new-password" /><small>Minimal 10 karakter.</small></div>
+      <div className="adm-f"><label htmlFor="ulang">Ulangi kata sandi baru</label><input id="ulang" name="ulang" type="password" required minLength={10} autoComplete="new-password" /></div>
+      <button className="adm-btn adm-btn--main" disabled={busy}>{busy ? "Menyimpan..." : "Simpan kata sandi"}</button>
+      <button type="button" className="adm-link" onClick={done}>Batal</button>
       <p role="alert" className="adm-msg">{msg}</p>
     </form>
   );

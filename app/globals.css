@@ -966,3 +966,10 @@ body { overflow-x: clip; }
 
 .adm-f small b { font-weight: 600; }
 .adm-f small .adm-over { color: var(--red); }
+
+/* ---------- Tambahan 20 Nov: form, galat, admin ---------- */
+.form__consent { font-size: var(--t-small); opacity: 0.85; margin: 0; }
+.ftr__legal a { color: inherit; text-underline-offset: 0.25em; }
+.stub__acts { display: flex; flex-wrap: wrap; gap: var(--s3); }
+.adm-side nav button { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); }
+.adm-badge { min-width: 22px; padding: 1px 7px; border-radius: 999px; background: var(--mustard); color: var(--ink); font-size: 0.75rem; font-weight: 800; text-align: center; }

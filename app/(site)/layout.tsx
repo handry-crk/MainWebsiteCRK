@@ -1,3 +1,4 @@
+import { Analytics } from "@/components/Analytics";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
@@ -34,8 +35,9 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
       <a className="skip" href="#main">Langsung ke isi</a>
       <Header logo={logo} />
       <main id="main">{children}</main>
-      <Footer lead={t("footer_lead")} count={t("footer_tape_count")} />
+      <Footer lead={t("footer_lead")} count={t("footer_tape_count")} privacy={Boolean(t("privacy_body"))} />
       <Motion />
+      {st.gaId && <Analytics id={st.gaId} />}
     </CartProvider>
   );
 }

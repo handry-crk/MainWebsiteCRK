@@ -24,7 +24,7 @@ export default async function Partnership() {
   return (
     <>
       {faq.length > 0 && <JsonLd data={ld} />}
-      <PageHero crumb="Partnership" path="/partnership" seed={29} lines={["Jualan", "bareng CRK."]} intro="Buat acara kantor, hampers, reseller Frozen, sampai buka titik baru. Ngobrol aja dulu.">
+      <PageHero crumb="Partnership" path="/partnership" seed={29} lines={["Jualan", "bareng CRK."]} intro={c.t("partnership_intro")}>
         <Image className="phero__mascot" {...c.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
       </PageHero>
 
@@ -61,6 +61,8 @@ export default async function Partnership() {
             <p>Isi form ini, tim kemitraan menghubungi lewat WhatsApp di jam kerja.</p>
           </div>
           <LeadForm
+            consent={c.t("form_consent")}
+            privacy={Boolean(c.t("privacy_body"))}
             kind="partnership"
             whatsapp={st.whatsappPartnership}
             intro="Halo tim kemitraan CRK Group, saya mau tanya kerja sama."

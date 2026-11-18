@@ -11,7 +11,7 @@ export default async function Careers() {
   const reasons = [1, 2, 3].map((i) => ({ title: c.t(`careers_reason_${i}_title`), text: c.t(`careers_reason_${i}_text`) })).filter((r) => r.title);
   return (
     <>
-      <PageHero crumb="Careers" path="/careers" seed={17} lines={["Kerja bareng,", "naik kelas", "bareng."]} intro="Dari crew gerobak dan kios sampai tim kantor. Posisi yang lagi dibuka ada di bawah, lamarannya bisa lewat form atau WhatsApp.">
+      <PageHero crumb="Careers" path="/careers" seed={17} lines={["Kerja bareng,", "naik kelas", "bareng."]} intro={c.t("careers_intro")}>
         <Image className="phero__mascot phero__mascot--s" {...c.mascotSmall} alt="" priority sizes="(max-width: 900px) 40vw, 260px" />
       </PageHero>
 
@@ -58,6 +58,8 @@ export default async function Careers() {
             <p>Isi datanya dan sertakan tautan CV. Tim kami menghubungi lewat WhatsApp.</p>
           </div>
           <LeadForm
+            consent={c.t("form_consent")}
+            privacy={Boolean(c.t("privacy_body"))}
             kind="application"
             whatsapp={st.whatsappCs}
             intro="Halo, saya mau melamar kerja di CRK Group."
