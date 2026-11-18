@@ -736,3 +736,7 @@ img { max-width: 100%; display: block; }
   .kios__more, .kios.is-active .kios__more { display: grid; padding: 0 var(--s4) var(--s4); animation: none; }
   .finder__empty { width: 100%; }
 }
+
+.finder__alert { display: flex; gap: var(--s4); align-items: center; justify-content: space-between; padding: var(--s4) var(--s5); border-radius: 20px; background: var(--mustard); color: var(--ink); font-weight: 700; font-size: 0.9375rem; box-shadow: inset 0 0 0 3px var(--ink), 5px 6px 0 var(--ink); }
+.finder__alert button { flex: none; border: 0; background: none; padding: var(--s2); font: 800 0.875rem var(--f-body); text-decoration: underline; cursor: pointer; color: var(--ink); }
+.finder__near:disabled { opacity: 0.75; cursor: progress; }
