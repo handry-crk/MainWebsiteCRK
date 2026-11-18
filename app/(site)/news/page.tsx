@@ -1,14 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
-import { getContent, getNews } from "@/lib/api";
-import { pageMeta } from "@/lib/site";
+import { getContent, getNews, seoMeta } from "@/lib/api";
 
-export const metadata = pageMeta({
-  title: "Kabar Terbaru Cimol Bojot AA",
-  description: "Kabar terbaru Cimol Bojot AA dan CRK Group: kios baru, produk baru, promo, dan berita perusahaan.",
-  path: "/news",
-});
+export const generateMetadata = () => seoMeta("news", "/news");
 
 export default async function News() {
   const [news, c] = await Promise.all([getNews(), getContent()]);

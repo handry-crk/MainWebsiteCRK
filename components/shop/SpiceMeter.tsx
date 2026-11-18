@@ -6,7 +6,7 @@ import { LEVELS, useCart } from "./cart";
 
 // Meter level pedas: geser atau klik, kartu dan reaksi maskot ikut berubah.
 // Level yang dipilih di sini jadi level bawaan untuk menu pedas yang ditambahkan ke keranjang.
-export function SpiceMeter({ mascot, spicy }: { mascot: Img; spicy: string[] }) {
+export function SpiceMeter({ mascot, spicy, title, lead }: { mascot: Img; spicy: string[]; title: string; lead: string }) {
   const { level, setLevel } = useCart();
   const calm = useReducedMotion();
   const lv = LEVELS[level - 1];
@@ -16,8 +16,8 @@ export function SpiceMeter({ mascot, spicy }: { mascot: Img; spicy: string[] }) 
     <section className={`spice spice--${level}`} aria-labelledby="spice-h">
       <div className="wrap spice__in">
         <div className="spice__say">
-          <h2 className="h2" id="spice-h">Seberapa berani, Kak?</h2>
-          <p className="spice__lead">Geser meternya. Level ini jadi pilihan awal saat menu pedas masuk keranjang.</p>
+          <h2 className="h2" id="spice-h">{title}</h2>
+          <p className="spice__lead">{lead}</p>
           <motion.div className="spice__card" layout={!calm} transition={spring}>
             <div className="spice__top">
               <span className="spice__n">Level {lv.n}</span>

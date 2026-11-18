@@ -2,14 +2,9 @@ import Image from "next/image";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
-import { getContent, getSettings } from "@/lib/api";
-import { pageMeta } from "@/lib/site";
+import { getContent, getSettings, seoMeta } from "@/lib/api";
 
-export const metadata = pageMeta({
-  title: "Kontak dan WhatsApp Cimol Bojot AA",
-  description: "Hubungi CRK Group dan Cimol Bojot AA lewat WhatsApp customer service, tim kemitraan, atau form pesan.",
-  path: "/contact",
-});
+export const generateMetadata = () => seoMeta("contact", "/contact");
 
 export default async function Contact() {
   const [st, c] = await Promise.all([getSettings(), getContent()]);

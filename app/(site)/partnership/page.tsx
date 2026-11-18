@@ -3,14 +3,9 @@ import { JsonLd } from "@/components/JsonLd";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
-import { getContent, getPartnership, getSettings } from "@/lib/api";
-import { pageMeta } from "@/lib/site";
+import { getContent, getPartnership, getSettings, seoMeta } from "@/lib/api";
 
-export const metadata = pageMeta({
-  title: "Kemitraan dan Pesanan Acara Cimol Bojot AA",
-  description: "Kerja sama dengan CRK Group dan Cimol Bojot AA: pesanan acara dan kantor, hampers Frozen, reseller dan agen Frozen, serta kemitraan titik outlet.",
-  path: "/partnership",
-});
+export const generateMetadata = () => seoMeta("partnership", "/partnership");
 
 const steps = [
   ["Chat", "Ceritakan kebutuhan Kakak lewat WhatsApp atau form."],

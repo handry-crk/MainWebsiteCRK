@@ -2,14 +2,9 @@ import Image from "next/image";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
-import { getContent, getPositions, getSettings } from "@/lib/api";
-import { pageMeta } from "@/lib/site";
+import { getContent, getPositions, getSettings, seoMeta } from "@/lib/api";
 
-export const metadata = pageMeta({
-  title: "Lowongan Kerja Cimol Bojot AA",
-  description: "Lowongan kerja di CRK Group dan Cimol Bojot AA, dari crew gerobak dan kios sampai tim kantor di Bandung dan Jabodetabek.",
-  path: "/careers",
-});
+export const generateMetadata = () => seoMeta("careers", "/careers");
 
 export default async function Careers() {
   const [positions, st, c] = await Promise.all([getPositions(), getSettings(), getContent()]);

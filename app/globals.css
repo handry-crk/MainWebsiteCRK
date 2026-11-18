@@ -963,3 +963,6 @@ body { overflow-x: clip; }
   .bento { padding-bottom: var(--s2); }
   .ftr__legal { padding-right: 96px; }
 }
+
+.adm-f small b { font-weight: 600; }
+.adm-f small .adm-over { color: var(--red); }

@@ -2,14 +2,10 @@ import { JsonLd } from "@/components/JsonLd";
 import { OutletFinder } from "@/components/OutletFinder";
 import { PageHero } from "@/components/PageHero";
 import { Starburst } from "@/components/Starburst";
-import { getOutlets } from "@/lib/api";
-import { pageMeta, siteUrl } from "@/lib/site";
+import { getOutlets, seoMeta } from "@/lib/api";
+import { siteUrl } from "@/lib/site";
 
-export const metadata = pageMeta({
-  title: "Lokasi Kios Cimol Bojot AA Terdekat",
-  description: "Cari kios Cimol Bojot AA terdekat di Bandung, Cimahi, Bogor, Depok, Bekasi, dan Tangerang. Ada alamat, jam buka, dan petunjuk arah.",
-  path: "/locations",
-});
+export const generateMetadata = () => seoMeta("locations", "/locations");
 
 export default async function Locations() {
   const outlets = await getOutlets();
