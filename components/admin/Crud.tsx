@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { browserClient } from "@/lib/supabase";
+import { ImageField } from "./ImageField";
 import type { F, Resource } from "./resources";
 
 type Row = Record<string, unknown>;
@@ -81,7 +82,9 @@ export function Crud({ res, extra }: { res: Resource; extra?: (reload: () => voi
             ) : (
               <>
                 <label htmlFor={`f-${f.key}`}>{f.label}{f.required ? " *" : ""}</label>
-                {f.type === "textarea" ? (
+                {f.type === "image" ? (
+                  <ImageField value={String(edit[f.key] ?? "")} onChange={(v) => setEdit({ ...edit, [f.key]: v })} folder={res.table} label={f.label} />
+                ) : f.type === "textarea" ? (
                   <textarea id={`f-${f.key}`} rows={f.key === "body" ? 12 : 3} required={f.required} value={String(edit[f.key] ?? "")} onChange={(e) => setEdit({ ...edit, [f.key]: e.target.value })} />
                 ) : f.type === "select" ? (
                   <select id={`f-${f.key}`} value={String(edit[f.key] ?? "")} onChange={(e) => setEdit({ ...edit, [f.key]: e.target.value })}>

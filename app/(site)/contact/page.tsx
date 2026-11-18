@@ -2,7 +2,7 @@ import Image from "next/image";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
-import { getSettings } from "@/lib/api";
+import { getContent, getSettings } from "@/lib/api";
 import { pageMeta } from "@/lib/site";
 
 export const metadata = pageMeta({
@@ -12,11 +12,12 @@ export const metadata = pageMeta({
 });
 
 export default async function Contact() {
-  const st = await getSettings();
+  const [st, c] = await Promise.all([getSettings(), getContent()]);
+  const office = [c.t("contact_office_address"), c.t("contact_office_hours")].filter(Boolean);
   return (
     <>
       <PageHero crumb="Contact Us" path="/contact" seed={37} lines={["Ngobrol,", "yuk."]} intro="Pertanyaan, keluhan, atau ajakan kerja sama. Paling cepat lewat WhatsApp.">
-        <Image className="phero__mascot phero__mascot--s" src="/brand/mascot-small.png" width={332} height={302} alt="" priority sizes="(max-width: 900px) 40vw, 260px" />
+        <Image className="phero__mascot phero__mascot--s" {...c.mascotSmall} alt="" priority sizes="(max-width: 900px) 40vw, 260px" />
       </PageHero>
       <section className="sec">
         <div className="wrap">
@@ -31,11 +32,12 @@ export default async function Contact() {
               <p>Pesanan acara, hampers, reseller, dan titik outlet.</p>
               <WaLink number={st.whatsappPartnership} text="Halo tim kemitraan CRK Group." variant="line">Chat kemitraan</WaLink>
             </li>
-            <li className="panel panel--line">
-              <h3>Kantor</h3>
-              <p>[ISI: alamat kantor]</p>
-              <p>[ISI: jam kerja dan email]</p>
-            </li>
+            {office.length > 0 && (
+              <li className="panel panel--line">
+                <h3>Kantor</h3>
+                {office.map((o) => <p key={o}>{o}</p>)}
+              </li>
+            )}
           </ul>
         </div>
         <div className="wrap split split--top">

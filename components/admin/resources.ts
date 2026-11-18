@@ -1,6 +1,6 @@
 export type F = {
   key: string; label: string;
-  type?: "text" | "textarea" | "number" | "bool" | "select" | "datetime";
+  type?: "text" | "textarea" | "number" | "bool" | "select" | "datetime" | "image";
   options?: string[]; required?: boolean; list?: boolean; hint?: string; def?: unknown;
 };
 export type Resource = { table: string; title: string; one: string; order: string; asc?: boolean; fields: F[] };
@@ -15,6 +15,7 @@ export const resources: Record<string, Resource> = {
       { key: "price_bandung", label: "Harga Bandung", required: true, list: true, hint: "Tulis seperti tampil, mis. 6.000 / 12.000" },
       { key: "price_jabodetabek", label: "Harga Jabodetabek", required: true, list: true },
       { key: "note", label: "Keterangan singkat", hint: "Dipakai untuk menu andalan di Home" },
+      { key: "photo_url", label: "Foto menu", type: "image", hint: "Tampil di halaman menu dan, untuk menu andalan, di Home. Sebaiknya persegi." },
       { key: "sort", label: "Urutan", type: "number", def: 0 },
       { key: "is_bestseller", label: "Menu andalan (tampil di Home)", type: "bool", def: false, list: true },
       { key: "is_available", label: "Tampil di website", type: "bool", def: true, list: true },
@@ -45,6 +46,7 @@ export const resources: Record<string, Resource> = {
       { key: "slug", label: "Slug (alamat halaman)", required: true, hint: "Huruf kecil, angka, dan tanda hubung. Mis. kios-baru-kelapa-dua" },
       { key: "category", label: "Kategori", type: "select", options: ["Outlet baru", "Produk", "Promo", "Perusahaan"], def: "Perusahaan", list: true },
       { key: "excerpt", label: "Ringkasan (1 kalimat)", type: "textarea", hint: "Dipakai sebagai deskripsi di Google" },
+      { key: "cover_url", label: "Foto sampul", type: "image", hint: "Tampil di daftar kabar, halaman kabar, dan saat tautan dibagikan. Sebaiknya mendatar (4:3)." },
       { key: "body", label: "Isi", type: "textarea", hint: "Pisahkan paragraf dengan satu baris kosong" },
       { key: "published_at", label: "Tanggal terbit", type: "datetime", list: true },
       { key: "is_published", label: "Terbitkan", type: "bool", def: false, list: true },

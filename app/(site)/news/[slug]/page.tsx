@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
@@ -15,7 +16,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/news/[slug]">): Promise<Metadata> {
   const a = await getArticle((await params).slug);
   if (!a) return {};
-  return pageMeta({ title: a.title, description: a.excerpt, path: `/news/${a.slug}` });
+  const meta = pageMeta({ title: a.title, description: a.excerpt, path: `/news/${a.slug}` });
+  return a.cover ? { ...meta, openGraph: { ...meta.openGraph, images: [{ url: a.cover.src, width: a.cover.width, height: a.cover.height }] } } : meta;
 }
 
 export default async function Article({ params }: PageProps<"/news/[slug]">) {
@@ -28,6 +30,7 @@ export default async function Article({ params }: PageProps<"/news/[slug]">) {
     headline: a.title,
     description: a.excerpt,
     ...(a.isoDate ? { datePublished: a.isoDate } : {}),
+    ...(a.cover ? { image: a.cover.src } : {}),
     mainEntityOfPage: `${siteUrl}/news/${a.slug}`,
     publisher: { "@type": "Organization", name: brand.company },
   };
@@ -38,6 +41,7 @@ export default async function Article({ params }: PageProps<"/news/[slug]">) {
       <div className="wrap article">
         <p className="article__meta"><Link className="tlink" href="/news">Kabar terbaru</Link> · {a.category} · {a.date}</p>
         <h1 className="h2 article__h">{a.title}</h1>
+        {a.cover && <Image className="article__cover" {...a.cover} alt="" priority sizes="(max-width: 900px) 100vw, 860px" />}
         <div className="prose">{a.body.map((p, i) => <p key={i}>{p}</p>)}</div>
       </div>
       <div className="wrap article__more">

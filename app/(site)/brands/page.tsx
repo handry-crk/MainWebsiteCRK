@@ -1,9 +1,8 @@
 import Image from "next/image";
-import { brand } from "@/config/brand";
 import { Button } from "@/components/Button";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
-import { getMenu, getSettings } from "@/lib/api";
+import { getContent, getMenu, getSettings } from "@/lib/api";
 import { pageMeta, siteUrl } from "@/lib/site";
 
 export const metadata = pageMeta({
@@ -15,7 +14,8 @@ export const metadata = pageMeta({
 const firstPrice = (s: string) => s.split("/")[0].trim().replace(/\./g, "");
 
 export default async function Brands() {
-  const [menu, st] = await Promise.all([getMenu(), getSettings()]);
+  const [menu, st, c] = await Promise.all([getMenu(), getSettings(), getContent()]);
+  const photos = menu.flatMap((cat) => cat.items.filter((i) => i.photo).map((i) => ({ ...i, photo: i.photo! })));
   const orderLinks: [string, string][] = [
     ["GoFood", st.order.gofood], ["GrabFood", st.order.grabfood], ["ShopeeFood", st.order.shopeefood],
     ["Tokopedia", st.order.tokopedia], ["Shopee", st.order.shopee], ["TikTok Shop", st.order.tiktokshop],
@@ -35,7 +35,7 @@ export default async function Brands() {
     <>
       <JsonLd data={ld} />
       <PageHero crumb="Our Brands & Products" path="/brands" seed={9} lines={["Menu", "dan harga."]} intro="Saat ini rumah kami diisi Cimol Bojot AA. Semua menu dan harganya ada di halaman ini.">
-        <Image className="phero__mascot" {...brand.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
+        <Image className="phero__mascot" {...c.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
       </PageHero>
 
       <section className="sec">
@@ -46,14 +46,31 @@ export default async function Brands() {
             <p>Cimol dari aci, digoreng, lalu dibalur bumbu bojot sampai nempel. Asalnya jajanan pinggir jalan Bandung, sekarang ada di 500+ titik gerobak dan kios.</p>
             <Button href="/locations" variant="red">Cari kios terdekat</Button>
           </div>
-          <Image className="art-kiosk" {...brand.kiosk} alt="Kios Cimol Bojot AA" sizes="(max-width: 900px) 90vw, 520px" />
+          <Image className="art-kiosk" {...c.kiosk} alt="Kios Cimol Bojot AA" sizes="(max-width: 900px) 90vw, 520px" />
         </div>
       </section>
+
+      {photos.length > 0 && (
+        <section className="sec sec--gallery">
+          <div className="wrap">
+            <h2 className="h2">Yang paling sering difoto</h2>
+            <ul className="gallery">
+              {photos.map((i) => (
+                <li key={i.name}>
+                  <Image {...i.photo} alt={i.name} sizes="(max-width: 900px) 45vw, 260px" />
+                  <b>{i.name}</b>
+                  <span>{i.bandung}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       <section className="sec sec--red">
         <div className="wrap">
           <div className="panel menu">
-            <Image className="menu__logo" {...brand.logo} alt="" sizes="200px" />
+            <Image className="menu__logo" {...c.logo} alt="" sizes="200px" />
             <div className="menu__head">
               <h2 className="h2">Menu dan harga</h2>
               <p>Dalam rupiah. Harga bisa beda sedikit di beberapa gerobak, kios, dan di aplikasi ojol.</p>

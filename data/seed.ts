@@ -1,8 +1,10 @@
 // Data contoh. Semua yang bertanda [CONTOH] / [ISI: ...] harus diganti data asli lewat Admin Dashboard.
-export type MenuItem = { name: string; note: string; price: number };
-export type Product = { name: string; bandung: string; jabodetabek: string };
+import type { Img } from "@/lib/content-schema";
+
+export type MenuItem = { name: string; note: string; price: number; photo?: Img };
+export type Product = { name: string; bandung: string; jabodetabek: string; photo?: Img };
 export type Category = { name: string; note?: string; items: Product[] };
-export type NewsItem = { slug: string; date: string; isoDate: string | null; category: string; title: string; excerpt: string; body: string[] };
+export type NewsItem = { slug: string; date: string; isoDate: string | null; category: string; title: string; excerpt: string; body: string[]; cover?: Img };
 export type City = { name: string };
 export type Outlet = { id: string; name: string; city: string; address: string; landmark: string; hours: string; lat: number; lng: number; gofood?: string; grabfood?: string; gmaps?: string; soon?: boolean };
 export type Position = { id: string; title: string; department: string; location: string; type: string; summary: string; requirements: string[] };

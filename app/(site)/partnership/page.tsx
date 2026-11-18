@@ -1,10 +1,9 @@
 import Image from "next/image";
 import { JsonLd } from "@/components/JsonLd";
-import { brand } from "@/config/brand";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
-import { getPartnership, getSettings } from "@/lib/api";
+import { getContent, getPartnership, getSettings } from "@/lib/api";
 import { pageMeta } from "@/lib/site";
 
 export const metadata = pageMeta({
@@ -21,7 +20,7 @@ const steps = [
 ];
 
 export default async function Partnership() {
-  const [{ types, faq }, st] = await Promise.all([getPartnership(), getSettings()]);
+  const [{ types, faq }, st, c] = await Promise.all([getPartnership(), getSettings(), getContent()]);
   const ld = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -31,17 +30,17 @@ export default async function Partnership() {
     <>
       {faq.length > 0 && <JsonLd data={ld} />}
       <PageHero crumb="Partnership" path="/partnership" seed={29} lines={["Jualan", "bareng CRK."]} intro="Buat acara kantor, hampers, reseller Frozen, sampai buka titik baru. Ngobrol aja dulu.">
-        <Image className="phero__mascot" {...brand.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
+        <Image className="phero__mascot" {...c.mascot} alt="" priority sizes="(max-width: 900px) 40vw, 300px" />
       </PageHero>
 
       <section className="sec">
         <div className="wrap">
           <h2 className="h2">Pilih bentuk kerja samanya</h2>
           <ul className="ptypes">
-            {types.map((t) => (
+            {types.map((t, i) => (
               <li key={t.name} className="panel panel--line">
                 <h3>{t.name}</h3>
-                <p>{t.text}</p>
+                <p>{c.t(`partner_type_${i + 1}_text`)}</p>
                 <WaLink number={st.whatsappPartnership} text={t.wa} variant="line">Tanya lewat WhatsApp</WaLink>
               </li>
             ))}
