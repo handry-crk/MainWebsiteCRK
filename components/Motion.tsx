@@ -19,12 +19,14 @@ export function Motion() {
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (!e.isIntersecting) continue;
+          // Tampil saat masuk layar, DAN saat sudah terlewat di atas layar. Tanpa syarat kedua,
+          // scroll cepat (sentakan jari di HP) bisa melewati elemen sehingga ia tetap tersembunyi.
+          if (!e.isIntersecting && e.boundingClientRect.top > 0) continue;
           e.target.classList.add("is-in");
           io.unobserve(e.target);
         }
       },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.15 },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
     );
     for (const el of els) {
       // yang sudah terlihat saat halaman dibuka dibiarkan, supaya tidak berkedip
@@ -35,6 +37,20 @@ export function Motion() {
       el.classList.add("pop");
       io.observe(el);
     }
+
+    // Jaring pengaman: apa pun yang sudah terlewat atau sedang di layar pasti ditampilkan,
+    // juga saat halaman melompat (kembali dari halaman lain, tautan jangkar, sentakan jari).
+    let tick = 0;
+    const sweep = () => {
+      tick = 0;
+      for (const el of els) {
+        if (el.classList.contains("is-in") || !el.classList.contains("pop")) continue;
+        if (el.getBoundingClientRect().top < window.innerHeight * 0.96) { el.classList.add("is-in"); io.unobserve(el); }
+      }
+    };
+    const onScroll = () => { if (!tick) tick = requestAnimationFrame(sweep); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("pageshow", onScroll);
 
     // gambar di hero ikut bergeser sedikit mengikuti kursor
     const art = document.querySelector<HTMLElement>(".hero__art, .phero__art");
@@ -49,6 +65,9 @@ export function Motion() {
 
     return () => {
       io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("pageshow", onScroll);
+      cancelAnimationFrame(tick);
       hero?.removeEventListener("pointermove", onMove);
       for (const el of els) el.classList.remove("pop", "is-in");
     };

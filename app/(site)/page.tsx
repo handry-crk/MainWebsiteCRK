@@ -30,7 +30,7 @@ export default async function Home() {
             <form className="search hero__search" action="/locations" role="search">
               <label htmlFor="q">Lagi di mana, Kak?</label>
               <div className="search__row">
-                <input id="q" name="q" type="search" placeholder="Ketik kota atau nama jalan" autoComplete="off" />
+                <input id="q" name="q" type="search" placeholder="Kota atau nama jalan" autoComplete="off" />
                 <button type="submit" className="btn btn--red btn--sm">Cari kios</button>
               </div>
             </form>
