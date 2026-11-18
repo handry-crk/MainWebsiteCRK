@@ -88,3 +88,8 @@ GA4 dan event klik, halaman per outlet, notifikasi saat ada form masuk, fitur lu
 - **Header keamanan** (CSP, HSTS, X-Frame-Options, dll.) diatur di `next.config.ts`. Bila menambah layanan pihak ketiga (peta lain, widget, font luar), tambahkan domainnya ke CSP.
 - **Halaman galat**: `app/(site)/error.tsx` dan `app/global-error.tsx`.
 - **Kebijakan Privasi** (`/privacy`): isinya dari Admin > Konten halaman. Selama kosong dan penanda dimatikan, halaman dan tautannya tidak tampil.
+
+## Halaman per kios
+- Alamat: `/locations/<nama-kios>` (mis. `/locations/kios-margonda`), dibuat otomatis dari nama kios di Admin > Outlet. Mengganti nama kios ikut mengganti alamat halamannya.
+- Isi: alamat, patokan, jam buka, petunjuk arah, tautan ojol, kios lain di kota yang sama. Data terstruktur Restaurant hanya untuk kios yang sudah buka, tanpa jam buka dan koordinat sampai datanya pasti.
+- Semua halaman kios masuk sitemap. Pakai alamat halaman ini sebagai tautan "Website" di Google Business Profile tiap kios.

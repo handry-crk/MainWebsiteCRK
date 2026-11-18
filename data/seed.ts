@@ -6,7 +6,7 @@ export type Product = { name: string; bandung: string; jabodetabek: string; phot
 export type Category = { name: string; note?: string; items: Product[] };
 export type NewsItem = { slug: string; date: string; isoDate: string | null; category: string; title: string; excerpt: string; body: string[]; cover?: Img };
 export type City = { name: string };
-export type Outlet = { id: string; name: string; city: string; address: string; landmark: string; hours: string; lat: number; lng: number; gofood?: string; grabfood?: string; gmaps?: string; soon?: boolean };
+export type Outlet = { id: string; name: string; city: string; address: string; landmark: string; hours: string; lat: number; lng: number; gofood?: string; grabfood?: string; gmaps?: string; soon?: boolean; slug?: string };
 export type Position = { id: string; title: string; department: string; location: string; type: string; summary: string; requirements: string[] };
 
 export const bestSellers: MenuItem[] = [

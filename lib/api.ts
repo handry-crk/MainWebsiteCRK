@@ -74,12 +74,32 @@ export async function getArticle(slug: string) { return (await getNews()).find((
 
 type OutletRow = { id: string; name: string; city: string; address: string; landmark: string; hours: string; lat: number; lng: number; gofood_url: string | null; grabfood_url: string | null; gmaps_url?: string | null; status: string };
 
-export async function getOutlets(): Promise<Outlet[]> {
+// Alamat halaman kios dibuat dari namanya ("Kios Margonda" -> /locations/kios-margonda).
+// Nama yang sama diberi akhiran -2, -3. Mengganti nama kios di admin ikut mengganti alamat halamannya.
+const slugify = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "kios";
+export type OutletWithSlug = Outlet & { slug: string };
+function withSlugs(list: Outlet[]): OutletWithSlug[] {
+  const seen = new Map<string, number>();
+  // Urutan tetap (menurut id) supaya akhiran -2 tidak berpindah kios saat urutan tampil berubah.
+  const slugs = new Map<string, string>();
+  for (const o of [...list].sort((a, b) => String(a.id).localeCompare(String(b.id)))) {
+    const base = slugify(o.name), n = (seen.get(base) ?? 0) + 1;
+    seen.set(base, n);
+    slugs.set(o.id, n === 1 ? base : `${base}-${n}`);
+  }
+  return list.map((o) => ({ ...o, slug: slugs.get(o.id)! }));
+}
+
+export async function getOutlet(slug: string) {
+  return (await getOutlets()).find((o) => o.slug === slug) ?? null;
+}
+
+export async function getOutlets(): Promise<OutletWithSlug[]> {
   "use cache";
   cacheLife("minutes");
-  if (!supabaseConfigured) return seed.outlets;
+  if (!supabaseConfigured) return withSlugs(seed.outlets);
   const o = (await rows<OutletRow>("outlets", "city")) ?? [];
-  return o.map((r) => ({ id: r.id, name: r.name, city: r.city, address: r.address, landmark: r.landmark, hours: r.hours, lat: r.lat, lng: r.lng, gofood: r.gofood_url ?? undefined, grabfood: r.grabfood_url ?? undefined, gmaps: r.gmaps_url ?? undefined, soon: r.status === "segera" }));
+  return withSlugs(o.map((r) => ({ id: r.id, name: r.name, city: r.city, address: r.address, landmark: r.landmark, hours: r.hours, lat: r.lat, lng: r.lng, gofood: r.gofood_url ?? undefined, grabfood: r.grabfood_url ?? undefined, gmaps: r.gmaps_url ?? undefined, soon: r.status === "segera" })));
 }
 
 export async function getCities() {

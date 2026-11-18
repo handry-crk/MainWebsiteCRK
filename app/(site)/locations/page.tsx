@@ -23,6 +23,7 @@ export default async function Locations() {
       item: {
         "@type": "Restaurant",
         name: `Cimol Bojot AA ${o.name}`,
+        url: `${siteUrl}/locations/${o.slug}`,
         servesCuisine: "Jajanan Indonesia",
         address: { "@type": "PostalAddress", streetAddress: o.address, addressCountry: "ID" },
         geo: { "@type": "GeoCoordinates", latitude: o.lat, longitude: o.lng },

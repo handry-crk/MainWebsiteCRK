@@ -17,13 +17,14 @@ export function pageMeta({ title, description, path }: { title: string; descript
   };
 }
 
-export function breadcrumbLd(title: string, path: string) {
+export function breadcrumbLd(title: string, path: string, parent?: { name: string; path: string }) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: siteUrl + "/" },
-      { "@type": "ListItem", position: 2, name: title, item: siteUrl + path },
+      ...(parent ? [{ "@type": "ListItem", position: 2, name: parent.name, item: siteUrl + parent.path }] : []),
+      { "@type": "ListItem", position: parent ? 3 : 2, name: title, item: siteUrl + path },
     ],
   };
 }
