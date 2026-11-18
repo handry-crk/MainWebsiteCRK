@@ -1,13 +1,36 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { Motion } from "@/components/Motion";
 import { CartProvider } from "@/components/shop/cart";
+import { brand } from "@/config/brand";
 import { getContent, getSettings } from "@/lib/api";
+import { siteUrl } from "@/lib/site";
 
 export default async function SiteLayout({ children }: LayoutProps<"/">) {
   const [{ logo }, st] = await Promise.all([getContent(), getSettings()]);
+  const abs = (u: string) => (u.startsWith("http") ? u : siteUrl + u);
+  const org = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": siteUrl + "/#organization",
+    name: brand.company,
+    legalName: brand.legalName,
+    alternateName: "Cimol Bojot AA",
+    url: siteUrl,
+    logo: abs(logo.src),
+    slogan: brand.tagline,
+    address: { "@type": "PostalAddress", addressLocality: "Bandung", addressRegion: "Jawa Barat", addressCountry: "ID" },
+    brand: { "@type": "Brand", name: "Cimol Bojot AA" },
+    sameAs: [st.instagram, st.tiktok].filter(Boolean),
+    ...(st.whatsappCs ? { contactPoint: { "@type": "ContactPoint", contactType: "customer service", telephone: "+" + st.whatsappCs.replace(/\D/g, ""), availableLanguage: "Indonesian" } } : {}),
+  };
+  // WebSite: nama situs yang ditampilkan Google di hasil pencarian
+  const site = { "@context": "https://schema.org", "@type": "WebSite", "@id": siteUrl + "/#website", name: brand.company, alternateName: ["Cimol Bojot AA", "CRK"], url: siteUrl, inLanguage: "id-ID", publisher: { "@id": siteUrl + "/#organization" } };
   return (
     <CartProvider whatsapp={st.whatsappCs}>
+      <JsonLd data={org} />
+      <JsonLd data={site} />
       <a className="skip" href="#main">Langsung ke isi</a>
       <Header logo={logo} />
       <main id="main">{children}</main>

@@ -34,11 +34,13 @@ Headline memakai font resmi **CBAA Rounded ExtraBold** (`app/fonts/display.woff2
 Catatan: CBAA Rounded tidak punya glyph en dash (–), jadi tanda itu di nama outlet tampil dengan font cadangan.
 
 ## SEO
-- Wajib: set `NEXT_PUBLIC_SITE_URL=https://domain-klien.com` di hosting **sebelum build**. Canonical, sitemap, robots, dan Open Graph memakainya.
-- Tiap halaman: title, description, canonical, Open Graph, satu H1. Diatur lewat `pageMeta()` di `lib/site.ts`.
-- JSON-LD: Organization (semua halaman), BreadcrumbList, Menu (`/brands`), ItemList outlet (`/locations`), NewsArticle (`/news/[slug]`), FAQPage (`/partnership`).
-- `/sitemap.xml`, `/robots.txt` (menutup `/admin` dan `/styleguide`), `/llms.txt`, `/opengraph-image`.
-- Semua halaman publik di-prerender statis; isi (menu, harga, daftar outlet) ada di HTML.
+- Wajib: set `NEXT_PUBLIC_SITE_URL=https://domain-klien.com` di hosting **sebelum build**. Canonical, sitemap, robots, Open Graph, dan data terstruktur memakainya.
+- Alamat sementara (staging): set `NEXT_PUBLIC_NOINDEX=1` supaya semua halaman diberi `noindex` dan sitemap dikosongkan. Kosongkan saat launch.
+- Tiap halaman: title dan description berbahasa Indonesia yang memuat nama brand, canonical, Open Graph + gambar, satu H1. Diatur lewat `pageMeta()` di `lib/site.ts`.
+- JSON-LD: Organization dan WebSite (semua halaman, `app/(site)/layout.tsx`), BreadcrumbList, Menu (`/brands`), ItemList berisi Restaurant per kios yang sudah buka (`/locations`), NewsArticle (`/news/[slug]`), FAQPage (`/partnership`, bila ada isinya).
+- `/sitemap.xml`, `/robots.txt` (menutup `/admin`), `/llms.txt`, `/opengraph-image`, ikon situs (`app/icon.png`, `app/apple-icon.png`, `app/favicon.ico`).
+- Semua halaman publik di-prerender; isi (menu, harga, daftar kios) ada di HTML tanpa JavaScript.
+- Slug kabar yang tidak ada dijawab 200 dengan tag `noindex` (bawaan Next.js saat streaming), bukan 404.
 
 ## Database dan Admin (Supabase)
 Environment variable (lihat `.env.example`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL`. Kode ini tidak memakai kunci rahasia Supabase.

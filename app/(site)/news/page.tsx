@@ -5,8 +5,8 @@ import { getContent, getNews } from "@/lib/api";
 import { pageMeta } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "News & Updates",
-  description: "Kabar terbaru CRK Group dan Cimol Bojot AA: outlet baru, produk baru, promo, dan berita perusahaan.",
+  title: "Kabar Terbaru Cimol Bojot AA",
+  description: "Kabar terbaru Cimol Bojot AA dan CRK Group: kios baru, produk baru, promo, dan berita perusahaan.",
   path: "/news",
 });
 

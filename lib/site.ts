@@ -3,13 +3,17 @@ import type { Metadata } from "next";
 // Set NEXT_PUBLIC_SITE_URL di hosting (mis. https://domain-klien.com) supaya canonical, sitemap, dan Open Graph benar.
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
+// Set NEXT_PUBLIC_NOINDEX=1 di alamat sementara (staging) supaya tidak diindeks Google sebelum launch.
+export const noindex = process.env.NEXT_PUBLIC_NOINDEX === "1";
+
 export function pageMeta({ title, description, path }: { title: string; description: string; path: string }): Metadata {
   return {
     title,
     description,
     alternates: { canonical: path },
-    openGraph: { title: `${title} | CRK Group`, description, url: path, type: "website", locale: "id_ID", siteName: "CRK Group" },
-    twitter: { card: "summary_large_image", title: `${title} | CRK Group`, description },
+    // Gambar ditulis eksplisit: objek openGraph di halaman menggantikan milik layout, termasuk gambarnya.
+    openGraph: { title, description, url: path, type: "website", locale: "id_ID", siteName: "CRK Group", images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "CRK Group, rumahnya Cimol Bojot AA" }] },
+    twitter: { card: "summary_large_image", title, description, images: ["/opengraph-image"] },
   };
 }
 

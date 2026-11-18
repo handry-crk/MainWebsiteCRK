@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
-import { siteUrl } from "@/lib/site";
+import { noindex, siteUrl } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
-  return { rules: { userAgent: "*", allow: "/", disallow: ["/admin", "/styleguide"] }, sitemap: siteUrl + "/sitemap.xml" };
+  // Alamat sementara (NEXT_PUBLIC_NOINDEX=1): halaman tetap boleh dirayapi supaya tag noindex terbaca.
+  if (noindex) return { rules: { userAgent: "*", allow: "/" } };
+  return { rules: { userAgent: "*", allow: "/", disallow: ["/admin"] }, sitemap: siteUrl + "/sitemap.xml" };
 }

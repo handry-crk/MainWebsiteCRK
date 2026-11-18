@@ -6,22 +6,33 @@ import { getOutlets } from "@/lib/api";
 import { pageMeta, siteUrl } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "Store Locations",
-  description: "Cari kios Cimol Bojot AA terdekat di Bandung, Cimahi, Bogor, Depok, Bekasi, Tangerang, dan Tangerang Selatan. Lengkap dengan alamat, jam buka, dan petunjuk arah.",
+  title: "Lokasi Kios Cimol Bojot AA Terdekat",
+  description: "Cari kios Cimol Bojot AA terdekat di Bandung, Cimahi, Bogor, Depok, Bekasi, dan Tangerang. Ada alamat, jam buka, dan petunjuk arah.",
   path: "/locations",
 });
 
 export default async function Locations() {
   const outlets = await getOutlets();
+  // Satu Restaurant per kios yang sudah buka. Jam buka sengaja tidak dimasukkan: data hanya memuat jam,
+  // belum memuat hari, dan Google meminta keduanya (openingHoursSpecification).
   const ld = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Outlet Cimol Bojot AA",
+    name: "Kios Cimol Bojot AA",
     url: siteUrl + "/locations",
+    numberOfItems: outlets.filter((o) => !o.soon).length,
     itemListElement: outlets.filter((o) => !o.soon).map((o, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      item: { "@type": "Restaurant", name: `Cimol Bojot AA ${o.name}`, ...(o.hours ? { openingHours: o.hours } : {}), address: { "@type": "PostalAddress", streetAddress: o.address, addressLocality: o.city, addressCountry: "ID" }, geo: { "@type": "GeoCoordinates", latitude: o.lat, longitude: o.lng } },
+      item: {
+        "@type": "Restaurant",
+        name: `Cimol Bojot AA ${o.name}`,
+        servesCuisine: "Jajanan Indonesia",
+        address: { "@type": "PostalAddress", streetAddress: o.address, addressCountry: "ID" },
+        geo: { "@type": "GeoCoordinates", latitude: o.lat, longitude: o.lng },
+        ...(o.gmaps ? { hasMap: o.gmaps } : {}),
+        parentOrganization: { "@id": siteUrl + "/#organization" },
+      },
     })),
   };
   return (
