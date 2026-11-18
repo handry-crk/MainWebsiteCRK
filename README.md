@@ -64,6 +64,14 @@ Setup sekali: jalankan `supabase/cms-2026-11-19.sql` di SQL Editor (tabel `page_
 - Isian kosong memakai teks bawaan bila ada. Isian wajib yang kosong tampil sebagai `[ISI: ...]` selama **Pengaturan > Tampilkan penanda** menyala, dan disembunyikan bila dimatikan (matikan sebelum launch).
 - **Unggah foto**: di Konten halaman (gambar halaman), Kabar (foto sampul), dan Menu dan harga (foto menu). Foto dikecilkan di browser ke maksimal 1600 px dan disimpan sebagai WebP di bucket `media`. File lama tidak dihapus otomatis saat diganti.
 
+## Fitur pesan (bento, level pedas, keranjang WhatsApp)
+Setup sekali: jalankan `supabase/shop-2026-11-19.sql` (kolom `badge` dan `has_spice` di `products`). Animasi memakai library `motion` (penerus Framer Motion).
+
+- **Bento menu** di Home (`components/shop/Bento.tsx`): menu andalan dapat kotak besar, lalu satu menu pertama dari tiap kategori, maksimal 7. Datanya dari tabel `products`; bila Supabase belum diatur memakai `data/seed.ts`.
+- **Meter level pedas** (`SpiceMeter.tsx`): nama level dan reaksi maskot ada di `components/shop/cart.tsx` (`LEVELS`). Level hanya berlaku untuk menu yang dicentang "Bisa pilih level pedas" di admin.
+- **Keranjang** (`cart.tsx`): tombol melayang + laci samping, tersimpan di perangkat pengunjung. Pesanan dikirim ke nomor **WhatsApp customer service** di Admin > Pengaturan; selama nomor kosong, tombol pesan hanya menampilkan pemberitahuan. Total adalah perkiraan.
+- **Hiasan hero** (`Floaters.tsx`): mengikuti kursor dan scroll; mati untuk pengunjung yang meminta animasi dikurangi.
+
 ## Form
 Form Careers, Partnership, dan Contact menyimpan ke tabel `submissions` dan muncul di Admin > Kotak masuk. Bila penyimpanan gagal dan nomor WhatsApp sudah diisi, pengunjung ditawari kirim lewat WhatsApp.
 

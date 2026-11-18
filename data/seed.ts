@@ -2,7 +2,7 @@
 import type { Img } from "@/lib/content-schema";
 
 export type MenuItem = { name: string; note: string; price: number; photo?: Img };
-export type Product = { name: string; bandung: string; jabodetabek: string; photo?: Img };
+export type Product = { name: string; bandung: string; jabodetabek: string; photo?: Img; note?: string; badge?: string; spice?: boolean; best?: boolean; category?: string };
 export type Category = { name: string; note?: string; items: Product[] };
 export type NewsItem = { slug: string; date: string; isoDate: string | null; category: string; title: string; excerpt: string; body: string[]; cover?: Img };
 export type City = { name: string };
