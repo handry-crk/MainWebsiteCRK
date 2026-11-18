@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Bento } from "@/components/shop/Bento";
@@ -8,6 +9,8 @@ import { Starburst } from "@/components/Starburst";
 import { Tape } from "@/components/Tape";
 import { TornEdge } from "@/components/TornEdge";
 import { getCities, getContent, getLatestNews, getMenu, getOutlets } from "@/lib/api";
+
+export const metadata: Metadata = { alternates: { canonical: "/" }, openGraph: { url: "/", images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "CRK Group, rumahnya Cimol Bojot AA" }] } };
 
 // Home disusun seperti poster yang bisa di-scroll: tiap bagian satu komposisi,
 // teks sedikit, elemen saling menimpa. Tanpa kotak placeholder.

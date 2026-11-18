@@ -6,7 +6,7 @@ import { getContent, getOutlets } from "@/lib/api";
 import { pageMeta } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "About Us",
+  title: "Tentang Kami dan Cerita Cimol Bojot AA",
   description: "Cerita CRK Group, perusahaan di balik Cimol Bojot AA: dari gerobak di Bandung sampai 500+ titik gerobak dan kios di Bandung dan Jabodetabek.",
   path: "/about",
 });

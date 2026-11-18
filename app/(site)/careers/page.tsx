@@ -6,8 +6,8 @@ import { getContent, getPositions, getSettings } from "@/lib/api";
 import { pageMeta } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "Careers",
-  description: "Lowongan kerja di CRK Group dan Cimol Bojot AA, dari crew outlet sampai tim kantor di Bandung dan Jabodetabek.",
+  title: "Lowongan Kerja Cimol Bojot AA",
+  description: "Lowongan kerja di CRK Group dan Cimol Bojot AA, dari crew gerobak dan kios sampai tim kantor di Bandung dan Jabodetabek.",
   path: "/careers",
 });
 

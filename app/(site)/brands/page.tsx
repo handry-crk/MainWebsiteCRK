@@ -7,7 +7,7 @@ import { getContent, getMenu, getSettings } from "@/lib/api";
 import { pageMeta, siteUrl } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "Our Brands & Products",
+  title: "Menu dan Harga Cimol Bojot AA",
   description: "Menu dan harga Cimol Bojot AA: Cimol Bojot, Mozza, Beef, Ayam, Mix, Kuah Keju, New Series, dan Cimol Frozen. Harga Bandung dan Jabodetabek.",
   path: "/brands",
 });

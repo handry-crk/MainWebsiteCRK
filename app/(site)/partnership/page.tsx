@@ -7,7 +7,7 @@ import { getContent, getPartnership, getSettings } from "@/lib/api";
 import { pageMeta } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "Partnership",
+  title: "Kemitraan dan Pesanan Acara Cimol Bojot AA",
   description: "Kerja sama dengan CRK Group dan Cimol Bojot AA: pesanan acara dan kantor, hampers Frozen, reseller dan agen Frozen, serta kemitraan titik outlet.",
   path: "/partnership",
 });

@@ -6,7 +6,7 @@ import { getContent, getSettings } from "@/lib/api";
 import { pageMeta } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "Contact Us",
+  title: "Kontak dan WhatsApp Cimol Bojot AA",
   description: "Hubungi CRK Group dan Cimol Bojot AA lewat WhatsApp customer service, tim kemitraan, atau form pesan.",
   path: "/contact",
 });

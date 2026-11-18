@@ -32,7 +32,8 @@ export default async function Article({ params }: PageProps<"/news/[slug]">) {
     ...(a.isoDate ? { datePublished: a.isoDate } : {}),
     ...(a.cover ? { image: a.cover.src } : {}),
     mainEntityOfPage: `${siteUrl}/news/${a.slug}`,
-    publisher: { "@type": "Organization", name: brand.company },
+    author: { "@type": "Organization", name: brand.company, url: siteUrl },
+    publisher: { "@type": "Organization", name: brand.company, "@id": siteUrl + "/#organization" },
   };
   return (
     <article className="sec">
