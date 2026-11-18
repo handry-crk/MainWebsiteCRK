@@ -37,12 +37,15 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
   const [pos, setPos] = useState<[number, number] | null>(null);
   const [active, setActive] = useState<string | null>(null);
   const [geoMsg, setGeoMsg] = useState("");
+  const [geoErr, setGeoErr] = useState("");
+  const [locating, setLocating] = useState(false);
   const [now, setNow] = useState<number | null>(null); // diisi setelah tampil, supaya HTML server dan browser sama
   const mapEl = useRef<HTMLDivElement>(null);
   const listEl = useRef<HTMLDivElement>(null);
   const map = useRef<LMap | null>(null);
   const markers = useRef<Record<string, CircleMarker>>({});
   const fromScroll = useRef(false);
+  const me = useRef<CircleMarker | null>(null);
 
   useEffect(() => {
     setNow(jakartaMinutes());
@@ -144,15 +147,46 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
   }, [onListScroll]);
 
   function locate() {
-    if (!navigator.geolocation) return setGeoMsg("Browser ini tidak mendukung lokasi.");
-    setGeoMsg("Mencari lokasi Kakak...");
+    setGeoErr("");
+    if (!navigator.geolocation) return setGeoErr("Browser ini tidak mendukung lokasi. Pilih kota atau ketik nama jalan saja, Kak.");
+    setLocating(true);
     navigator.geolocation.getCurrentPosition(
-      (p) => { setPos([p.coords.latitude, p.coords.longitude]); setCity(""); setQ(""); setActive(null); setGeoMsg(""); listEl.current?.scrollTo({ top: 0, left: 0 }); },
-      () => setGeoMsg("Lokasi tidak bisa diakses. Pilih kota atau ketik nama jalan saja, Kak."),
-      { timeout: 10000 },
+      (p) => {
+        const here: [number, number] = [p.coords.latitude, p.coords.longitude];
+        // saringan kota dan pencarian dilepas, supaya kios terdekat di kota mana pun ikut dihitung
+        setLocating(false); setCity(""); setQ(""); setOnly(""); setPos(here);
+        const nearest = [...outlets].sort((a, b) => km(here, [a.lat, a.lng]) - km(here, [b.lat, b.lng]))[0];
+        fromScroll.current = false;
+        setActive(nearest?.id ?? null);
+        listEl.current?.scrollTo({ top: 0, left: 0 });
+        document.querySelector(".finder__chips")?.scrollTo({ left: 0, behavior: "smooth" });
+      },
+      (e) => {
+        setLocating(false);
+        setGeoErr(e.code === 1
+          ? "Izin lokasi ditolak, jadi daftar belum diurutkan. Izinkan akses lokasi untuk situs ini di browser (ikon gembok di kolom alamat), lalu tekan tombolnya lagi."
+          : "Lokasi Kakak belum terbaca, jadi daftar belum diurutkan. Pastikan GPS menyala, lalu coba lagi.");
+      },
+      { timeout: 12000, maximumAge: 60000 },
     );
   }
-  const reset = () => { setQ(""); setCity(""); setOnly(""); setPos(null); setActive(null); setGeoMsg(""); };
+  const reset = () => { setQ(""); setCity(""); setOnly(""); setPos(null); setActive(null); setGeoMsg(""); setGeoErr(""); };
+
+  // titik "Kakak di sini" di peta
+  useEffect(() => {
+    const m = map.current;
+    me.current?.remove();
+    me.current = null;
+    if (!m || !pos) return;
+    let dead = false;
+    import("leaflet").then((L) => {
+      if (dead || !map.current) return;
+      me.current = L.circleMarker(pos, { radius: 8, color: "#fffaf1", weight: 4, fillColor: "#1e1a17", fillOpacity: 1 }).addTo(map.current).bindTooltip("Kakak di sini", { permanent: true, direction: "top", offset: [0, -8] });
+      const near = [...outlets].sort((a, b) => km(pos, [a.lat, a.lng]) - km(pos, [b.lat, b.lng])).slice(0, 3);
+      map.current.fitBounds([pos, ...near.map((o) => [o.lat, o.lng] as [number, number])], { padding: [56, 56], maxZoom: 14 });
+    });
+    return () => { dead = true; };
+  }, [pos, outlets]);
   const filtered = Boolean(q || city || only || pos);
 
   let lastCity = "";
@@ -164,9 +198,9 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 5 5" /></svg>
           <input id="cari" type="search" value={q} onChange={(e) => { setQ(e.target.value); setActive(null); }} placeholder="Cari nama kios, jalan, atau kota" autoComplete="off" />
         </div>
-        <button type="button" className={`btn btn--red finder__near${pos ? " is-on" : ""}`} onClick={locate}>
+        <button type="button" className={`btn btn--red finder__near${pos ? " is-on" : ""}`} onClick={locate} disabled={locating}>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-7.1 7-12.3A7 7 0 0 0 5 9.7C5 14.9 12 22 12 22Z" /><circle cx="12" cy="9.6" r="2.6" /></svg>
-          {pos ? "Terdekat dari saya" : "Kios terdekat dari saya"}
+          {locating ? "Mencari lokasi Kakak..." : pos ? "Perbarui lokasi saya" : "Kios terdekat dari saya"}
         </button>
       </div>
 
@@ -179,6 +213,13 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
         <button type="button" className="finder__flag" aria-pressed={only === "open"} onClick={() => { setOnly(only === "open" ? "" : "open"); setActive(null); }}>Buka sekarang</button>
         {soonCount > 0 && <button type="button" className="finder__flag" aria-pressed={only === "soon"} onClick={() => { setOnly(only === "soon" ? "" : "soon"); setActive(null); }}>Segera buka <b>{soonCount}</b></button>}
       </div>
+
+      {geoErr && (
+        <p className="finder__alert" role="alert">
+          <span>{geoErr}</span>
+          <button type="button" onClick={() => setGeoErr("")}>Tutup</button>
+        </p>
+      )}
 
       <div className="finder__panel">
         <div className="finder__side">
