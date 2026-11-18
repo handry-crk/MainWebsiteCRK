@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { track } from "@/lib/track";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Map as LMap, CircleMarker } from "leaflet";
@@ -260,6 +261,7 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
                         <a className="btn btn--red btn--sm" href={mapsUrl(o)} target="_blank" rel="noopener">Petunjuk arah</a>
                         {o.gofood && <a className="btn btn--line btn--sm" href={o.gofood} target="_blank" rel="noopener">GoFood</a>}
                         {o.grabfood && <a className="btn btn--line btn--sm" href={o.grabfood} target="_blank" rel="noopener">GrabFood</a>}
+                        {o.slug && <Link className="tlink kios__page" href={`/locations/${o.slug}`}>Halaman kios</Link>}
                       </div>
                     </div>
                   </article>
