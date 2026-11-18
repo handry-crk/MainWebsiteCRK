@@ -39,6 +39,8 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
   const [geoMsg, setGeoMsg] = useState("");
   const [geoErr, setGeoErr] = useState("");
   const [locating, setLocating] = useState(false);
+  const [touch, setTouch] = useState(false);
+  const [mapFree, setMapFree] = useState(false);
   const [now, setNow] = useState<number | null>(null); // diisi setelah tampil, supaya HTML server dan browser sama
   const mapEl = useRef<HTMLDivElement>(null);
   const listEl = useRef<HTMLDivElement>(null);
@@ -84,7 +86,10 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
     let dead = false;
     import("leaflet").then((L) => {
       if (dead || !mapEl.current || map.current) return;
-      const m = L.map(mapEl.current, { scrollWheelZoom: false, zoomControl: false }).setView([-6.5, 107], 9);
+      // Di layar sentuh, geser satu jari dipakai untuk scroll halaman, bukan menggeser peta.
+      const coarse = window.matchMedia("(pointer: coarse)").matches;
+      setTouch(coarse);
+      const m = L.map(mapEl.current, { scrollWheelZoom: false, zoomControl: false, dragging: !coarse }).setView([-6.5, 107], 9);
       L.control.zoom({ position: "bottomright" }).addTo(m);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap", maxZoom: 18 }).addTo(m);
       for (const o of outlets) {
@@ -262,7 +267,15 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
             })}
           </div>
         </div>
-        <div className="finder__map" ref={mapEl} aria-label="Peta kios" />
+        <div className="finder__mapwrap">
+          <div className="finder__map" ref={mapEl} aria-label="Peta kios" />
+          {touch && (
+            <button type="button" className="finder__lock" aria-pressed={mapFree}
+              onClick={() => { const on = !mapFree; setMapFree(on); if (on) map.current?.dragging.enable(); else map.current?.dragging.disable(); }}>
+              {mapFree ? "Kunci peta" : "Geser peta"}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
