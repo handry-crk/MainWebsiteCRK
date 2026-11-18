@@ -1,4 +1,5 @@
 "use client";
+import { track } from "@/lib/track";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { prices, rp } from "@/lib/price";
@@ -63,6 +64,7 @@ export function CartProvider({ whatsapp, hint, children }: { whatsapp: string; h
       return hit ? prev.map((p) => (p === hit ? { ...p, qty: p.qty + 1 } : p)) : [...prev, l];
     });
     setBump((b) => b + 1);
+    track("add_to_cart", { item_name: i.name });
   }, [level]);
 
   const change = (key: string, patch: Partial<Line>) => setLines((prev) => {
@@ -96,6 +98,7 @@ export function CartProvider({ whatsapp, hint, children }: { whatsapp: string; h
       ...(String(fd.get("catatan") ?? "").trim() ? [`Catatan: ${String(fd.get("catatan")).trim()}`] : []),
     ].join("\n");
     window.open(`https://wa.me/${whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
+    track("begin_checkout", { value: total, currency: "IDR", items: lines.reduce((n, l) => n + l.qty, 0), region });
     setNote("WhatsApp terbuka di tab baru. Tinggal tekan kirim, Kak.");
   }
 

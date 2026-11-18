@@ -57,15 +57,38 @@ export const contentSchema: ContentGroup[] = [
     ],
   },
   {
+    page: "Our Brands & Products",
+    fields: [
+      { key: "brands_intro", label: "Kalimat pembuka", type: "textarea", def: "Saat ini rumah kami diisi Cimol Bojot AA. Semua menu dan harganya ada di halaman ini." },
+      { key: "brands_other", label: "Brand lain di bawah CRK Group", type: "textarea", ph: "[ISI: brand lain di bawah CRK Group, bila ada]", hint: "Kosong = bagian \"Brand lain\" disembunyikan setelah penanda dimatikan" },
+    ],
+  },
+  {
+    page: "Store Locations",
+    fields: [
+      { key: "locations_intro", label: "Kalimat pembuka", type: "textarea", def: "Pilih kota, ketik nama jalan, atau pakai lokasi Kakak." },
+    ],
+  },
+  {
+    page: "News & Updates",
+    fields: [
+      { key: "news_intro", label: "Kalimat pembuka", type: "textarea", def: "Kios baru, produk baru, promo, dan cerita dari dapur CRK Group." },
+    ],
+  },
+  {
     page: "Careers",
-    fields: n(3).flatMap((i): ContentField[] => [
-      { key: `careers_reason_${i}_title`, label: `Alasan ${i}, judul`, ph: `[ISI: alasan ${i}]` },
-      { key: `careers_reason_${i}_text`, label: `Alasan ${i}, penjelasan`, ph: "[ISI: penjelasan satu kalimat]" },
-    ]),
+    fields: [
+      { key: "careers_intro", label: "Kalimat pembuka", type: "textarea", def: "Dari crew gerobak dan kios sampai tim kantor. Posisi yang lagi dibuka ada di bawah, lamarannya bisa lewat form atau WhatsApp." },
+      ...n(3).flatMap((i): ContentField[] => [
+        { key: `careers_reason_${i}_title`, label: `Alasan ${i}, judul`, ph: `[ISI: alasan ${i}]` },
+        { key: `careers_reason_${i}_text`, label: `Alasan ${i}, penjelasan`, ph: "[ISI: penjelasan satu kalimat]" },
+      ]),
+    ],
   },
   {
     page: "Partnership",
     fields: [
+      { key: "partnership_intro", label: "Kalimat pembuka", type: "textarea", def: "Buat acara kantor, hampers, reseller Frozen, sampai buka titik baru. Ngobrol aja dulu." },
       { key: "partner_type_1_text", label: "Pesanan acara dan kantor", type: "textarea", def: "Cimol buat rapat, ulang tahun kantor, atau acara komunitas.", hint: "Tambahkan minimal pesanan dan area layanan" },
       { key: "partner_type_2_text", label: "Hampers Frozen", type: "textarea", def: "Cimol Frozen dikemas jadi bingkisan.", hint: "Tambahkan pilihan paket dan waktu pesan" },
       { key: "partner_type_3_text", label: "Reseller dan agen Frozen", type: "textarea", def: "Jual Cimol Bojot AA Frozen di kota Kakak.", hint: "Tambahkan syarat dan skema" },
@@ -73,12 +96,30 @@ export const contentSchema: ContentGroup[] = [
     ],
   },
   {
-    page: "Footer dan keranjang",
+    page: "Contact Us",
+    fields: [
+      { key: "contact_intro", label: "Kalimat pembuka", type: "textarea", def: "Pertanyaan, keluhan, atau ajakan kerja sama. Paling cepat lewat WhatsApp." },
+      { key: "contact_office_address", label: "Alamat kantor", type: "textarea", ph: "[ISI: alamat kantor]" },
+      { key: "contact_office_hours", label: "Jam kerja dan email", ph: "[ISI: jam kerja dan email]" },
+    ],
+  },
+  {
+    page: "Footer, form, dan keranjang",
     note: "Tampil di semua halaman.",
     fields: [
       { key: "footer_lead", label: "Kalimat di footer", def: "CRK Group. Street food naik kelas, dari Bandung." },
       { key: "footer_tape_count", label: "Pita footer, jumlah titik", def: "500+ titik gerobak", max: 28 },
+      { key: "form_consent", label: "Kalimat di bawah form", def: "Data di form ini kami pakai untuk menghubungi Kakak soal kiriman ini.", hint: "Tampil di form Careers, Partnership, dan Contact Us, diikuti tautan Kebijakan Privasi bila sudah diisi" },
       { key: "cart_hint", label: "Catatan harga di keranjang", type: "textarea", def: "Harga bisa beda sedikit di tiap gerobak dan kios. Tim kami mengonfirmasi total dan cara ambil atau kirim lewat WhatsApp." },
+    ],
+  },
+  {
+    page: "Kebijakan Privasi",
+    note: "Isi dari klien atau penasihat hukumnya. Fakta teknis website ini: form menyimpan nama, nomor WhatsApp, dan isi pesan di database; isi keranjang hanya disimpan di browser pengunjung; Google Analytics aktif bila ID-nya diisi di Pengaturan. Selama isi kebijakan kosong dan penanda dimatikan, halaman /privacy dan tautannya tidak tampil.",
+    fields: [
+      { key: "privacy_updated", label: "Berlaku sejak", ph: "[ISI: tanggal berlaku]", hint: "Mis. 1 Desember 2026" },
+      { key: "privacy_body", label: "Isi kebijakan", type: "textarea", ph: "[ISI: isi kebijakan privasi. Data apa yang dikumpulkan, untuk apa, disimpan berapa lama, dibagikan ke siapa, dan cara meminta perbaikan atau penghapusan.]", hint: "Pisahkan paragraf dengan satu baris kosong" },
+      { key: "privacy_contact", label: "Kontak soal data pribadi", ph: "[ISI: email atau nomor untuk permintaan soal data pribadi]" },
     ],
   },
   {
@@ -101,13 +142,6 @@ export const contentSchema: ContentGroup[] = [
       { key: "seo_partnership_desc", label: "Partnership, deskripsi", type: "textarea", def: "Kerja sama dengan CRK Group dan Cimol Bojot AA: pesanan acara dan kantor, hampers Frozen, reseller dan agen Frozen, serta kemitraan titik outlet.", max: 155 },
       { key: "seo_contact_title", label: "Contact Us, judul", def: "Kontak dan WhatsApp Cimol Bojot AA", max: 48 },
       { key: "seo_contact_desc", label: "Contact Us, deskripsi", type: "textarea", def: "Hubungi CRK Group dan Cimol Bojot AA lewat WhatsApp customer service, tim kemitraan, atau form pesan.", max: 155 },
-    ],
-  },
-  {
-    page: "Contact Us",
-    fields: [
-      { key: "contact_office_address", label: "Alamat kantor", type: "textarea", ph: "[ISI: alamat kantor]" },
-      { key: "contact_office_hours", label: "Jam kerja dan email", ph: "[ISI: jam kerja dan email]" },
     ],
   },
 ];

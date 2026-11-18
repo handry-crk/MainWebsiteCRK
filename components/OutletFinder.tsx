@@ -1,4 +1,5 @@
 "use client";
+import { track } from "@/lib/track";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Map as LMap, CircleMarker } from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -159,7 +160,7 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
       (p) => {
         const here: [number, number] = [p.coords.latitude, p.coords.longitude];
         // saringan kota dan pencarian dilepas, supaya kios terdekat di kota mana pun ikut dihitung
-        setLocating(false); setCity(""); setQ(""); setOnly(""); setPos(here);
+        track("locate_me"); setLocating(false); setCity(""); setQ(""); setOnly(""); setPos(here);
         const nearest = [...outlets].sort((a, b) => km(here, [a.lat, a.lng]) - km(here, [b.lat, b.lng]))[0];
         fromScroll.current = false;
         setActive(nearest?.id ?? null);

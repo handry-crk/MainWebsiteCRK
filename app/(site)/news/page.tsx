@@ -10,7 +10,7 @@ export default async function News() {
   const [first, ...rest] = news;
   return (
     <>
-      <PageHero crumb="News & Updates" path="/news" seed={19} lines={["Kabar", "terbaru."]} intro="Kios baru, produk baru, promo, dan cerita dari dapur CRK Group.">
+      <PageHero crumb="News & Updates" path="/news" seed={19} lines={["Kabar", "terbaru."]} intro={c.t("news_intro")}>
         <Image className="phero__mascot phero__mascot--s" {...c.mascotSmall} alt="" priority sizes="(max-width: 900px) 40vw, 260px" />
       </PageHero>
       <section className="sec">

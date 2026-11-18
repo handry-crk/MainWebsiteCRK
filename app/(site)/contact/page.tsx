@@ -11,7 +11,7 @@ export default async function Contact() {
   const office = [c.t("contact_office_address"), c.t("contact_office_hours")].filter(Boolean);
   return (
     <>
-      <PageHero crumb="Contact Us" path="/contact" seed={37} lines={["Ngobrol,", "yuk."]} intro="Pertanyaan, keluhan, atau ajakan kerja sama. Paling cepat lewat WhatsApp.">
+      <PageHero crumb="Contact Us" path="/contact" seed={37} lines={["Ngobrol,", "yuk."]} intro={c.t("contact_intro")}>
         <Image className="phero__mascot phero__mascot--s" {...c.mascotSmall} alt="" priority sizes="(max-width: 900px) 40vw, 260px" />
       </PageHero>
       <section className="sec">
@@ -41,6 +41,8 @@ export default async function Contact() {
             <p>Isi form ini, kami balas lewat WhatsApp di jam kerja.</p>
           </div>
           <LeadForm
+            consent={c.t("form_consent")}
+            privacy={Boolean(c.t("privacy_body"))}
             kind="contact"
             whatsapp={st.whatsappCs}
             intro="Halo CRK Group, saya mau menyampaikan pesan."

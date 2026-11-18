@@ -79,3 +79,12 @@ Form Careers, Partnership, dan Contact menyimpan ke tabel `submissions` dan munc
 
 ## Belum dikerjakan
 GA4 dan event klik, halaman per outlet, notifikasi saat ada form masuk, fitur lupa kata sandi di admin, isi konten dan aset asli dari klien.
+
+## Keamanan, form, dan pelacakan (20 Nov 2026)
+- **Lupa kata sandi admin**: tombol di halaman masuk `/admin`. Supabase mengirim tautan ke email; tautannya kembali ke `/admin` untuk membuat kata sandi baru. Wajib: di Supabase > Authentication > URL Configuration, isi **Site URL** dengan domain website dan tambahkan `https://domain/admin` ke **Redirect URLs**. Email bawaan Supabase dibatasi beberapa kiriman per jam; untuk pemakaian rutin pasang SMTP sendiri.
+- **Kiriman baru**: angka di menu Kotak masuk dan di judul tab browser, diperbarui tiap menit.
+- **Anti-spam form**: jalankan `supabase/guard-2026-11-20.sql` sekali. Batas per jam: 5 per pengirim, 3 per nomor WhatsApp, 60 seluruh website. Di browser ada kolom jebakan dan jeda 3 detik.
+- **Google Analytics 4**: isi Measurement ID di Admin > Pengaturan. Event: `whatsapp_click`, `directions_click`, `order_link_click`, `generate_lead`, `add_to_cart`, `begin_checkout`, `locate_me`.
+- **Header keamanan** (CSP, HSTS, X-Frame-Options, dll.) diatur di `next.config.ts`. Bila menambah layanan pihak ketiga (peta lain, widget, font luar), tambahkan domainnya ke CSP.
+- **Halaman galat**: `app/(site)/error.tsx` dan `app/global-error.tsx`.
+- **Kebijakan Privasi** (`/privacy`): isinya dari Admin > Konten halaman. Selama kosong dan penanda dimatikan, halaman dan tautannya tidak tampil.

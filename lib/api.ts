@@ -154,6 +154,7 @@ export async function getSettings() {
   if (supabaseConfigured) for (const r of (await rows<{ key: string; value: string }>("site_settings", "key")) ?? []) s[r.key] = r.value.trim();
   return {
     showPlaceholders: s.show_placeholders !== "0",
+    gaId: /^G-[A-Z0-9]{4,}$/.test(s.ga_id ?? "") ? s.ga_id : "",
     whatsappCs: s.whatsapp_cs || brand.whatsappCs,
     whatsappPartnership: s.whatsapp_partnership || brand.whatsappPartnership,
     instagram: s.instagram || brand.instagram,

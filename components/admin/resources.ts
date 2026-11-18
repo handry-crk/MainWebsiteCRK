@@ -87,6 +87,7 @@ export const settingKeys: [string, string, string][] = [
   ["tokopedia", "Tokopedia", ""],
   ["shopee", "Shopee", ""],
   ["tiktokshop", "TikTok Shop", ""],
+  ["ga_id", "Google Analytics 4 (Measurement ID)", "Format G-XXXXXXXXXX. Kosong = website tanpa pelacakan"],
 ];
 
 // ---------- CSV ----------
