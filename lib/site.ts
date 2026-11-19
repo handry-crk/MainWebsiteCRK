@@ -28,3 +28,12 @@ export function breadcrumbLd(title: string, path: string, parent?: { name: strin
     ],
   };
 }
+
+// Tautan keluar ke marketplace diberi UTM supaya kunjungan dari website terbaca di laporan toko.
+export function withUtm(url: string, campaign: string) {
+  try {
+    const u = new URL(url);
+    if (!u.searchParams.has("utm_source")) { u.searchParams.set("utm_source", "website"); u.searchParams.set("utm_medium", "referral"); u.searchParams.set("utm_campaign", campaign); }
+    return u.toString();
+  } catch { return url; }
+}

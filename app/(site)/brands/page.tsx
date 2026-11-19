@@ -3,7 +3,8 @@ import { Button } from "@/components/Button";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { AddToCart } from "@/components/shop/cart";
-import { getContent, getMenu, getSettings, seoMeta } from "@/lib/api";
+import Link from "next/link";
+import { getContent, getFrozen, getMenu, getSettings, seoMeta } from "@/lib/api";
 import { siteUrl } from "@/lib/site";
 
 export const generateMetadata = () => seoMeta("brands", "/brands");
@@ -11,7 +12,7 @@ export const generateMetadata = () => seoMeta("brands", "/brands");
 const firstPrice = (s: string) => s.split("/")[0].trim().replace(/\./g, "");
 
 export default async function Brands() {
-  const [menu, st, c] = await Promise.all([getMenu(), getSettings(), getContent()]);
+  const [menu, st, c, fz] = await Promise.all([getMenu(), getSettings(), getContent(), getFrozen()]);
   const photos = menu.flatMap((cat) => cat.items.filter((i) => i.photo).map((i) => ({ ...i, photo: i.photo! })));
   const orderLinks: [string, string][] = [
     ["GoFood", st.order.gofood], ["GrabFood", st.order.grabfood], ["ShopeeFood", st.order.shopeefood],
@@ -97,6 +98,7 @@ export default async function Brands() {
           <div className="prose">
             <h2 className="h2">Pesan dari rumah</h2>
             <p>Cimol siap makan lewat aplikasi ojol, Cimol Frozen lewat marketplace.</p>
+            {fz.ready && <Link className="tlink" href="/frozen">Lihat varian dan cara goreng Cimol Frozen</Link>}
           </div>
           <ul className="links">
             {orderLinks.map(([name, url]) => (

@@ -146,15 +146,41 @@ export async function getContent() {
     const f = contentFields[key];
     return f?.def ?? (st.showPlaceholders ? f?.ph ?? "" : "");
   };
+  // v(key): hanya isi yang sungguh ada (dari admin atau teks bawaan). Tidak pernah mengembalikan penanda [ISI: ...];
+  // dipakai untuk data terstruktur dan llms.txt, yang dikutip mesin apa adanya.
+  const v = (key: string) => {
+    const x = raw[key]?.trim() || contentFields[key]?.def || "";
+    return x.includes("[ISI") ? "" : x;
+  };
   const img = (key: string, fallback: Img): Img => parseImg(raw[key]) ?? fallback;
   return {
     t,
+    v,
+    showPlaceholders: st.showPlaceholders,
     logo: img("img_logo", brand.logo),
     mascot: img("img_mascot", brand.mascot),
     mascotSmall: img("img_mascot_small", brand.mascotSmall),
     kiosk: img("img_kiosk", brand.kiosk),
     aboutStory: parseImg(raw.img_about_story),
   };
+}
+
+// ---------- Frozen ----------
+type FrozenRow = { id: string; name: string; variant: string; flavor: string; sku: string; description: string; pack_count: number; pack_weight_g: number | null; pieces_per_pack: string; price: number | null; photo_url: string | null; shopee_url: string | null; tokopedia_url: string | null; tiktok_url: string | null; is_available: boolean; is_published: boolean };
+
+export async function getFrozen(): Promise<{ products: seed.FrozenProduct[]; faqs: seed.FrozenFaq[]; ready: boolean }> {
+  "use cache";
+  cacheLife("minutes");
+  let products = seed.frozenProducts, faqs = seed.frozenFaqs;
+  if (supabaseConfigured) {
+    // Tabel belum dibuat (frozen-2026-11-19.sql belum dijalankan) = rows() mengembalikan null: pakai isi awal.
+    const [p, f] = await Promise.all([rows<FrozenRow>("frozen_products", "sort"), rows<{ question: string; answer: string; is_published: boolean }>("frozen_faqs", "sort")]);
+    if (p) products = p.filter((r) => r.is_published).map((r) => ({ id: r.id, name: r.name, variant: r.variant, flavor: r.flavor, sku: r.sku, description: r.description, packCount: r.pack_count || 1, weightG: r.pack_weight_g, pieces: r.pieces_per_pack, price: r.price, photo: parseImg(r.photo_url) ?? undefined, shopee: r.shopee_url ?? undefined, tokopedia: r.tokopedia_url ?? undefined, tiktok: r.tiktok_url ?? undefined, available: r.is_available }));
+    if (f) faqs = f.filter((r) => r.is_published).map((r) => ({ q: r.question, a: r.answer }));
+  }
+  // Siap tayang = minimal satu produk punya harga dan tautan beli. Sebelum itu halaman tidak ditautkan dan tidak diindeks.
+  const ready = products.some((p) => p.price && (p.shopee || p.tokopedia || p.tiktok));
+  return { products, faqs, ready };
 }
 
 // Judul dan deskripsi halaman dari Admin > Konten halaman > SEO.

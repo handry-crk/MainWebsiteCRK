@@ -11,7 +11,7 @@ type Row = Record<string, unknown>;
 
 const tabs: [string, string, boolean][] = [
   ["home", "Ringkasan", false], ["inbox", "Kotak masuk", false], ["products", "Menu dan harga", false], ["outlets", "Outlet", false],
-  ["articles", "Kabar", false], ["positions", "Lowongan", false], ["faqs", "FAQ kemitraan", false], ["content", "Konten halaman", false], ["settings", "Pengaturan", true], ["users", "Pengguna", true],
+  ["articles", "Kabar", false], ["positions", "Lowongan", false], ["faqs", "FAQ kemitraan", false], ["frozen_products", "Frozen: produk", false], ["frozen_faqs", "Frozen: tanya jawab", false], ["content", "Konten halaman", false], ["settings", "Pengaturan", true], ["users", "Pengguna", true],
 ];
 
 export function AdminApp() {
@@ -85,7 +85,7 @@ export function AdminApp() {
         {tab === "home" && <Summary go={setTab} />}
         {tab === "inbox" && <Inbox isAdmin={isAdmin} />}
         {tab === "outlets" && <Crud res={resources.outlets} extra={(reload, rows) => <OutletCsv reload={reload} rows={rows} />} />}
-        {["products", "articles", "positions", "faqs"].includes(tab) && <Crud res={resources[tab]} />}
+        {["products", "articles", "positions", "faqs", "frozen_products", "frozen_faqs"].includes(tab) && <Crud res={resources[tab]} />}
         {tab === "content" && <ContentEditor />}
         {tab === "settings" && isAdmin && <Settings />}
         {tab === "users" && isAdmin && <Users me={session.user.id} />}

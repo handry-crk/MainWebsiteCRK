@@ -5,11 +5,11 @@ import { JsonLd } from "@/components/JsonLd";
 import { Motion } from "@/components/Motion";
 import { CartProvider } from "@/components/shop/cart";
 import { brand } from "@/config/brand";
-import { getContent, getSettings } from "@/lib/api";
+import { getContent, getFrozen, getSettings } from "@/lib/api";
 import { siteUrl } from "@/lib/site";
 
 export default async function SiteLayout({ children }: LayoutProps<"/">) {
-  const [{ logo, t }, st] = await Promise.all([getContent(), getSettings()]);
+  const [{ logo, t }, st, fz] = await Promise.all([getContent(), getSettings(), getFrozen()]);
   const abs = (u: string) => (u.startsWith("http") ? u : siteUrl + u);
   const org = {
     "@context": "https://schema.org",
@@ -35,7 +35,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
       <a className="skip" href="#main">Langsung ke isi</a>
       <Header logo={logo} />
       <main id="main">{children}</main>
-      <Footer lead={t("footer_lead")} count={t("footer_tape_count")} privacy={Boolean(t("privacy_body"))} />
+      <Footer lead={t("footer_lead")} count={t("footer_tape_count")} privacy={Boolean(t("privacy_body"))} frozen={fz.ready} />
       <Motion />
       {st.gaId && <Analytics id={st.gaId} />}
     </CartProvider>
