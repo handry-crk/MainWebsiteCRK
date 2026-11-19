@@ -143,7 +143,7 @@ function NewPassword({ done }: { done: () => void }) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const a = String(fd.get("baru")), b = String(fd.get("ulang"));
-    if (a.length < 10) return setMsg("Kata sandi minimal 10 karakter.");
+    if (a.length < 6) return setMsg("Kata sandi minimal 6 karakter.");
     if (a !== b) return setMsg("Dua isian kata sandi belum sama.");
     setBusy(true);
     const { error } = await browserClient().auth.updateUser({ password: a });
@@ -155,8 +155,8 @@ function NewPassword({ done }: { done: () => void }) {
   return (
     <form className="adm-form" onSubmit={submit}>
       <h1>Kata sandi baru</h1>
-      <div className="adm-f"><label htmlFor="baru">Kata sandi baru</label><input id="baru" name="baru" type="password" required minLength={10} autoComplete="new-password" /><small>Minimal 10 karakter.</small></div>
-      <div className="adm-f"><label htmlFor="ulang">Ulangi kata sandi baru</label><input id="ulang" name="ulang" type="password" required minLength={10} autoComplete="new-password" /></div>
+      <div className="adm-f"><label htmlFor="baru">Kata sandi baru</label><input id="baru" name="baru" type="password" required minLength={6} autoComplete="new-password" /><small>Minimal 6 karakter.</small></div>
+      <div className="adm-f"><label htmlFor="ulang">Ulangi kata sandi baru</label><input id="ulang" name="ulang" type="password" required minLength={6} autoComplete="new-password" /></div>
       <button className="adm-btn adm-btn--main" disabled={busy}>{busy ? "Menyimpan..." : "Simpan kata sandi"}</button>
       <button type="button" className="adm-link" onClick={done}>Batal</button>
       <p role="alert" className="adm-msg">{msg}</p>
