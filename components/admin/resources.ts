@@ -66,6 +66,36 @@ export const resources: Record<string, Resource> = {
       { key: "is_open", label: "Lowongan dibuka", type: "bool", def: true, list: true },
     ],
   },
+  frozen_products: {
+    table: "frozen_products", title: "Frozen: produk", one: "produk Frozen", order: "sort",
+    fields: [
+      { key: "name", label: "Nama produk", required: true, list: true, hint: "Mis. Cimol Bojot AA Frozen Mozzarella Balado. Samakan dengan judul listing marketplace" },
+      { key: "variant", label: "Isi", type: "select", options: ["Mozzarella", "Ayam", "Paket"], def: "Mozzarella", list: true, hint: "Paket = bundling beberapa pack" },
+      { key: "flavor", label: "Rasa bumbu", list: true },
+      { key: "price", label: "Harga (rupiah, angka saja)", type: "number", list: true, hint: "Harus sama dengan harga di tautan beli. Kosong = tampil tanpa harga" },
+      { key: "pack_count", label: "Jumlah pack", type: "number", def: 1, hint: "1 untuk satuan; 3 atau 5 untuk paket" },
+      { key: "pack_weight_g", label: "Berat per pack (gram)", type: "number" },
+      { key: "pieces_per_pack", label: "Jumlah butir per pack", hint: "Opsional. Mis. 20 atau 18-22" },
+      { key: "description", label: "Deskripsi satu kalimat", type: "textarea" },
+      { key: "sku", label: "SKU", hint: "Opsional. Kode produk internal" },
+      { key: "photo_url", label: "Foto kemasan", type: "image", hint: "Sebaiknya persegi" },
+      { key: "shopee_url", label: "Tautan listing Shopee", hint: "Tautan produk ini, bukan tautan toko" },
+      { key: "tokopedia_url", label: "Tautan listing Tokopedia" },
+      { key: "tiktok_url", label: "Tautan listing TikTok Shop" },
+      { key: "sort", label: "Urutan", type: "number", def: 0 },
+      { key: "is_available", label: "Stok tersedia", type: "bool", def: true, list: true, hint: "Tidak = tampil dengan label Stok habis" },
+      { key: "is_published", label: "Tampil di website", type: "bool", def: true, list: true },
+    ],
+  },
+  frozen_faqs: {
+    table: "frozen_faqs", title: "Frozen: tanya jawab", one: "pertanyaan", order: "sort",
+    fields: [
+      { key: "question", label: "Pertanyaan", required: true, list: true, hint: "Pakai kalimat yang dipakai pembeli" },
+      { key: "answer", label: "Jawaban", type: "textarea", hint: "Jawaban yang masih memuat [ISI tidak masuk data untuk Google dan AI" },
+      { key: "sort", label: "Urutan", type: "number", def: 0, list: true },
+      { key: "is_published", label: "Tampil di website", type: "bool", def: true, list: true },
+    ],
+  },
   faqs: {
     table: "faqs", title: "FAQ kemitraan", one: "pertanyaan", order: "sort",
     fields: [

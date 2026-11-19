@@ -16,7 +16,8 @@ export function Analytics({ id }: { id: string }) {
     const onClick = (e: MouseEvent) => {
       const a = (e.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
       if (!a) return;
-      const href = a.href, base = { link_text: (a.textContent ?? "").trim().slice(0, 60), page: location.pathname };
+      const href = a.href, base: Record<string, string> = { link_text: (a.textContent ?? "").trim().slice(0, 60), page: location.pathname };
+      if (a.dataset.item) base.item_name = a.dataset.item;
       if (/wa\.me|api\.whatsapp\.com/.test(href)) return track("whatsapp_click", base);
       if (/google\.[a-z.]+\/maps|maps\.app\.goo\.gl|goo\.gl\/maps/.test(href)) return track("directions_click", base);
       const hit = platforms.find(([re]) => re.test(href));

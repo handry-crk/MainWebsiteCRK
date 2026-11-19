@@ -93,3 +93,11 @@ GA4 dan event klik, halaman per outlet, notifikasi saat ada form masuk, fitur lu
 - Alamat: `/locations/<nama-kios>` (mis. `/locations/kios-margonda`), dibuat otomatis dari nama kios di Admin > Outlet. Mengganti nama kios ikut mengganti alamat halamannya.
 - Isi: alamat, patokan, jam buka, petunjuk arah, tautan ojol, kios lain di kota yang sama. Data terstruktur Restaurant hanya untuk kios yang sudah buka, tanpa jam buka dan koordinat sampai datanya pasti.
 - Semua halaman kios masuk sitemap. Pakai alamat halaman ini sebagai tautan "Website" di Google Business Profile tiap kios.
+
+## Halaman Frozen (`/frozen`)
+- Jalankan `supabase/frozen-2026-11-19.sql` sekali (tabel `frozen_products` dan `frozen_faqs`, berisi 10 varian tanpa harga dan 8 pertanyaan). Sebelum dijalankan, halaman memakai isi awal yang sama dari kode.
+- Isi di admin: **Frozen: produk** (harga, berat, foto, tautan listing per marketplace, stok), **Frozen: tanya jawab**, dan **Konten halaman > Frozen** (cara goreng, simpan, area kirim, jam potong order, nomor halal dan izin edar).
+- Halaman baru ditautkan (footer, halaman menu), masuk sitemap dan `llms.txt`, serta boleh diindeks setelah minimal satu produk punya harga dan tautan beli. Sebelum itu `/frozen` bisa dibuka langsung tetapi diberi `noindex`.
+- Penanda `[ISI: ...]` tidak pernah masuk JSON-LD maupun `llms.txt`. Tanpa harga atau tautan beli, produk tampil tanpa blok `offers`. Status halal hanya tampil bila nomornya diisi.
+- JSON-LD: `Product` per produk, `FAQPage`, `BreadcrumbList`. Tautan beli diberi `utm_source=website&utm_medium=referral&utm_campaign=frozen`; klik tercatat di GA4 sebagai `order_link_click` dengan `platform` dan `item_name`.
+- Belum dikerjakan: feed Google Merchant Center (tahap 2 di brief).

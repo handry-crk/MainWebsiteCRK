@@ -64,6 +64,24 @@ export const contentSchema: ContentGroup[] = [
     ],
   },
   {
+    page: "Frozen",
+    note: "Info produk untuk halaman /frozen. Produk dan tanya jawab diisi di menu Frozen. Isian yang kosong tidak ditampilkan di data untuk Google dan AI. Halaman baru ditautkan dan diindeks setelah minimal satu produk punya harga dan tautan beli.",
+    fields: [
+      { key: "frozen_sub", label: "Kalimat pembuka", type: "textarea", def: "Cimol mentah beku plus bumbu bojot, tinggal goreng di rumah." },
+      { key: "frozen_pack", label: "Isi dan berat per pack", ph: "[ISI dari QC: berat gram dan kisaran jumlah butir per pack]" },
+      { key: "frozen_seasoning", label: "Bumbu", ph: "[ISI dari QC: bumbu bojot terpisah atau tercampur]" },
+      { key: "frozen_cooking", label: "Cara goreng", type: "textarea", ph: "[ISI dari QC: langkah goreng, suhu minyak, lama goreng, perlu thawing atau tidak]", hint: "Satu langkah per baris" },
+      { key: "frozen_storage", label: "Cara simpan", type: "textarea", ph: "[ISI dari QC: cara simpan]" },
+      { key: "frozen_shelf_life", label: "Masa simpan", ph: "[ISI dari QC: masa simpan di freezer dan di chiller]" },
+      { key: "frozen_area", label: "Area kirim", ph: "[ISI dari Ops: area kirim yang sudah teruji]", hint: "Mis. Bandung Raya. Dipakai juga di data untuk Google" },
+      { key: "frozen_method", label: "Metode kirim dan kemasan", type: "textarea", ph: "[ISI dari Ops: metode kirim dan cara kemas]" },
+      { key: "frozen_cutoff", label: "Jam potong order", ph: "[ISI dari Ops: order sebelum jam berapa dikirim hari yang sama]" },
+      { key: "frozen_outside", label: "Kalimat untuk luar area", ph: "[ISI dari Ops: kalimat bahwa luar area kirim belum dilayani]" },
+      { key: "frozen_halal_no", label: "Nomor sertifikat halal", hint: "Kosong = status halal tidak ditampilkan sama sekali" },
+      { key: "frozen_permit_no", label: "Nomor izin edar (PIRT atau BPOM)", hint: "Kosong = tidak ditampilkan" },
+    ],
+  },
+  {
     page: "Store Locations",
     fields: [
       { key: "locations_intro", label: "Kalimat pembuka", type: "textarea", def: "Pilih kota, ketik nama jalan, atau pakai lokasi Kakak." },
@@ -134,6 +152,8 @@ export const contentSchema: ContentGroup[] = [
       { key: "seo_brands_desc", label: "Our Brands & Products, deskripsi", type: "textarea", def: "Menu dan harga Cimol Bojot AA: Cimol Bojot, Mozza, Beef, Ayam, Mix, Kuah Keju, New Series, dan Cimol Frozen. Harga Bandung dan Jabodetabek.", max: 155 },
       { key: "seo_locations_title", label: "Store Locations, judul", def: "Lokasi Kios Cimol Bojot AA Terdekat", max: 48 },
       { key: "seo_locations_desc", label: "Store Locations, deskripsi", type: "textarea", def: "Cari kios Cimol Bojot AA terdekat di Bandung, Cimahi, Bogor, Depok, Bekasi, dan Tangerang. Ada alamat, jam buka, dan petunjuk arah.", max: 155 },
+      { key: "seo_frozen_title", label: "Frozen, judul", def: "Cimol Bojot AA Frozen, Cimol Beku Siap Goreng", max: 48 },
+      { key: "seo_frozen_desc", label: "Frozen, deskripsi", type: "textarea", def: "Cimol Bojot AA Frozen: cimol mentah beku plus bumbu bojot. Varian, harga, cara goreng, cara simpan, area kirim, dan tautan beli di marketplace.", max: 155 },
       { key: "seo_careers_title", label: "Careers, judul", def: "Lowongan Kerja Cimol Bojot AA", max: 48 },
       { key: "seo_careers_desc", label: "Careers, deskripsi", type: "textarea", def: "Lowongan kerja di CRK Group dan Cimol Bojot AA, dari crew gerobak dan kios sampai tim kantor di Bandung dan Jabodetabek.", max: 155 },
       { key: "seo_news_title", label: "News & Updates, judul", def: "Kabar Terbaru Cimol Bojot AA", max: 48 },
