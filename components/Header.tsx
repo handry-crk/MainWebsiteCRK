@@ -26,11 +26,11 @@ export function Header({ logo }: { logo: Img }) {
           ))}
         </nav>
         <Link href="/locations" className="btn btn--cream btn--sm hdr__cta">Cari kios</Link>
-        <button className="hdr__burger" aria-expanded={open} aria-controls="menu" onClick={() => setOpen(!open)}>
+        <button className="hdr__burger" aria-expanded={open} aria-controls="mnav" onClick={() => setOpen(!open)}>
           {open ? "Tutup" : "Menu"}
         </button>
       </div>
-      <div id="menu" className={`mnav${open ? " is-open" : ""}`} hidden={!open}>
+      <div id="mnav" className={`mnav${open ? " is-open" : ""}`} hidden={!open}>
         <nav className="wrap" aria-label="Menu">
           <Link href="/" onClick={() => setOpen(false)}>Home</Link>
           {nav.map((n) => (
