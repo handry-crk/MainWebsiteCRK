@@ -81,6 +81,7 @@ export function CartProvider({ whatsapp, hint, children }: { whatsapp: string; h
 
   const count = lines.reduce((s, l) => s + l.qty, 0);
   const total = lines.reduce((s, l) => s + unit(l, region) * l.qty, 0);
+  const sameBoth = lines.every((l) => unit(l, "bandung") === unit(l, "jabodetabek"));
 
   function order(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -145,6 +146,10 @@ export function CartProvider({ whatsapp, hint, children }: { whatsapp: string; h
                     <button type="button" aria-pressed={region === "bandung"} onClick={() => setRegion("bandung")}>Bandung</button>
                     <button type="button" aria-pressed={region === "jabodetabek"} onClick={() => setRegion("jabodetabek")}>Jabodetabek</button>
                   </div>
+                  {/* Sebagian menu harganya sama di dua wilayah; tanpa keterangan ini tombol wilayah terlihat seperti tidak berfungsi. */}
+                  <p className="cart__regionnote" role="status">
+                    {sameBoth ? "Menu di keranjang ini harganya sama di Bandung dan Jabodetabek." : `Memakai harga ${region === "bandung" ? "Bandung" : "Jabodetabek"}.`}
+                  </p>
                   <ul className="cart__list">
                     <AnimatePresence initial={false}>
                       {lines.map((l) => (

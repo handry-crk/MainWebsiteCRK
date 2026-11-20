@@ -1011,3 +1011,6 @@ body { overflow-x: clip; }
 .fz__card .todo { align-self: flex-start; }
 .fz__steps { list-style: decimal; display: grid; gap: var(--s3); padding-left: 1.4em; margin: 0; max-width: 56ch; }
 .fz__steps li::marker { font-weight: 800; color: var(--red-deep); }
+
+.cart__regionnote { margin: calc(var(--s2) * -1) 0 0; font-size: var(--t-small); font-weight: 600; opacity: 0.8; }
+section#menu { scroll-margin-top: 0; }
