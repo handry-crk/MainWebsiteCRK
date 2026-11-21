@@ -66,13 +66,10 @@ Setup sekali: jalankan `supabase/cms-2026-11-19.sql` di SQL Editor (tabel `page_
 - Isian kosong memakai teks bawaan bila ada. Isian wajib yang kosong tampil sebagai `[ISI: ...]` selama **Pengaturan > Tampilkan penanda** menyala, dan disembunyikan bila dimatikan (matikan sebelum launch).
 - **Unggah foto**: di Konten halaman (gambar halaman), Kabar (foto sampul), dan Menu dan harga (foto menu). Foto dikecilkan di browser ke maksimal 1600 px dan disimpan sebagai WebP di bucket `media`. File lama tidak dihapus otomatis saat diganti.
 
-## Fitur pesan (bento, level pedas, keranjang WhatsApp)
-Setup sekali: jalankan `supabase/shop-2026-11-19.sql` (kolom `badge` dan `has_spice` di `products`). Animasi memakai library `motion` (penerus Framer Motion).
-
-- **Bento menu** di Home (`components/shop/Bento.tsx`): menu andalan dapat kotak besar, lalu satu menu pertama dari tiap kategori, maksimal 7. Datanya dari tabel `products`; bila Supabase belum diatur memakai `data/seed.ts`.
-- **Meter level pedas** (`SpiceMeter.tsx`): nama level dan reaksi maskot ada di `components/shop/cart.tsx` (`LEVELS`). Level hanya berlaku untuk menu yang dicentang "Bisa pilih level pedas" di admin.
-- **Keranjang** (`cart.tsx`): tombol melayang + laci samping, tersimpan di perangkat pengunjung. Pesanan dikirim ke nomor **WhatsApp customer service** di Admin > Pengaturan; selama nomor kosong, tombol pesan hanya menampilkan pemberitahuan. Total adalah perkiraan.
-- **Hiasan hero** (`Floaters.tsx`): mengikuti kursor dan scroll; mati untuk pengunjung yang meminta animasi dikurangi.
+## Bento menu dan meter level pedas
+- **Bento menu** di Home (`components/shop/Bento.tsx`): menu andalan dapat kotak besar, menampilkan harga Bandung.
+- **Meter level pedas** (`SpiceMeter.tsx`): nama level dan reaksi maskot ada di `components/shop/levels.ts`. Hanya tampilan; tidak terhubung ke pemesanan.
+- Website tidak punya keranjang atau pemesanan lewat WhatsApp (dihapus 21 Nov 2026 atas permintaan). Jalur pesan: tautan ojol dan marketplace di halaman menu, tautan per kios, dan halaman Frozen.
 
 ## Form
 Form Careers, Partnership, dan Contact menyimpan ke tabel `submissions` dan muncul di Admin > Kotak masuk. Bila penyimpanan gagal dan nomor WhatsApp sudah diisi, pengunjung ditawari kirim lewat WhatsApp.
@@ -84,7 +81,7 @@ GA4 dan event klik, halaman per outlet, notifikasi saat ada form masuk, fitur lu
 - **Lupa kata sandi admin**: tombol di halaman masuk `/admin`. Supabase mengirim tautan ke email; tautannya kembali ke `/admin` untuk membuat kata sandi baru. Wajib: di Supabase > Authentication > URL Configuration, isi **Site URL** dengan domain website dan tambahkan `https://domain/admin` ke **Redirect URLs**. Email bawaan Supabase dibatasi beberapa kiriman per jam; untuk pemakaian rutin pasang SMTP sendiri.
 - **Kiriman baru**: angka di menu Kotak masuk dan di judul tab browser, diperbarui tiap menit.
 - **Anti-spam form**: jalankan `supabase/guard-2026-11-19.sql` sekali. Batas per jam: 5 per pengirim, 3 per nomor WhatsApp, 60 seluruh website. Di browser ada kolom jebakan dan jeda 3 detik.
-- **Google Analytics 4**: isi Measurement ID di Admin > Pengaturan. Event: `whatsapp_click`, `directions_click`, `order_link_click`, `generate_lead`, `add_to_cart`, `begin_checkout`, `locate_me`.
+- **Google Analytics 4**: isi Measurement ID di Admin > Pengaturan. Event: `whatsapp_click`, `directions_click`, `order_link_click`, `generate_lead`, `locate_me`.
 - **Header keamanan** (CSP, HSTS, X-Frame-Options, dll.) diatur di `next.config.ts`. Bila menambah layanan pihak ketiga (peta lain, widget, font luar), tambahkan domainnya ke CSP.
 - **Halaman galat**: `app/(site)/error.tsx` dan `app/global-error.tsx`.
 - **Kebijakan Privasi** (`/privacy`): isinya dari Admin > Konten halaman. Selama kosong dan penanda dimatikan, halaman dan tautannya tidak tampil.

@@ -825,7 +825,7 @@ body { overflow-x: clip; }
 .adm-img__act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); flex: 1; min-width: 200px; }
 .adm-img__act small { flex-basis: 100%; }
 
-/* ========== Fitur pesan: hiasan hero, bento, meter pedas, keranjang ========== */
+/* ========== Fitur pesan: hiasan hero, bento, meter pedas ========== */
 .floaters { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .floater { position: absolute; display: block; filter: drop-shadow(4px 5px 0 rgb(0 0 0 / 0.22)); }
 .floater > span, .floater svg { display: block; width: 100%; height: 100%; }
@@ -857,11 +857,6 @@ body { overflow-x: clip; }
 .bento__tile.has-photo h3, .bento__tile.has-photo p { max-width: 58%; }
 .bento__tile:not(.is-best) .bento__photo { width: 38%; bottom: 30%; }
 
-.add { display: inline-flex; align-items: center; justify-content: center; gap: 2px; min-height: 46px; padding: 0 var(--s4); border: 0; border-radius: 999px; background: var(--red); color: var(--cream); box-shadow: inset 0 0 0 3px var(--ink), 3px 4px 0 var(--ink); font: 400 1rem var(--f-display); word-spacing: -0.12em; cursor: pointer; white-space: nowrap; }
-.add span { font-size: 1.375rem; line-height: 1; }
-.add--mini { width: 40px; min-height: 40px; padding: 0; }
-.bento__tile--4 .add { background: var(--mustard); color: var(--ink); }
-.menu__add { width: 48px; padding-left: var(--s3) !important; }
 .menu__t thead th:last-child { width: 48px; }
 
 .spice { --card: #fffaf1; --ink2: var(--ink); padding-block: var(--sec); overflow: hidden; }
@@ -895,40 +890,6 @@ body { overflow-x: clip; }
 .spice__bubble { position: relative; max-width: 300px; padding: var(--s4) var(--s5); border-radius: 22px; background: #fffaf1; box-shadow: inset 0 0 0 3px var(--ink), 5px 6px 0 var(--ink); font-family: var(--f-display); font-size: 1.1875rem; line-height: 1.2; word-spacing: -0.12em; text-align: center; }
 .spice__bubble::after { content: ""; position: absolute; left: 50%; bottom: -14px; width: 22px; height: 22px; background: #fffaf1; border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink); transform: translateX(-50%) rotate(45deg); }
 
-.cart-fab { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 40; display: inline-flex; align-items: center; gap: var(--s2); min-height: 58px; padding: 0 var(--s4) 0 var(--s4); border: 0; border-radius: 999px; background: var(--mustard); color: var(--ink); box-shadow: inset 0 0 0 3px var(--ink), 5px 6px 0 var(--ink); font: 400 1.0625rem var(--f-display); word-spacing: -0.12em; cursor: pointer; }
-.cart-fab svg { width: 26px; height: 26px; fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.cart-fab svg circle { fill: var(--ink); }
-.cart-fab b { min-width: 28px; height: 28px; padding: 0 6px; display: grid; place-items: center; border-radius: 999px; background: var(--red); color: var(--cream); font: 800 0.875rem var(--f-body); }
-.cart-veil { position: fixed; inset: 0; z-index: 50; background: rgb(30 26 23 / 0.55); }
-.cart { position: fixed; top: 0; right: 0; bottom: 0; z-index: 51; width: min(440px, 100%); display: flex; flex-direction: column; background: var(--cream); color: var(--ink); border-left: 3px solid var(--ink); box-shadow: -10px 0 0 rgb(0 0 0 / 0.18); }
-.cart__head { display: flex; align-items: center; justify-content: space-between; padding: var(--s4) var(--s5); background: var(--red); color: var(--cream); border-bottom: 3px solid var(--ink); }
-.cart__head h2 { font: 400 1.625rem var(--f-display); word-spacing: -0.12em; }
-.cart__head h2 span { display: inline-grid; place-items: center; min-width: 30px; height: 30px; margin-left: var(--s2); border-radius: 999px; background: var(--mustard); color: var(--ink); font: 800 0.9375rem var(--f-body); vertical-align: middle; }
-.cart__x { min-height: 44px; padding: 0 var(--s4); border: 0; border-radius: 999px; background: transparent; color: var(--cream); box-shadow: inset 0 0 0 3px var(--cream); font: 800 0.9375rem var(--f-body); cursor: pointer; }
-.cart__body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: var(--s5); display: grid; gap: var(--s4); align-content: start; }
-.cart__empty { padding: var(--s8) var(--s5); display: grid; gap: var(--s5); justify-items: center; text-align: center; font-weight: 700; }
-.cart__region { display: flex; align-items: center; gap: var(--s2); font-size: var(--t-small); font-weight: 800; }
-.cart__region span { margin-right: auto; }
-.cart__region button { min-height: 40px; padding: 0 var(--s4); border: 0; border-radius: 999px; background: #fffaf1; color: var(--ink); box-shadow: inset 0 0 0 3px var(--ink); font: 800 0.875rem var(--f-body); cursor: pointer; }
-.cart__region button[aria-pressed="true"] { background: var(--ink); color: var(--cream); }
-.cart__list { display: grid; gap: var(--s3); }
-.cart__list li { padding: var(--s4); border-radius: 20px; background: #fffaf1; box-shadow: inset 0 0 0 3px var(--ink), 4px 5px 0 var(--ink); display: grid; gap: var(--s3); }
-.cart__row { display: flex; justify-content: space-between; gap: var(--s3); align-items: baseline; }
-.cart__row b { font: 400 1.1875rem/1.1 var(--f-display); word-spacing: -0.12em; }
-.cart__row span { font-weight: 800; color: var(--red); white-space: nowrap; }
-.cart__opts { display: flex; flex-wrap: wrap; align-items: end; gap: var(--s3); }
-.cart__opts label, .cart__fields label { display: grid; gap: 4px; font-size: 0.8125rem; font-weight: 800; }
-.cart select, .cart input, .cart textarea { min-height: 44px; padding: var(--s2) var(--s3); border: 3px solid var(--ink); border-radius: 14px; background: #fff; color: var(--ink); font: 600 1rem/1.3 var(--f-body); }
-.cart__qty { margin-left: auto; display: inline-flex; align-items: center; border-radius: 999px; box-shadow: inset 0 0 0 3px var(--ink); overflow: hidden; }
-.cart__qty button { width: 44px; height: 44px; border: 0; background: transparent; font: 800 1.375rem var(--f-body); color: var(--ink); cursor: pointer; }
-.cart__qty output { min-width: 28px; text-align: center; font-weight: 800; }
-.cart__total { display: flex; justify-content: space-between; align-items: baseline; padding-top: var(--s3); border-top: 3px dashed var(--ink); font-weight: 800; }
-.cart__total b { font: 400 1.75rem var(--f-display); color: var(--red); }
-.cart__hint, .cart__note { font-size: var(--t-small); color: #5a514a; font-weight: 600; }
-.cart__note:empty { display: none; }
-.cart__fields { display: grid; gap: var(--s3); }
-.cart__send { width: 100%; min-height: 58px; font-size: 1.25rem; box-shadow: 0 6px 0 var(--red-deep), inset 0 0 0 3px var(--ink); }
-.cart__clear { justify-self: center; border: 0; background: none; padding: var(--s3); font: 700 0.875rem var(--f-body); text-decoration: underline; color: #5a514a; cursor: pointer; }
 
 @media (max-width: 900px) {
   .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); }
@@ -942,9 +903,7 @@ body { overflow-x: clip; }
   .spice__bubble { font-size: 1rem; text-align: left; }
   .spice__bubble::after { left: -11px; bottom: 50%; transform: translateY(50%) rotate(135deg); }
   .spice__dots button { font-size: 0.6875rem; }
-  .cart-fab span { display: none; }
   .floater { scale: 0.7; }
-  .menu__add { width: 44px; padding-left: var(--s2) !important; }
 }
 @media (hover: none) { .bento__tile:hover { translate: none; box-shadow: inset 0 0 0 3px var(--ink), 7px 8px 0 var(--ink); } }
 
@@ -959,9 +918,7 @@ body { overflow-x: clip; }
 .bento__tile--0 .bento__price small, .bento__tile--2 .bento__price small, .bento__tile--3 .bento__price small { color: #5a514a; }
 @media (max-width: 900px) {
   .bento__tile:not(.is-best) .bento__foot { flex-direction: column; align-items: stretch; gap: var(--s3); }
-  .bento__tile:not(.is-best) .add { width: 100%; }
   .bento { padding-bottom: var(--s2); }
-  .ftr__legal { padding-right: 96px; }
 }
 
 .adm-f small b { font-weight: 600; }
@@ -1012,5 +969,4 @@ body { overflow-x: clip; }
 .fz__steps { list-style: decimal; display: grid; gap: var(--s3); padding-left: 1.4em; margin: 0; max-width: 56ch; }
 .fz__steps li::marker { font-weight: 800; color: var(--red-deep); }
 
-.cart__regionnote { margin: calc(var(--s2) * -1) 0 0; font-size: var(--t-small); font-weight: 600; opacity: 0.8; }
 section#menu { scroll-margin-top: 0; }

@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Button } from "@/components/Button";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
-import { AddToCart } from "@/components/shop/cart";
 import Link from "next/link";
 import { getContent, getFrozen, getMenu, getSettings, seoMeta } from "@/lib/api";
 import { siteUrl } from "@/lib/site";
@@ -80,11 +79,11 @@ export default async function Brands() {
                   {c.note && <small>{c.note}</small>}
                 </caption>
                 <thead>
-                  <tr><th scope="col">Menu</th><th scope="col">Bandung</th><th scope="col">Jabodetabek</th><th scope="col"><span className="sr">Tambah ke keranjang</span></th></tr>
+                  <tr><th scope="col">Menu</th><th scope="col">Bandung</th><th scope="col">Jabodetabek</th></tr>
                 </thead>
                 <tbody>
                   {c.items.map((i) => (
-                    <tr key={i.name}><th scope="row">{i.name}</th><td>{i.bandung}</td><td>{i.jabodetabek}</td><td className="menu__add"><AddToCart mini item={{ name: i.name, bandung: i.bandung, jabodetabek: i.jabodetabek, spice: i.spice }} /></td></tr>
+                    <tr key={i.name}><th scope="row">{i.name}</th><td>{i.bandung}</td><td>{i.jabodetabek}</td></tr>
                   ))}
                 </tbody>
               </table>

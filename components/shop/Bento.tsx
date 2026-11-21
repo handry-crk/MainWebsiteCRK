@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { Product } from "@/data/seed";
 import { prices } from "@/lib/price";
-import { AddToCart } from "./cart";
 
 const from = (s: string) => (prices(s)[0] ?? 0).toLocaleString("id-ID");
 
@@ -21,7 +20,6 @@ export function Bento({ items }: { items: Product[] }) {
           {m.note && <p>{m.note}</p>}
           <div className="bento__foot">
             <span className="bento__price"><small>{prices(m.bandung).length > 1 ? "mulai" : "harga"}</small>{from(m.bandung)}</span>
-            <AddToCart item={{ name: m.name, bandung: m.bandung, jabodetabek: m.jabodetabek, spice: m.spice }} />
           </div>
         </li>
       ))}

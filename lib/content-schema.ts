@@ -31,7 +31,7 @@ export const contentSchema: ContentGroup[] = [
       { key: "home_why_3_text", label: "Label harga, kalimat", def: "Harganya tetap kaki lima. Mulai" },
       { key: "home_why_3_price", label: "Label harga, angka", def: "6.000", hint: "Dipakai juga di pita berjalan di atas menu" },
       { key: "home_spice_title", label: "Meter pedas, judul", def: "Seberapa berani, Kak?", max: 30 },
-      { key: "home_spice_lead", label: "Meter pedas, penjelasan", def: "Geser meternya. Level ini jadi pilihan awal saat menu pedas masuk keranjang." },
+      { key: "home_spice_lead", label: "Meter pedas, penjelasan", def: "Geser meternya dan lihat reaksi Aa." },
       { key: "home_where_label", label: "Kalimat di atas daftar kota", def: "Kios Cimol Bojot AA ada di kota-kota ini." },
       { key: "home_cta_1_text", label: "Kartu kemitraan, penjelasan", def: "Acara kantor, hampers, reseller Frozen, sampai buka titik baru." },
       { key: "home_cta_1_button", label: "Kartu kemitraan, tulisan tautan", def: "Lihat pilihan kerja sama", max: 30 },
@@ -122,18 +122,17 @@ export const contentSchema: ContentGroup[] = [
     ],
   },
   {
-    page: "Footer, form, dan keranjang",
+    page: "Footer dan form",
     note: "Tampil di semua halaman.",
     fields: [
       { key: "footer_lead", label: "Kalimat di footer", def: "CRK Group. Street food naik kelas, dari Bandung." },
       { key: "footer_tape_count", label: "Pita footer, jumlah titik", def: "500+ titik gerobak", max: 28 },
       { key: "form_consent", label: "Kalimat di bawah form", def: "Data di form ini kami pakai untuk menghubungi Kakak soal kiriman ini.", hint: "Tampil di form Careers, Partnership, dan Contact Us, diikuti tautan Kebijakan Privasi bila sudah diisi" },
-      { key: "cart_hint", label: "Catatan harga di keranjang", type: "textarea", def: "Harga bisa beda sedikit di tiap gerobak dan kios. Tim kami mengonfirmasi total dan cara ambil atau kirim lewat WhatsApp." },
     ],
   },
   {
     page: "Kebijakan Privasi",
-    note: "Isi dari klien atau penasihat hukumnya. Fakta teknis website ini: form menyimpan nama, nomor WhatsApp, dan isi pesan di database; isi keranjang hanya disimpan di browser pengunjung; Google Analytics aktif bila ID-nya diisi di Pengaturan. Selama isi kebijakan kosong dan penanda dimatikan, halaman /privacy dan tautannya tidak tampil.",
+    note: "Isi dari klien atau penasihat hukumnya. Fakta teknis website ini: form menyimpan nama, nomor WhatsApp, dan isi pesan di database; Google Analytics aktif bila ID-nya diisi di Pengaturan. Selama isi kebijakan kosong dan penanda dimatikan, halaman /privacy dan tautannya tidak tampil.",
     fields: [
       { key: "privacy_updated", label: "Berlaku sejak", ph: "[ISI: tanggal berlaku]", hint: "Mis. 1 Desember 2026" },
       { key: "privacy_body", label: "Isi kebijakan", type: "textarea", ph: "[ISI: isi kebijakan privasi. Data apa yang dikumpulkan, untuk apa, disimpan berapa lama, dibagikan ke siapa, dan cara meminta perbaikan atau penghapusan.]", hint: "Pisahkan paragraf dengan satu baris kosong" },

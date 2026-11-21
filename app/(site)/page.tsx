@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Bento } from "@/components/shop/Bento";
-import { BouncyLink } from "@/components/shop/cart";
+import { BouncyLink } from "@/components/shop/BouncyLink";
 import { Floaters } from "@/components/shop/Floaters";
 import { SpiceMeter } from "@/components/shop/SpiceMeter";
 import { Starburst } from "@/components/Starburst";
@@ -39,7 +39,7 @@ export default async function Home() {
             <p className="hero__sub">
               {c.t("home_hero_sub")}
             </p>
-            <BouncyLink href="#menu" className="btn btn--cream hero__cta">Pesan sekarang</BouncyLink>
+            <BouncyLink href="#menu" className="btn btn--cream hero__cta">Lihat menu</BouncyLink>
             <form className="search hero__search" action="/locations" role="search">
               <label htmlFor="q">Lagi di mana, Kak?</label>
               <div className="search__row">
