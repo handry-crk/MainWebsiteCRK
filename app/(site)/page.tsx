@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Bento } from "@/components/shop/Bento";
+import { Quiz, type Team, type TeamKey } from "@/components/shop/Quiz";
+import { prices } from "@/lib/price";
 import { BouncyLink } from "@/components/shop/BouncyLink";
 import { Floaters } from "@/components/shop/Floaters";
 import { Starburst } from "@/components/Starburst";
@@ -20,6 +22,23 @@ export default async function Home() {
   const rest = menu.map((cat) => cat.items.find((i) => !best.includes(i))).filter((i): i is NonNullable<typeof i> => Boolean(i));
   const bento = [...best, ...rest].slice(0, 7);
   const soon = outlets.filter((o) => o.soon).slice(0, 5);
+  // Kuis "Kamu tim cimol apa?": tiap tim dipasangkan ke menu asli yang sedang tampil. Tim tanpa menu dilewati.
+  const inCat = (name: string) => menu.find((cat) => cat.name.toLowerCase() === name)?.items ?? [];
+  const pickMenu: Record<TeamKey, (typeof all)[number] | undefined> = {
+    original: all.find((i) => i.name.toLowerCase() === "cimol bojot") ?? inCat("cimol")[0],
+    mozza: inCat("cimol").find((i) => /mozza/i.test(i.name)) ?? all.find((i) => /mozza/i.test(i.name)),
+    kuah: inCat("kuah keju")[0],
+    mix: inCat("mix")[0],
+    baru: inCat("new series")[0],
+  };
+  const used = new Set<string>();
+  const teams: Team[] = (Object.keys(pickMenu) as TeamKey[]).flatMap((key) => {
+    const m = pickMenu[key];
+    if (!m || used.has(m.name)) return [];
+    used.add(m.name);
+    const p = prices(m.bandung);
+    return [{ key, menu: m.name, note: m.note, photo: m.photo, line: c.t(`home_quiz_${key}`), price: p.length ? `${p.length > 1 ? "Mulai" : "Harga"} Rp${p[0].toLocaleString("id-ID")} (Bandung)` : "" }];
+  });
 
   return (
     <>
@@ -97,6 +116,8 @@ export default async function Home() {
         </div>
         <TornEdge color="var(--cream)" seed={31} />
       </section>
+
+      {teams.length >= 3 && <Quiz teams={teams} mascot={c.mascotSmall} title={c.t("home_quiz_title")} lead={c.t("home_quiz_lead")} />}
 
       <section className="where">
         <div className="wrap where__in">
