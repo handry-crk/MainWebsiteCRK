@@ -30,8 +30,6 @@ export const contentSchema: ContentGroup[] = [
       { key: "home_why_2_text", label: "Stiker 2, penjelasan", def: "Bersih, terang, gampang dikenali dari jauh." },
       { key: "home_why_3_text", label: "Label harga, kalimat", def: "Harganya tetap kaki lima. Mulai" },
       { key: "home_why_3_price", label: "Label harga, angka", def: "6.000", hint: "Dipakai juga di pita berjalan di atas menu" },
-      { key: "home_spice_title", label: "Meter pedas, judul", def: "Seberapa berani, Kak?", max: 30 },
-      { key: "home_spice_lead", label: "Meter pedas, penjelasan", def: "Geser meternya dan lihat reaksi Aa." },
       { key: "home_where_label", label: "Kalimat di atas daftar kota", def: "Kios Cimol Bojot AA ada di kota-kota ini." },
       { key: "home_cta_1_text", label: "Kartu kemitraan, penjelasan", def: "Acara kantor, hampers, reseller Frozen, sampai buka titik baru." },
       { key: "home_cta_1_button", label: "Kartu kemitraan, tulisan tautan", def: "Lihat pilihan kerja sama", max: 30 },

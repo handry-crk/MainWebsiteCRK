@@ -66,10 +66,9 @@ Setup sekali: jalankan `supabase/cms-2026-11-19.sql` di SQL Editor (tabel `page_
 - Isian kosong memakai teks bawaan bila ada. Isian wajib yang kosong tampil sebagai `[ISI: ...]` selama **Pengaturan > Tampilkan penanda** menyala, dan disembunyikan bila dimatikan (matikan sebelum launch).
 - **Unggah foto**: di Konten halaman (gambar halaman), Kabar (foto sampul), dan Menu dan harga (foto menu). Foto dikecilkan di browser ke maksimal 1600 px dan disimpan sebagai WebP di bucket `media`. File lama tidak dihapus otomatis saat diganti.
 
-## Bento menu dan meter level pedas
+## Bento menu
 - **Bento menu** di Home (`components/shop/Bento.tsx`): menu andalan dapat kotak besar, menampilkan harga Bandung.
-- **Meter level pedas** (`SpiceMeter.tsx`): nama level dan reaksi maskot ada di `components/shop/levels.ts`. Hanya tampilan; tidak terhubung ke pemesanan.
-- Website tidak punya keranjang atau pemesanan lewat WhatsApp (dihapus 21 Nov 2026 atas permintaan). Jalur pesan: tautan ojol dan marketplace di halaman menu, tautan per kios, dan halaman Frozen.
+- Website tidak punya keranjang, pemesanan lewat WhatsApp, atau meter level pedas (dihapus 21 Nov 2026 atas permintaan). Jalur pesan: tautan ojol dan marketplace di halaman menu, tautan per kios, dan halaman Frozen.
 
 ## Form
 Form Careers, Partnership, dan Contact menyimpan ke tabel `submissions` dan muncul di Admin > Kotak masuk. Bila penyimpanan gagal dan nomor WhatsApp sudah diisi, pengunjung ditawari kirim lewat WhatsApp.
