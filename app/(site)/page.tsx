@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Bento } from "@/components/shop/Bento";
 import { BouncyLink } from "@/components/shop/BouncyLink";
 import { Floaters } from "@/components/shop/Floaters";
-import { SpiceMeter } from "@/components/shop/SpiceMeter";
 import { Starburst } from "@/components/Starburst";
 import { Tape } from "@/components/Tape";
 import { TornEdge } from "@/components/TornEdge";
@@ -20,7 +19,6 @@ export default async function Home() {
   const best = all.filter((i) => i.best).slice(0, 3);
   const rest = menu.map((cat) => cat.items.find((i) => !best.includes(i))).filter((i): i is NonNullable<typeof i> => Boolean(i));
   const bento = [...best, ...rest].slice(0, 7);
-  const spicy = all.filter((i) => i.spice).map((i) => i.name);
   const soon = outlets.filter((o) => o.soon).slice(0, 5);
 
   return (
@@ -99,8 +97,6 @@ export default async function Home() {
         </div>
         <TornEdge color="var(--cream)" seed={31} />
       </section>
-
-      <SpiceMeter mascot={c.mascot} spicy={spicy} title={c.t("home_spice_title")} lead={c.t("home_spice_lead")} />
 
       <section className="where">
         <div className="wrap where__in">
