@@ -3,7 +3,6 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
 import { Motion } from "@/components/Motion";
-import { CartProvider } from "@/components/shop/cart";
 import { brand } from "@/config/brand";
 import { getContent, getFrozen, getSettings } from "@/lib/api";
 import { siteUrl } from "@/lib/site";
@@ -29,7 +28,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
   // WebSite: nama situs yang ditampilkan Google di hasil pencarian
   const site = { "@context": "https://schema.org", "@type": "WebSite", "@id": siteUrl + "/#website", name: brand.company, alternateName: ["Cimol Bojot AA", "CRK"], url: siteUrl, inLanguage: "id-ID", publisher: { "@id": siteUrl + "/#organization" } };
   return (
-    <CartProvider whatsapp={st.whatsappCs} hint={t("cart_hint")}>
+    <>
       <JsonLd data={org} />
       <JsonLd data={site} />
       <a className="skip" href="#main">Langsung ke isi</a>
@@ -38,6 +37,6 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
       <Footer lead={t("footer_lead")} count={t("footer_tape_count")} privacy={Boolean(t("privacy_body"))} frozen={fz.ready} />
       <Motion />
       {st.gaId && <Analytics id={st.gaId} />}
-    </CartProvider>
+    </>
   );
 }

@@ -10,7 +10,7 @@ const platforms: [RegExp, string][] = [
 
 // GA4 + pelacakan klik. Tampilan halaman dicatat otomatis oleh GA4 (enhanced measurement).
 // Event klik: whatsapp_click, directions_click, order_link_click. Event lain dikirim dari komponennya
-// (generate_lead, add_to_cart, begin_checkout, locate_me) lewat track().
+// (generate_lead, locate_me) lewat track().
 export function Analytics({ id }: { id: string }) {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {

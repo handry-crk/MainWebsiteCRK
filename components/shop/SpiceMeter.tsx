@@ -2,12 +2,12 @@
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { Img } from "@/lib/content-schema";
-import { LEVELS, useCart } from "./cart";
+import { useState } from "react";
+import { LEVELS } from "./levels";
 
 // Meter level pedas: geser atau klik, kartu dan reaksi maskot ikut berubah.
-// Level yang dipilih di sini jadi level bawaan untuk menu pedas yang ditambahkan ke keranjang.
 export function SpiceMeter({ mascot, spicy, title, lead }: { mascot: Img; spicy: string[]; title: string; lead: string }) {
-  const { level, setLevel } = useCart();
+  const [level, setLevel] = useState(3);
   const calm = useReducedMotion();
   const lv = LEVELS[level - 1];
   const spring = { type: "spring" as const, stiffness: 480, damping: 13 };
