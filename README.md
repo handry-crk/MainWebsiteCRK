@@ -68,6 +68,7 @@ Setup sekali: jalankan `supabase/cms-2026-11-19.sql` di SQL Editor (tabel `page_
 
 ## Bento menu
 - **Bento menu** di Home (`components/shop/Bento.tsx`): menu andalan dapat kotak besar, menampilkan harga Bandung.
+- **Kuis "Kamu tim cimol apa?"** di Home (`components/shop/Quiz.tsx`, alamat `/#kuis`): 4 pertanyaan, hasilnya salah satu dari lima tim yang dipasangkan ke menu asli (Cimol Bojot, menu Mozza pertama, menu pertama kategori Kuah Keju, Mix, dan New Series). Tim yang menunya tidak tampil dilewati; kuis tidak muncul bila kurang dari tiga tim. Pertanyaan ada di kode; judul dan kalimat hasil diubah di Admin > Konten halaman > Home. Tanpa data pribadi dan tanpa hadiah. Event GA: `quiz_start`, `quiz_complete`, `quiz_share`.
 - Website tidak punya keranjang, pemesanan lewat WhatsApp, atau meter level pedas (dihapus 21 Nov 2026 atas permintaan). Jalur pesan: tautan ojol dan marketplace di halaman menu, tautan per kios, dan halaman Frozen.
 
 ## Form

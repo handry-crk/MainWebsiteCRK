@@ -933,3 +933,42 @@ body { overflow-x: clip; }
 .fz__steps li::marker { font-weight: 800; color: var(--red-deep); }
 
 section#menu { scroll-margin-top: 0; }
+
+/* ---------- Kuis "Kamu tim cimol apa?" ---------- */
+.quiz { padding-block: calc(var(--sec) + var(--s5)) var(--s6); overflow: hidden; scroll-margin-top: 80px; }
+.quiz__in { display: grid; grid-template-columns: 5fr 7fr; gap: var(--s7) clamp(var(--s6), 6vw, var(--s9)); align-items: center; }
+.quiz__say { display: grid; gap: var(--s4); justify-items: start; }
+.quiz__say .h2 { rotate: -2deg; transform-origin: 0 100%; }
+.quiz__lead { max-width: 34ch; font-size: 1.125rem; font-weight: 600; }
+.quiz__mascot { width: clamp(120px, 16vw, 220px); height: auto; rotate: -6deg; filter: drop-shadow(5px 6px 0 rgb(0 0 0 / 0.18)); }
+.quiz__card { position: relative; min-height: 400px; display: grid; padding: clamp(var(--s5), 4vw, var(--s7)); border-radius: 30px; background: var(--mustard); color: var(--ink); box-shadow: inset 0 0 0 3px var(--ink), 8px 9px 0 var(--ink); rotate: 1deg; outline: none; }
+.quiz__pane { display: grid; gap: var(--s4); align-content: center; }
+.quiz__pane--start, .quiz__pane--result { justify-items: start; }
+.quiz__big { font: 400 clamp(1.75rem, 3.2vw, 2.5rem)/1.05 var(--f-display); word-spacing: -0.12em; max-width: 14ch; }
+.quiz__step { font-size: var(--t-small); font-weight: 800; }
+.quiz__bar { display: flex; gap: 6px; }
+.quiz__bar i { flex: 1; height: 8px; border-radius: 999px; background: rgb(30 26 23 / 0.2); }
+.quiz__bar i.is-on { background: var(--ink); }
+.quiz__q { font: 400 clamp(1.625rem, 3vw, 2.25rem)/1.05 var(--f-display); word-spacing: -0.12em; color: var(--red-deep); }
+.quiz__opts { display: grid; gap: var(--s3); }
+.quiz__opts button { min-height: 56px; padding: var(--s3) var(--s5); border: 0; border-radius: 18px; background: #fffaf1; color: var(--ink); box-shadow: inset 0 0 0 3px var(--ink), 4px 5px 0 var(--ink); font: 700 1.0625rem/1.25 var(--f-body); text-align: left; cursor: pointer; }
+.quiz__opts button:nth-child(odd) { rotate: -0.6deg; }
+.quiz__opts button:nth-child(even) { rotate: 0.5deg; }
+.quiz__opts button:focus-visible, .quiz__again:focus-visible { outline: 3px solid var(--red-deep); outline-offset: 3px; }
+@media (hover: hover) { .quiz__opts button:hover { background: var(--ink); color: var(--cream); } }
+.quiz__team { font-size: clamp(2.25rem, 5.4vw, 4rem); line-height: 0.95; color: var(--cream); --ol: var(--red-deep); }
+.quiz__photo { width: 160px; height: 160px; object-fit: cover; border-radius: 20px; box-shadow: inset 0 0 0 3px var(--ink); }
+.quiz__line { font-size: 1.1875rem; font-weight: 700; max-width: 32ch; }
+.quiz__price { font-weight: 800; }
+.quiz__acts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); margin-top: var(--s2); }
+.quiz__acts .btn--line { color: var(--ink); box-shadow: inset 0 0 0 3px var(--ink); }
+.quiz__again { min-height: 44px; border: 0; background: none; padding: 0 var(--s2); font: 700 var(--t-small) var(--f-body); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; color: var(--ink); }
+.quiz__note { font-size: var(--t-small); font-weight: 600; }
+.quiz__note:empty { display: none; }
+@media (max-width: 900px) {
+  .quiz__in { grid-template-columns: 1fr; }
+  .quiz__say { grid-template-columns: 1fr auto; align-items: end; }
+  .quiz__say .h2, .quiz__lead { grid-column: 1; }
+  .quiz__mascot { grid-column: 2; grid-row: 1 / span 2; width: 96px; }
+  .quiz__card { rotate: 0deg; min-height: 420px; }
+}
