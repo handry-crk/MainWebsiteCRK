@@ -8,6 +8,7 @@ import { Floaters } from "@/components/shop/Floaters";
 import { Starburst } from "@/components/Starburst";
 import { Tape } from "@/components/Tape";
 import { TornEdge } from "@/components/TornEdge";
+import { brand } from "@/config/brand";
 import { getCities, getContent, getLatestNews, getMenu, getOutlets, seoMeta } from "@/lib/api";
 
 export const generateMetadata = () => seoMeta("home", "/");
@@ -180,11 +181,11 @@ export default async function Home() {
             <b>{c.t("home_cta_1_button")}</b>
           </Link>
           <Image className="cta__mascot" {...c.mascotSmall} alt="" sizes="200px" />
-          <Link href="/careers" className="cta__card cta__card--b">
+          <a href={brand.careersUrl} target="_blank" rel="noopener" className="cta__card cta__card--b">
             <span className="display cta__h">Kerja bareng?</span>
             <span>{c.t("home_cta_2_text")}</span>
             <b>{c.t("home_cta_2_button")}</b>
-          </Link>
+          </a>
         </div>
       </section>
     </>

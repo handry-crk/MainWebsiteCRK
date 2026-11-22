@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { nav } from "@/config/brand";
+import { NavLink } from "./NavLink";
 import type { Img } from "@/lib/content-schema";
 
 export function Header({ logo }: { logo: Img }) {
@@ -22,7 +23,7 @@ export function Header({ logo }: { logo: Img }) {
         </Link>
         <nav className="hdr__nav" aria-label="Utama">
           {nav.map((n) => (
-            <Link key={n.href} href={n.href}>{n.label}</Link>
+            <NavLink key={n.href} href={n.href}>{n.label}</NavLink>
           ))}
         </nav>
         <Link href="/locations" className="btn btn--cream btn--sm hdr__cta">Cari kios</Link>
@@ -34,7 +35,7 @@ export function Header({ logo }: { logo: Img }) {
         <nav className="wrap" aria-label="Menu">
           <Link href="/" onClick={() => setOpen(false)}>Home</Link>
           {nav.map((n) => (
-            <Link key={n.href} href={n.href} onClick={() => setOpen(false)}>{n.label}</Link>
+            <NavLink key={n.href} href={n.href} onClick={() => setOpen(false)}>{n.label}</NavLink>
           ))}
         </nav>
       </div>

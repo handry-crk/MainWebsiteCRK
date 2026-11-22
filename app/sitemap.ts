@@ -4,7 +4,7 @@ import { noindex, siteUrl } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (noindex) return [];
-  const pages = ["", "/about", "/brands", "/locations", "/careers", "/news", "/partnership", "/contact"];
+  const pages = ["", "/about", "/brands", "/locations", "/news", "/partnership", "/contact", "/faq", "/member"];
   const [news, c, outlets, fz] = await Promise.all([getNews(), getContent(), getOutlets(), getFrozen()]);
   if (fz.ready) pages.push("/frozen");
   if (c.t("privacy_body")) pages.push("/privacy");

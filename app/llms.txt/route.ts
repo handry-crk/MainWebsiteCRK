@@ -26,7 +26,7 @@ export async function GET() {
     ...frozen,
     "",
     "## Halaman",
-    ...[["About Us", "/about"], ["Our Brands & Products", "/brands"], ["Store Locations", "/locations"], ["Careers", "/careers"], ["News & Updates", "/news"], ["Partnership", "/partnership"], ["Contact Us", "/contact"]].map(([t, p]) => `- [${t}](${siteUrl}${p})`),
+    ...[["About Us", "/about"], ["Our Brands & Products", "/brands"], ["Store Locations", "/locations"], ["FAQ", "/faq"], ["Member", "/member"], ["News & Updates", "/news"], ["Partnership", "/partnership"], ["Contact Us", "/contact"]].map(([t, p]) => `- [${t}](${siteUrl}${p})`),
   ];
   return new Response(lines.join("\n"), { headers: { "content-type": "text/plain; charset=utf-8" } });
 }

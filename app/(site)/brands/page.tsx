@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import Link from "next/link";
 import { getContent, getFrozen, getMenu, getSettings, seoMeta } from "@/lib/api";
-import { siteUrl } from "@/lib/site";
+import { siteUrl, withUtm } from "@/lib/site";
 
 export const generateMetadata = () => seoMeta("brands", "/brands");
 
@@ -102,7 +102,7 @@ export default async function Brands() {
           <ul className="links">
             {orderLinks.map(([name, url]) => (
               <li key={name}>
-                {url ? <a className="btn btn--line" href={url} target="_blank" rel="noopener">{name}</a> : <span className="todo">[ISI: tautan] {name}</span>}
+                {url ? <a className="btn btn--line" href={withUtm(url, "WEB")} target="_blank" rel="noopener">{name}</a> : <span className="todo">[ISI: tautan] {name}</span>}
               </li>
             ))}
           </ul>

@@ -64,7 +64,7 @@ export default async function About() {
           <p>CRK Group adalah nama dagang {brand.legalName}, Bandung.</p>
           <div className="btns">
             <Button href="/brands" variant="red">Lihat brand dan menu</Button>
-            <Button href="/careers" variant="line">Kerja bareng kami</Button>
+            <Button href={brand.careersUrl} variant="line">Kerja bareng kami</Button>
           </div>
         </div>
       </section>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { brand, nav } from "@/config/brand";
 import { contentFields } from "@/lib/content-schema";
+import { NavLink } from "./NavLink";
 import { Tape } from "./Tape";
 
 // Tanpa props (halaman 404): memakai teks bawaan.
@@ -13,9 +14,11 @@ export function Footer({ lead = contentFields.footer_lead.def!, count = contentF
         <p className="ftr__lead">{lead}</p>
         <nav className="ftr__nav" aria-label="Footer">
           {nav.map((n) => (
-            <Link key={n.href} href={n.href}>{n.label}</Link>
+            <NavLink key={n.href} href={n.href}>{n.label}</NavLink>
           ))}
           {frozen && <Link href="/frozen">Cimol Frozen</Link>}
+          <Link href="/faq">FAQ</Link>
+          <Link href="/member">Member</Link>
         </nav>
         <p className="ftr__legal">© 2026 {brand.legalName}{privacy && <> · <Link href="/privacy">Kebijakan Privasi</Link></>}</p>
       </div>

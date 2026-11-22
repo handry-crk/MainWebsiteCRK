@@ -972,3 +972,14 @@ section#menu { scroll-margin-top: 0; }
   .quiz__mascot { grid-column: 2; grid-row: 1 / span 2; width: 96px; }
   .quiz__card { rotate: 0deg; min-height: 420px; }
 }
+
+/* ---------- Teks berformat (kabar, FAQ) ---------- */
+.rt__h { font: 400 clamp(1.5rem, 2.6vw, 2rem)/1.05 var(--f-display); word-spacing: -0.12em; color: var(--red); margin-top: var(--s4); }
+.rt__list { display: grid; gap: var(--s2); padding-left: 1.4em; margin: 0; max-width: 60ch; }
+ul.rt__list { list-style: disc; } ol.rt__list { list-style: decimal; }
+.rt__list li::marker { color: var(--red-deep); font-weight: 800; }
+.faq details > p, .faq details > .rt__list { padding: 0 var(--s6) var(--s5); max-width: 68ch; }
+.faq details > .rt__list { padding-left: calc(var(--s6) + 1.4em); }
+.form__check { display: flex; gap: var(--s3); align-items: flex-start; font-size: var(--t-small); font-weight: 600; cursor: pointer; }
+.form__check input { flex: none; width: 24px; height: 24px; min-height: 0; margin-top: 2px; accent-color: var(--red); }
+a.quiz__again { display: inline-flex; align-items: center; }

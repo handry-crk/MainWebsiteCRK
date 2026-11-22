@@ -99,16 +99,6 @@ export const contentSchema: ContentGroup[] = [
     ],
   },
   {
-    page: "Careers",
-    fields: [
-      { key: "careers_intro", label: "Kalimat pembuka", type: "textarea", def: "Dari crew gerobak dan kios sampai tim kantor. Posisi yang lagi dibuka ada di bawah, lamarannya bisa lewat form atau WhatsApp." },
-      ...n(3).flatMap((i): ContentField[] => [
-        { key: `careers_reason_${i}_title`, label: `Alasan ${i}, judul`, ph: `[ISI: alasan ${i}]` },
-        { key: `careers_reason_${i}_text`, label: `Alasan ${i}, penjelasan`, ph: "[ISI: penjelasan satu kalimat]" },
-      ]),
-    ],
-  },
-  {
     page: "Partnership",
     fields: [
       { key: "partnership_intro", label: "Kalimat pembuka", type: "textarea", def: "Buat acara kantor, hampers, reseller Frozen, sampai buka titik baru. Ngobrol aja dulu." },
@@ -127,12 +117,22 @@ export const contentSchema: ContentGroup[] = [
     ],
   },
   {
+    page: "FAQ dan Member",
+    note: "Pertanyaan dan jawaban FAQ diisi di menu FAQ. Pendaftar member terbaca di menu Member.",
+    fields: [
+      { key: "faq_intro", label: "FAQ, kalimat pembuka", def: "Jawaban singkat buat pertanyaan yang paling sering masuk." },
+      { key: "member_intro", label: "Member, kalimat pembuka", type: "textarea", def: "Daftar pakai nomor WhatsApp. Kabar kios baru dan menu baru kami kirim langsung ke Kakak." },
+      { key: "member_benefit", label: "Member, keuntungan", type: "textarea", ph: "[ISI: keuntungan member yang sudah disetujui, mis. program stamp atau voucher. Kosongkan bila belum ada.]", hint: "Jangan menjanjikan hadiah yang belum disetujui" },
+      { key: "member_consent", label: "Member, kalimat persetujuan (di samping kotak centang)", type: "textarea", def: "Saya setuju dihubungi Cimol Bojot AA lewat WhatsApp untuk kabar dan promo. Saya bisa berhenti kapan saja dengan membalas STOP." },
+    ],
+  },
+  {
     page: "Footer dan form",
     note: "Tampil di semua halaman.",
     fields: [
       { key: "footer_lead", label: "Kalimat di footer", def: "CRK Group. Street food naik kelas, dari Bandung." },
       { key: "footer_tape_count", label: "Pita footer, jumlah titik", def: "500+ titik gerobak", max: 28 },
-      { key: "form_consent", label: "Kalimat di bawah form", def: "Data di form ini kami pakai untuk menghubungi Kakak soal kiriman ini.", hint: "Tampil di form Careers, Partnership, dan Contact Us, diikuti tautan Kebijakan Privasi bila sudah diisi" },
+      { key: "form_consent", label: "Kalimat di bawah form", def: "Data di form ini kami pakai untuk menghubungi Kakak soal kiriman ini.", hint: "Tampil di form Partnership, Contact Us, dan Member, diikuti tautan Kebijakan Privasi bila sudah diisi" },
     ],
   },
   {
@@ -158,8 +158,10 @@ export const contentSchema: ContentGroup[] = [
       { key: "seo_locations_desc", label: "Store Locations, deskripsi", type: "textarea", def: "Cari kios Cimol Bojot AA terdekat di Bandung, Cimahi, Bogor, Depok, Bekasi, dan Tangerang. Ada alamat, jam buka, dan petunjuk arah.", max: 155 },
       { key: "seo_frozen_title", label: "Frozen, judul", def: "Cimol Bojot AA Frozen, Cimol Beku Siap Goreng", max: 48 },
       { key: "seo_frozen_desc", label: "Frozen, deskripsi", type: "textarea", def: "Cimol Bojot AA Frozen: cimol mentah beku plus bumbu bojot. Varian, harga, cara goreng, cara simpan, area kirim, dan tautan beli di marketplace.", max: 155 },
-      { key: "seo_careers_title", label: "Careers, judul", def: "Lowongan Kerja Cimol Bojot AA", max: 48 },
-      { key: "seo_careers_desc", label: "Careers, deskripsi", type: "textarea", def: "Lowongan kerja di CRK Group dan Cimol Bojot AA, dari crew gerobak dan kios sampai tim kantor di Bandung dan Jabodetabek.", max: 155 },
+      { key: "seo_faq_title", label: "FAQ, judul", def: "Pertanyaan Umum Cimol Bojot AA", max: 48 },
+      { key: "seo_faq_desc", label: "FAQ, deskripsi", type: "textarea", def: "Jawaban untuk pertanyaan yang sering ditanyakan tentang Cimol Bojot AA: menu dan harga, lokasi kios, pesan antar, Cimol Frozen, dan kemitraan.", max: 155 },
+      { key: "seo_member_title", label: "Member, judul", def: "Daftar Member Cimol Bojot AA", max: 48 },
+      { key: "seo_member_desc", label: "Member, deskripsi", type: "textarea", def: "Daftar member Cimol Bojot AA dengan nomor WhatsApp untuk mendapat kabar kios baru dan menu baru.", max: 155 },
       { key: "seo_news_title", label: "News & Updates, judul", def: "Kabar Terbaru Cimol Bojot AA", max: 48 },
       { key: "seo_news_desc", label: "News & Updates, deskripsi", type: "textarea", def: "Kabar terbaru Cimol Bojot AA dan CRK Group: kios baru, produk baru, promo, dan berita perusahaan.", max: 155 },
       { key: "seo_partnership_title", label: "Partnership, judul", def: "Kemitraan dan Pesanan Acara Cimol Bojot AA", max: 48 },

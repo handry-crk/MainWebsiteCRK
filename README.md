@@ -98,3 +98,11 @@ GA4 dan event klik, halaman per outlet, notifikasi saat ada form masuk, fitur lu
 - Penanda `[ISI: ...]` tidak pernah masuk JSON-LD maupun `llms.txt`. Tanpa harga atau tautan beli, produk tampil tanpa blok `offers`. Status halal hanya tampil bila nomornya diisi.
 - JSON-LD: `Product` per produk, `FAQPage`, `BreadcrumbList`. Tautan beli diberi `utm_source=website&utm_medium=referral&utm_campaign=frozen`; klik tercatat di GA4 sebagai `order_link_click` dengan `platform` dan `item_name`.
 - Belum dikerjakan: feed Google Merchant Center (tahap 2 di brief).
+
+## FAQ, Member, UTM, Careers, artikel (22 Nov 2026)
+- **SQL**: jalankan `supabase/launch-2026-11-22.sql` (kolom `faqs.topic`, isi awal FAQ umum, tabel `members` + pembatas) lalu `supabase/articles-seo-2026-11-22.sql` (lima draf artikel, belum terbit).
+- **FAQ umum** (`/faq`): dari tabel `faqs` dengan `topic = umum`; `topic = kemitraan` tampil di Partnership. Sebelum SQL dijalankan, halaman memakai isi awal dari `data/seed.ts`. Jawaban bertanda `[ISI` tidak masuk JSON-LD.
+- **Member** (`/member`): form nama, WhatsApp, kota, dan kotak persetujuan. Tersimpan di tabel `members` dengan `source = MBR-WEB`; terbaca dan bisa diunduh CSV di Admin > Member. Nomor dinormalkan ke format 62. Nomor yang sudah terdaftar mendapat pesan sukses yang sama. Belum tersambung ke aplikasi Stamp Bojot.
+- **UTM**: tautan ojol dan marketplace diberi `utm_source=website&utm_medium=referral&utm_campaign=WEB` (halaman Frozen: `campaign=frozen`). Tautan Google Maps, WhatsApp, dan media sosial tidak diberi UTM.
+- **Careers**: menu Careers mengarah ke `https://people.citarasakuliner.com/` (tab baru); `/careers` dialihkan ke sana (307). Halaman Careers, isian kontennya, dan menu Lowongan di admin dihapus; tabel `positions` dibiarkan.
+- **Format isi kabar dan jawaban FAQ** (`components/RichText.tsx`): `## Subjudul`, `- butir`, `1. langkah`, `**tebal**`, `[teks](/halaman atau https://...)`. HTML dari admin tidak dijalankan.

@@ -130,6 +130,7 @@ export function Quiz({ teams, mascot, title, lead }: { teams: Team[]; mascot: Im
                   <Link className="btn btn--red" href="/locations">Cari kios terdekat</Link>
                   <button type="button" className="btn btn--line" onClick={share}>Bagikan hasil</button>
                   <button type="button" className="quiz__again" onClick={start}>Ulangi kuis</button>
+                  <Link className="quiz__again" href="/member">Gabung member</Link>
                 </div>
                 <p className="quiz__note" role="status">{note}</p>
               </motion.div>

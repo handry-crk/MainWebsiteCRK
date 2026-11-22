@@ -11,7 +11,7 @@ type Row = Record<string, unknown>;
 
 const tabs: [string, string, boolean][] = [
   ["home", "Ringkasan", false], ["inbox", "Kotak masuk", false], ["products", "Menu dan harga", false], ["outlets", "Outlet", false],
-  ["articles", "Kabar", false], ["positions", "Lowongan", false], ["faqs", "FAQ kemitraan", false], ["frozen_products", "Frozen: produk", false], ["frozen_faqs", "Frozen: tanya jawab", false], ["content", "Konten halaman", false], ["settings", "Pengaturan", true], ["users", "Pengguna", true],
+  ["articles", "Kabar", false], ["faqs", "FAQ", false], ["members", "Member", false], ["frozen_products", "Frozen: produk", false], ["frozen_faqs", "Frozen: tanya jawab", false], ["content", "Konten halaman", false], ["settings", "Pengaturan", true], ["users", "Pengguna", true],
 ];
 
 export function AdminApp() {
@@ -85,7 +85,8 @@ export function AdminApp() {
         {tab === "home" && <Summary go={setTab} />}
         {tab === "inbox" && <Inbox isAdmin={isAdmin} />}
         {tab === "outlets" && <Crud res={resources.outlets} extra={(reload, rows) => <OutletCsv reload={reload} rows={rows} />} />}
-        {["products", "articles", "positions", "faqs", "frozen_products", "frozen_faqs"].includes(tab) && <Crud res={resources[tab]} />}
+        {["products", "articles", "faqs", "frozen_products", "frozen_faqs"].includes(tab) && <Crud res={resources[tab]} />}
+        {tab === "members" && <Crud res={resources.members} extra={(_r, rows) => <div className="adm-csv"><div className="adm-actions"><button className="adm-btn" onClick={() => download("member.csv", toCsv(rows, ["created_at", "name", "whatsapp", "city", "source", "consent"]))}>Unduh CSV</button></div></div>} />}
         {tab === "content" && <ContentEditor />}
         {tab === "settings" && isAdmin && <Settings />}
         {tab === "users" && isAdmin && <Users me={session.user.id} />}
@@ -178,11 +179,10 @@ function Summary({ go }: { go: (t: string) => void }) {
     count("outlets", "outlets", "status", "buka");
     count("products", "products", "is_available", true);
     count("articles", "articles", "is_published", true);
-    count("positions", "positions", "is_open", true);
   }, []);
   const cards: [string, string, string][] = [
     ["inbox", "Pesan baru belum ditangani", "inbox"], ["outlets", "Outlet buka", "outlets"], ["products", "Menu tampil", "products"],
-    ["articles", "Kabar terbit", "articles"], ["positions", "Lowongan dibuka", "positions"],
+    ["articles", "Kabar terbit", "articles"],
   ];
   return (
     <div>

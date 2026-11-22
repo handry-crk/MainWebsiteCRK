@@ -40,6 +40,10 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: supabaseHost ? [{ protocol: "https", hostname: supabaseHost, pathname: "/storage/v1/object/public/**" }] : [],
   },
+  // Careers dipindah ke situs rekrutmen CRK. Tautan lama /careers tetap berfungsi.
+  async redirects() {
+    return [{ source: "/careers", destination: "https://people.citarasakuliner.com/", permanent: false }];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { JsonLd } from "@/components/JsonLd";
+import { RichText } from "@/components/RichText";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
@@ -81,7 +82,7 @@ export default async function Partnership() {
           <h2 className="h2">Yang sering ditanyain</h2>
           <div className="faq">
             {faq.map((f) => (
-              <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>
+              <details key={f.q}><summary>{f.q}</summary><RichText text={f.a} /></details>
             ))}
           </div>
         </div>}

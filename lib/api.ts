@@ -2,7 +2,7 @@
 // - Supabase belum diatur (env kosong): memakai data contoh di data/seed.ts.
 // - Supabase diatur: membaca database, di-cache dan diperbarui otomatis tiap beberapa menit.
 import { cacheLife } from "next/cache";
-import { pageMeta } from "./site";
+import { pageMeta, withUtm } from "./site";
 import { brand } from "@/config/brand";
 import * as seed from "@/data/seed";
 import type { Category, MenuItem, NewsItem, Outlet, Position } from "@/data/seed";
@@ -99,7 +99,7 @@ export async function getOutlets(): Promise<OutletWithSlug[]> {
   cacheLife("minutes");
   if (!supabaseConfigured) return withSlugs(seed.outlets);
   const o = (await rows<OutletRow>("outlets", "city")) ?? [];
-  return withSlugs(o.map((r) => ({ id: r.id, name: r.name, city: r.city, address: r.address, landmark: r.landmark, hours: r.hours, lat: r.lat, lng: r.lng, gofood: r.gofood_url ?? undefined, grabfood: r.grabfood_url ?? undefined, gmaps: r.gmaps_url ?? undefined, soon: r.status === "segera" })));
+  return withSlugs(o.map((r) => ({ id: r.id, name: r.name, city: r.city, address: r.address, landmark: r.landmark, hours: r.hours, lat: r.lat, lng: r.lng, gofood: r.gofood_url ? withUtm(r.gofood_url, "WEB") : undefined, grabfood: r.grabfood_url ? withUtm(r.grabfood_url, "WEB") : undefined, gmaps: r.gmaps_url ?? undefined, soon: r.status === "segera" })));
 }
 
 export async function getCities() {
@@ -122,8 +122,9 @@ export async function getPartnership() {
   "use cache";
   cacheLife("minutes");
   if (!supabaseConfigured) return { types: seed.partnershipTypes, faq: seed.partnershipFaq };
-  const f = (await rows<{ question: string; answer: string }>("faqs", "sort")) ?? [];
-  return { types: seed.partnershipTypes, faq: f.map((r) => ({ q: r.question, a: r.answer })) };
+  const f = (await rows<{ question: string; answer: string; topic?: string }>("faqs", "sort")) ?? [];
+  // Kolom topic baru ada setelah launch-2026-11-22.sql; baris lama tanpa topic dianggap kemitraan.
+  return { types: seed.partnershipTypes, faq: f.filter((r) => (r.topic ?? "kemitraan") === "kemitraan").map((r) => ({ q: r.question, a: r.answer })) };
 }
 
 // Teks dan gambar halaman dari Admin > Konten halaman.
@@ -163,6 +164,16 @@ export async function getContent() {
     kiosk: img("img_kiosk", brand.kiosk),
     aboutStory: parseImg(raw.img_about_story),
   };
+}
+
+// FAQ umum untuk halaman /faq. Sebelum SQL dijalankan (atau tanpa Supabase): memakai isi awal dari kode.
+export async function getFaq(): Promise<{ q: string; a: string }[]> {
+  "use cache";
+  cacheLife("minutes");
+  if (!supabaseConfigured) return seed.generalFaqs;
+  const f = await rows<{ question: string; answer: string; topic?: string }>("faqs", "sort");
+  if (!f || !f.some((r) => "topic" in r)) return seed.generalFaqs;
+  return f.filter((r) => r.topic === "umum").map((r) => ({ q: r.question, a: r.answer }));
 }
 
 // ---------- Frozen ----------

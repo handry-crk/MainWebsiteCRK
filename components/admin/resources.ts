@@ -49,7 +49,7 @@ export const resources: Record<string, Resource> = {
       { key: "category", label: "Kategori", type: "select", options: ["Outlet baru", "Produk", "Promo", "Perusahaan"], def: "Perusahaan", list: true },
       { key: "excerpt", label: "Ringkasan (1 kalimat)", type: "textarea", hint: "Dipakai sebagai deskripsi di Google" },
       { key: "cover_url", label: "Foto sampul", type: "image", hint: "Tampil di daftar kabar, halaman kabar, dan saat tautan dibagikan. Sebaiknya mendatar (4:3)." },
-      { key: "body", label: "Isi", type: "textarea", hint: "Pisahkan paragraf dengan satu baris kosong" },
+      { key: "body", label: "Isi", type: "textarea", hint: "Baris kosong = paragraf baru. ## Subjudul, - butir daftar, 1. langkah, **tebal**, [teks](/halaman atau https://...)" },
       { key: "published_at", label: "Tanggal terbit", type: "datetime", list: true },
       { key: "is_published", label: "Terbitkan", type: "bool", def: false, list: true },
     ],
@@ -96,9 +96,21 @@ export const resources: Record<string, Resource> = {
       { key: "is_published", label: "Tampil di website", type: "bool", def: true, list: true },
     ],
   },
-  faqs: {
-    table: "faqs", title: "FAQ kemitraan", one: "pertanyaan", order: "sort",
+  members: {
+    table: "members", title: "Member", one: "member", order: "created_at", asc: false,
     fields: [
+      { key: "name", label: "Nama", required: true, list: true },
+      { key: "whatsapp", label: "WhatsApp", required: true, list: true, hint: "Format 628xxxxxxxxxx" },
+      { key: "city", label: "Kota", list: true },
+      { key: "source", label: "Sumber", list: true, def: "MBR-WEB", hint: "MBR-WEB = daftar lewat website" },
+      { key: "consent", label: "Setuju dihubungi lewat WhatsApp", type: "bool", def: true, list: true },
+      { key: "created_at", label: "Tanggal daftar", type: "datetime", list: true },
+    ],
+  },
+  faqs: {
+    table: "faqs", title: "FAQ", one: "pertanyaan", order: "sort",
+    fields: [
+      { key: "topic", label: "Tampil di", type: "select", options: ["umum", "kemitraan"], def: "umum", list: true, hint: "umum = halaman FAQ; kemitraan = halaman Partnership" },
       { key: "question", label: "Pertanyaan", required: true, list: true },
       { key: "answer", label: "Jawaban", type: "textarea", required: true },
       { key: "sort", label: "Urutan", type: "number", def: 0, list: true },
@@ -148,7 +160,9 @@ export function parseCsv(text: string): string[][] {
 
 export function toCsv(rows: Record<string, unknown>[], cols: string[]): string {
   const esc = (v: unknown) => {
-    const s = v == null ? "" : typeof v === "object" ? JSON.stringify(v) : String(v);
+    let s = v == null ? "" : typeof v === "object" ? JSON.stringify(v) : String(v);
+    // Isian dari publik yang diawali = + - @ bisa dijalankan Excel sebagai rumus; diberi tanda petik. Angka (mis. koordinat negatif) dibiarkan.
+    if (/^[=+\-@\t\r]/.test(s) && Number.isNaN(Number(s))) s = "'" + s;
     return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
   return "﻿" + [cols.join(","), ...rows.map((r) => cols.map((c) => esc(r[c])).join(","))].join("\r\n");

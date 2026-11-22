@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
+import { RichText } from "@/components/RichText";
 import { brand } from "@/config/brand";
 import { getArticle, getNews } from "@/lib/api";
 import { breadcrumbLd, pageMeta, siteUrl } from "@/lib/site";
@@ -43,7 +44,7 @@ export default async function Article({ params }: PageProps<"/news/[slug]">) {
         <p className="article__meta"><Link className="tlink" href="/news">Kabar terbaru</Link> · {a.category} · {a.date}</p>
         <h1 className="h2 article__h">{a.title}</h1>
         {a.cover && <Image className="article__cover" {...a.cover} alt="" priority sizes="(max-width: 900px) 100vw, 860px" />}
-        <div className="prose">{a.body.map((p, i) => <p key={i}>{p}</p>)}</div>
+        <div className="prose"><RichText blocks={a.body} /></div>
       </div>
       <div className="wrap article__more">
         <h2 className="h2">Kabar lainnya</h2>

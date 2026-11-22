@@ -12,6 +12,7 @@ export const brand = {
   whatsappPartnership: "", // [ISI: nomor WA kemitraan]
   instagram: "", // [ISI]
   tiktok: "", // [ISI]
+  careersUrl: "https://people.citarasakuliner.com/",
   order: { gofood: "", grabfood: "", shopeefood: "", tokopedia: "", shopee: "", tiktokshop: "" },
 } as const;
 
@@ -19,7 +20,7 @@ export const nav = [
   { href: "/about", label: "About Us" },
   { href: "/brands", label: "Our Brands & Products" },
   { href: "/locations", label: "Store Locations" },
-  { href: "/careers", label: "Careers" },
+  { href: "https://people.citarasakuliner.com/", label: "Careers" }, // situs rekrutmen CRK; dibuka di tab baru
   { href: "/news", label: "News & Updates" },
   { href: "/partnership", label: "Partnership" },
   { href: "/contact", label: "Contact Us" },
