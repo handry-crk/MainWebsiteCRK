@@ -8,7 +8,7 @@ import { getContent, getFrozen, getSettings } from "@/lib/api";
 import { siteUrl } from "@/lib/site";
 
 export default async function SiteLayout({ children }: LayoutProps<"/">) {
-  const [{ logo, t, v }, st, fz] = await Promise.all([getContent(), getSettings(), getFrozen()]);
+  const [{ logo, t, v, iconInstagram, iconTiktok }, st, fz] = await Promise.all([getContent(), getSettings(), getFrozen()]);
   const abs = (u: string) => (u.startsWith("http") ? u : siteUrl + u);
   const org = {
     "@context": "https://schema.org",
@@ -36,7 +36,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
       <a className="skip" href="#main">Langsung ke isi</a>
       <Header logo={logo} frozen={fz.ready} />
       <main id="main">{children}</main>
-      <Footer lead={t("footer_lead")} count={t("footer_tape_count")} privacy={Boolean(t("privacy_body"))} frozen={fz.ready} instagram={st.instagram} tiktok={st.tiktok} />
+      <Footer lead={t("footer_lead")} count={t("footer_tape_count")} privacy={Boolean(t("privacy_body"))} frozen={fz.ready} instagram={st.instagram} tiktok={st.tiktok} icons={{ instagram: iconInstagram, tiktok: iconTiktok }} />
       <Motion />
       {st.gaId && <Analytics id={st.gaId} />}
     </>

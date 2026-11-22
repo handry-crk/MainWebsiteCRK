@@ -15,6 +15,8 @@ export const contentSchema: ContentGroup[] = [
       { key: "img_mascot_small", label: "Maskot pose kedua", type: "image" },
       { key: "img_kiosk", label: "Foto atau render kios", type: "image", hint: "Tampil di hero Home, About Us, dan halaman menu" },
       { key: "img_about_story", label: "Foto untuk cerita brand (About Us)", type: "image", hint: "Kosong = maskot" },
+      { key: "img_icon_instagram", label: "Logo Instagram (footer)", type: "image", hint: "File logo resmi dari Instagram, PNG persegi tanpa latar, minimal 96 px. Kosong = tulisan saja" },
+      { key: "img_icon_tiktok", label: "Logo TikTok (footer)", type: "image", hint: "File logo resmi dari TikTok, PNG persegi tanpa latar, minimal 96 px. Kosong = tulisan saja" },
     ],
   },
   {

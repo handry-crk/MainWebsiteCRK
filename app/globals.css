@@ -1003,3 +1003,5 @@ a.quiz__again { display: inline-flex; align-items: center; }
 
 .ftr__social { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4); font-size: var(--t-small); font-weight: 600; }
 .ftr__social a { color: inherit; font-weight: 800; text-underline-offset: 0.25em; min-height: 44px; display: inline-flex; align-items: center; }
+.ftr__social a { gap: var(--s2); }
+.ftr__social img { width: 28px; height: 28px; object-fit: contain; }
