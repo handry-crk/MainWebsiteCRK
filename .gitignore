@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 !.env.example
+
+# file petunjuk yang dibuat otomatis oleh next dev
+AGENTS.md
