@@ -20,6 +20,7 @@ export async function GET() {
     "# CRK Group",
     "",
     "CRK Group (PT Citarasa Kuliner Indonesia, Bandung) adalah perusahaan di balik Cimol Bojot AA, jajanan cimol khas Bandung dengan 500+ titik gerobak dan puluhan kios di Bandung dan Jabodetabek. Halaman Store Locations memuat daftar kios; titik gerobak tidak didaftar satu per satu.",
+    ...(c.v("partnership_notice") ? ["", `${c.v("partnership_notice_title")}: ${c.v("partnership_notice")}`] : []),
     "",
     "## Menu dan harga Cimol Bojot AA (rupiah, Bandung | Jabodetabek)",
     ...menu.flatMap((c) => ["", `### ${c.name}${c.note ? ` (${c.note})` : ""}`, ...c.items.map((i) => `- ${i.name}: ${i.bandung} | ${i.jabodetabek}`)]),

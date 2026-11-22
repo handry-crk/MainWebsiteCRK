@@ -33,3 +33,6 @@ export function RichText({ text, blocks }: { text?: string; blocks?: string[] })
     </>
   );
 }
+
+// Teks polos dari isi berformat, untuk data terstruktur: [teks](alamat) -> teks, **tebal** -> tebal.
+export const plain = (s: string) => s.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/^##\s+/gm, "").replace(/\s*\n+\s*/g, " ").trim();

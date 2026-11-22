@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
-import { RichText } from "@/components/RichText";
+import { plain, RichText } from "@/components/RichText";
 import { getContent, getFaq, seoMeta } from "@/lib/api";
 
 export const generateMetadata = () => seoMeta("faq", "/faq");
@@ -13,7 +13,7 @@ export default async function Faq() {
   const [faq, c] = await Promise.all([getFaq(), getContent()]);
   const shown = faq.filter((f) => f.a && (c.showPlaceholders || !f.a.includes("[ISI")));
   const real = faq.filter((f) => f.a && !f.a.includes("[ISI"));
-  const ld = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: real.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) };
+  const ld = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: real.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: plain(f.a) } })) };
   return (
     <>
       {real.length > 0 && <JsonLd data={ld} />}

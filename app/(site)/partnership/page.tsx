@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { JsonLd } from "@/components/JsonLd";
-import { RichText } from "@/components/RichText";
+import { plain, RichText } from "@/components/RichText";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
@@ -17,10 +17,11 @@ const steps = [
 
 export default async function Partnership() {
   const [{ types, faq }, st, c] = await Promise.all([getPartnership(), getSettings(), getContent()]);
+  const notice = c.t("partnership_notice");
   const ld = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: plain(f.a) } })),
   };
   return (
     <>
@@ -30,6 +31,14 @@ export default async function Partnership() {
       </PageHero>
 
       <section className="sec">
+        {notice && (
+          <div className="wrap">
+            <aside className="notice" aria-labelledby="notice-h">
+              <h2 className="notice__h" id="notice-h">{c.t("partnership_notice_title")}</h2>
+              <p>{notice}</p>
+            </aside>
+          </div>
+        )}
         <div className="wrap">
           <h2 className="h2">Pilih bentuk kerja samanya</h2>
           <ul className="ptypes">

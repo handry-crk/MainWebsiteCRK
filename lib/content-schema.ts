@@ -113,6 +113,8 @@ export const contentSchema: ContentGroup[] = [
     page: "Partnership",
     fields: [
       { key: "partnership_intro", label: "Kalimat pembuka", type: "textarea", def: "Buat acara kantor, hampers, reseller Frozen, sampai buka titik baru. Ngobrol aja dulu." },
+      { key: "partnership_notice_title", label: "Pemberitahuan, judul", def: "Pemberitahuan resmi", max: 30 },
+      { key: "partnership_notice", label: "Pemberitahuan, isi", type: "textarea", def: "PT Citarasa Kuliner Indonesia (CRK) dan Cimol Bojot AA tidak membuka kemitraan berbentuk franchise.", hint: "Tampil di bagian atas halaman Partnership dan di ringkasan untuk AI." },
       { key: "partner_type_1_text", label: "Pesanan acara dan kantor", type: "textarea", def: "Cimol buat rapat, ulang tahun kantor, atau acara komunitas.", hint: "Tambahkan minimal pesanan dan area layanan" },
       { key: "partner_type_2_text", label: "Hampers Frozen", type: "textarea", def: "Cimol Frozen dikemas jadi bingkisan.", hint: "Tambahkan pilihan paket dan waktu pesan" },
       { key: "partner_type_3_text", label: "Reseller dan agen Frozen", type: "textarea", def: "Jual Cimol Bojot AA Frozen di kota Kakak.", hint: "Tambahkan syarat dan skema" },
@@ -176,7 +178,7 @@ export const contentSchema: ContentGroup[] = [
       { key: "seo_news_title", label: "News & Updates, judul", def: "Kabar Terbaru Cimol Bojot AA", max: 48 },
       { key: "seo_news_desc", label: "News & Updates, deskripsi", type: "textarea", def: "Kabar terbaru Cimol Bojot AA dan CRK Group: kios baru, produk baru, promo, dan berita perusahaan.", max: 155 },
       { key: "seo_partnership_title", label: "Partnership, judul", def: "Kemitraan dan Pesanan Acara Cimol Bojot AA", max: 48 },
-      { key: "seo_partnership_desc", label: "Partnership, deskripsi", type: "textarea", def: "Kerja sama dengan CRK Group dan Cimol Bojot AA: pesanan acara dan kantor, hampers Frozen, reseller dan agen Frozen, serta kemitraan titik outlet.", max: 155 },
+      { key: "seo_partnership_desc", label: "Partnership, deskripsi", type: "textarea", def: "Kerja sama resmi dengan Cimol Bojot AA: pesanan acara, hampers Frozen, dan reseller Frozen. Cimol Bojot AA tidak membuka kemitraan berbentuk franchise.", max: 155 },
       { key: "seo_contact_title", label: "Contact Us, judul", def: "Kontak dan WhatsApp Cimol Bojot AA", max: 48 },
       { key: "seo_contact_desc", label: "Contact Us, deskripsi", type: "textarea", def: "Hubungi CRK Group dan Cimol Bojot AA lewat WhatsApp customer service, tim kemitraan, atau form pesan.", max: 155 },
     ],
