@@ -20,8 +20,14 @@ export const nav = [
   { href: "/about", label: "About Us" },
   { href: "/brands", label: "Our Brands & Products" },
   { href: "/locations", label: "Store Locations" },
-  { href: "https://people.citarasakuliner.com/", label: "Careers" }, // situs rekrutmen CRK; dibuka di tab baru
   { href: "/news", label: "News & Updates" },
   { href: "/partnership", label: "Partnership" },
   { href: "/contact", label: "Contact Us" },
+] as const;
+
+// Tautan tambahan di footer. Careers = situs rekrutmen CRK, dibuka di tab baru.
+export const footerNav = [
+  { href: brand.careersUrl, label: "Careers" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/member", label: "Member" },
 ] as const;

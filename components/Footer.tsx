@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { brand, nav } from "@/config/brand";
+import { brand, footerNav, nav } from "@/config/brand";
 import { contentFields } from "@/lib/content-schema";
 import { NavLink } from "./NavLink";
 import { Tape } from "./Tape";
@@ -16,9 +16,10 @@ export function Footer({ lead = contentFields.footer_lead.def!, count = contentF
           {nav.map((n) => (
             <NavLink key={n.href} href={n.href}>{n.label}</NavLink>
           ))}
-          {frozen && <Link href="/frozen">Cimol Frozen</Link>}
-          <Link href="/faq">FAQ</Link>
-          <Link href="/member">Member</Link>
+          {frozen && <Link href="/frozen">Frozen</Link>}
+          {footerNav.map((n) => (
+            <NavLink key={n.href} href={n.href}>{n.label}</NavLink>
+          ))}
         </nav>
         <p className="ftr__legal">© 2026 {brand.legalName}{privacy && <> · <Link href="/privacy">Kebijakan Privasi</Link></>}</p>
       </div>

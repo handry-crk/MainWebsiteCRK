@@ -30,7 +30,6 @@ export default async function Frozen() {
   const steps = c.t("frozen_cooking").split("\n").map((s) => s.trim()).filter(Boolean);
   const facts: [string, string][] = ([["Isi dan berat per pack", c.t("frozen_pack")], ["Bumbu", c.t("frozen_seasoning")], ["Cara simpan", c.t("frozen_storage")], ["Masa simpan", c.t("frozen_shelf_life")]] as [string, string][]).filter(([, v]) => v);
   const ship: [string, string][] = ([["Area kirim", c.t("frozen_area")], ["Metode kirim dan kemasan", c.t("frozen_method")], ["Jam potong order", c.t("frozen_cutoff")]] as [string, string][]).filter(([, v]) => v);
-  const outside = c.t("frozen_outside");
   const halal = c.v("frozen_halal_no"), permit = c.v("frozen_permit_no");
   const shownFaqs = faqs.filter((f) => f.a && (c.showPlaceholders || !f.a.includes("[ISI")));
   const realFaqs = faqs.filter((f) => f.a && !f.a.includes("[ISI"));
@@ -119,12 +118,11 @@ export default async function Frozen() {
         </section>
       )}
 
-      {(ship.length > 0 || outside) && (
+      {ship.length > 0 && (
         <section className="sec">
           <div className="wrap split split--top">
             <div className="prose">
               <h2 className="h2">Pengiriman</h2>
-              {outside && <p><b>{outside}</b></p>}
             </div>
             <dl className="kd__facts">{ship.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
           </div>

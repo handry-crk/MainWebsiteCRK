@@ -6,7 +6,9 @@ import { nav } from "@/config/brand";
 import { NavLink } from "./NavLink";
 import type { Img } from "@/lib/content-schema";
 
-export function Header({ logo }: { logo: Img }) {
+// `frozen` = halaman Frozen sudah punya harga dan tautan beli; baru saat itu masuk menu utama, setelah Our Brands & Products.
+export function Header({ logo, frozen = false }: { logo: Img; frozen?: boolean }) {
+  const items = frozen ? [...nav.slice(0, 2), { href: "/frozen", label: "Frozen" }, ...nav.slice(2)] : nav;
   const [open, setOpen] = useState(false);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -22,7 +24,7 @@ export function Header({ logo }: { logo: Img }) {
           <Image {...logo} alt="Cimol Bojot AA, CRK Group" priority sizes="120px" />
         </Link>
         <nav className="hdr__nav" aria-label="Utama">
-          {nav.map((n) => (
+          {items.map((n) => (
             <NavLink key={n.href} href={n.href}>{n.label}</NavLink>
           ))}
         </nav>
@@ -34,7 +36,7 @@ export function Header({ logo }: { logo: Img }) {
       <div id="mnav" className={`mnav${open ? " is-open" : ""}`} hidden={!open}>
         <nav className="wrap" aria-label="Menu">
           <Link href="/" onClick={() => setOpen(false)}>Home</Link>
-          {nav.map((n) => (
+          {items.map((n) => (
             <NavLink key={n.href} href={n.href} onClick={() => setOpen(false)}>{n.label}</NavLink>
           ))}
         </nav>

@@ -13,7 +13,7 @@ export async function GET() {
     "",
     ...fz.products.map((p) => `- ${p.name}${p.price ? `: Rp${p.price.toLocaleString("id-ID")}` : ""}${p.available ? "" : " (stok habis)"}${p.shopee || p.tokopedia || p.tiktok ? `, beli: ${p.shopee || p.tokopedia || p.tiktok}` : ""}`),
     ...fact("Isi dan berat per pack", "frozen_pack"), ...fact("Cara goreng", "frozen_cooking"), ...fact("Cara simpan", "frozen_storage"), ...fact("Masa simpan", "frozen_shelf_life"),
-    ...fact("Area kirim", "frozen_area"), ...fact("Jam potong order", "frozen_cutoff"), ...fact("Luar area", "frozen_outside"),
+    ...fact("Area kirim", "frozen_area"), ...fact("Jam potong order", "frozen_cutoff"),
     `- Halaman: ${siteUrl}/frozen`,
   ] : [];
   const lines = [
