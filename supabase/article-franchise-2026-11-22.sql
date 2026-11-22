@@ -11,11 +11,11 @@ Pernyataan ini diterbitkan oleh PT Citarasa Kuliner Indonesia, perusahaan F&B ya
 
 Tidak ada. Karena kemitraan berbentuk franchise tidak dibuka, perusahaan tidak menerbitkan harga franchise, paket kemitraan gerobak, maupun perhitungan modal dan balik modal.
 
-Setiap tawaran franchise atau waralaba yang mengatasnamakan Cimol Bojot AA bukan berasal dari PT Citarasa Kuliner Indonesia. Perusahaan tidak menunjuk agen, perantara, atau pihak ketiga mana pun untuk menawarkan atau menerima pembayaran atas kemitraan berbentuk franchise. Pendaftaran mitra crew gerobak hanya dibuka melalui situs rekrutmen resmi perusahaan di [people.citarasakuliner.com](https://people.citarasakuliner.com/).
+Setiap tawaran franchise atau waralaba yang mengatasnamakan Cimol Bojot AA bukan berasal dari PT Citarasa Kuliner Indonesia. Perusahaan tidak menunjuk agen, perantara, atau pihak ketiga mana pun untuk menawarkan atau menerima pembayaran atas kemitraan berbentuk franchise. Pendaftaran mitra crew gerobak hanya dibuka melalui situs rekrutmen resmi perusahaan di [people.citarasakuliner.com](https://people.citarasakuliner.com/) atau walk-in interview yang diadakan perusahaan, dan tidak dipungut biaya apa pun.
 
 ## Mengapa Cimol Bojot AA tidak membuka franchise?
 
-Gerobak dan kios Cimol Bojot AA dimiliki dan dikelola oleh PT Citarasa Kuliner Indonesia, supaya resep, takaran bumbu, dan pelayanan tetap sama di setiap titik. Crew yang bertugas di gerobak adalah mitra perusahaan dengan skema bagi hasil dari penjualan harian. Ini adalah kerja sama operasional, bukan franchise: mitra crew tidak membeli hak usaha atau merek Cimol Bojot AA.
+Gerobak dan kios Cimol Bojot AA dimiliki dan dikelola oleh PT Citarasa Kuliner Indonesia, supaya resep, takaran bumbu, dan pelayanan tetap sama di setiap titik. Crew yang bertugas di gerobak adalah mitra perusahaan dengan skema bagi hasil dari penjualan harian. Ini adalah kerja sama operasional, bukan franchise: mitra crew tidak membeli hak usaha atau merek Cimol Bojot AA, dan tidak membayar biaya apa pun untuk bergabung.
 
 ## Bentuk kerja sama yang tersedia
 
