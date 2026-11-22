@@ -11,8 +11,10 @@ export default async function About() {
   const kios = outlets.length;
   const story = [c.t("about_story_1"), c.t("about_story_2")].filter(Boolean);
   const milestones = [1, 2, 3, 4].map((i) => ({ year: c.t(`about_milestone_${i}_year`), text: c.t(`about_milestone_${i}_text`) })).filter((m) => m.year || m.text);
-  const values = [1, 2, 3].map((i) => ({ title: c.t(`about_value_${i}_title`), text: c.t(`about_value_${i}_text`) })).filter((v) => v.title);
+  const values = [1, 2, 3, 4, 5, 6].map((i) => ({ title: c.t(`about_value_${i}_title`), text: c.t(`about_value_${i}_text`) })).filter((v) => v.title);
   const crew = c.t("about_crew_count");
+  const vision = c.t("about_vision");
+  const mission = c.t("about_mission").split("\n").map((x) => x.trim()).filter(Boolean);
   return (
     <>
       <PageHero crumb="About Us" path="/about" lines={["Dari gerobak,", "naik kelas."]} intro={c.t("about_intro")}>
@@ -23,7 +25,7 @@ export default async function About() {
         {story.length > 0 && (
           <div className="wrap split">
             <div className="prose">
-              <h2 className="h2">Ceritanya begini</h2>
+              <h2 className="h2">Sejarah kami</h2>
               {story.map((p) => <p key={p}>{p}</p>)}
             </div>
             {c.aboutStory
@@ -47,10 +49,19 @@ export default async function About() {
       )}
 
       <section className="sec">
-        {values.length > 0 && (
+        {(vision || mission.length > 0) && (
           <div className="wrap split split--top">
-            <h2 className="h2">Yang kami pegang</h2>
-            <ul className="rows">
+            <h2 className="h2">Visi dan misi</h2>
+            <div className="prose">
+              {vision && <p><b>Visi.</b> {vision}</p>}
+              {mission.length > 1 ? <ol className="rt__list">{mission.map((m) => <li key={m}>{m}</li>)}</ol> : mission.length === 1 ? <p><b>Misi.</b> {mission[0]}</p> : null}
+            </div>
+          </div>
+        )}
+        {values.length > 0 && (
+          <div className="wrap closing">
+            <h2 className="h2">Core Value CRK</h2>
+            <ul className={values.length > 3 ? "rows rows--grid" : "rows"}>
               {values.map((v) => <li key={v.title}><h3>{v.title}</h3><p>{v.text}</p></li>)}
             </ul>
           </div>

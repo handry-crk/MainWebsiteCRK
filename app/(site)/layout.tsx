@@ -8,7 +8,7 @@ import { getContent, getFrozen, getSettings } from "@/lib/api";
 import { siteUrl } from "@/lib/site";
 
 export default async function SiteLayout({ children }: LayoutProps<"/">) {
-  const [{ logo, t }, st, fz] = await Promise.all([getContent(), getSettings(), getFrozen()]);
+  const [{ logo, t, v }, st, fz] = await Promise.all([getContent(), getSettings(), getFrozen()]);
   const abs = (u: string) => (u.startsWith("http") ? u : siteUrl + u);
   const org = {
     "@context": "https://schema.org",
@@ -20,6 +20,8 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
     url: siteUrl,
     logo: abs(logo.src),
     slogan: brand.tagline,
+    foundingDate: "2020",
+    ...(v("about_intro") ? { description: v("about_intro") } : {}),
     address: { "@type": "PostalAddress", addressLocality: "Bandung", addressRegion: "Jawa Barat", addressCountry: "ID" },
     brand: { "@type": "Brand", name: "Cimol Bojot AA" },
     sameAs: [st.instagram, st.tiktok].filter(Boolean),
