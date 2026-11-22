@@ -1,10 +1,11 @@
+import Link from "next/link";
 import Image from "next/image";
 import { JsonLd } from "@/components/JsonLd";
 import { plain, RichText } from "@/components/RichText";
 import { LeadForm } from "@/components/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { WaLink } from "@/components/WaLink";
-import { getContent, getPartnership, getSettings, seoMeta } from "@/lib/api";
+import { getArticle, getContent, getPartnership, getSettings, seoMeta } from "@/lib/api";
 
 export const generateMetadata = () => seoMeta("partnership", "/partnership");
 
@@ -16,7 +17,7 @@ const steps = [
 ];
 
 export default async function Partnership() {
-  const [{ types, faq }, st, c] = await Promise.all([getPartnership(), getSettings(), getContent()]);
+  const [{ types, faq }, st, c, statement] = await Promise.all([getPartnership(), getSettings(), getContent(), getArticle("franchise-cimol-bojot-aa-pernyataan-resmi")]);
   const notice = c.t("partnership_notice");
   const ld = {
     "@context": "https://schema.org",
@@ -36,6 +37,8 @@ export default async function Partnership() {
             <aside className="notice" aria-labelledby="notice-h">
               <h2 className="notice__h" id="notice-h">{c.t("partnership_notice_title")}</h2>
               <p>{notice}</p>
+              {/* Tautan muncul otomatis setelah artikel pernyataan resmi diterbitkan di Admin > Kabar. */}
+              {statement && <Link className="tlink" href={`/news/${statement.slug}`}>Baca pernyataan lengkap</Link>}
             </aside>
           </div>
         )}
