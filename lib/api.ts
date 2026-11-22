@@ -163,8 +163,8 @@ export async function getContent() {
     mascotSmall: img("img_mascot_small", brand.mascotSmall),
     kiosk: img("img_kiosk", brand.kiosk),
     aboutStory: parseImg(raw.img_about_story),
-    iconInstagram: parseImg(raw.img_icon_instagram),
-    iconTiktok: parseImg(raw.img_icon_tiktok),
+    iconInstagram: parseImg(raw.img_icon_instagram) ?? brand.iconInstagram,
+    iconTiktok: parseImg(raw.img_icon_tiktok) ?? brand.iconTiktok,
   };
 }
 

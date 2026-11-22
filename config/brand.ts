@@ -12,6 +12,9 @@ export const brand = {
   whatsappPartnership: "", // [ISI: nomor WA kemitraan]
   instagram: "https://www.instagram.com/cimolbojotaa", // akun resmi (dari klien, 22 Nov 2026); bisa ditimpa di Admin > Pengaturan
   tiktok: "https://www.tiktok.com/@cimolbojot.aa", // akun resmi (dari klien, 22 Nov 2026)
+  // Logo resmi dari paket aset merek Instagram dan TikTok (diserahkan klien 22 Nov 2026), hanya diperkecil. Jangan diubah bentuk atau warnanya.
+  iconInstagram: { src: "/brand/social/instagram.png", width: 112, height: 112 },
+  iconTiktok: { src: "/brand/social/tiktok.png", width: 112, height: 112 },
   careersUrl: "https://people.citarasakuliner.com/",
   order: { gofood: "", grabfood: "", shopeefood: "", tokopedia: "", shopee: "", tiktokshop: "" },
 } as const;
