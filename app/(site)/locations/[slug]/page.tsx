@@ -5,7 +5,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { Starburst } from "@/components/Starburst";
 import { WaLink } from "@/components/WaLink";
-import { getOutlet, getOutlets, getSettings } from "@/lib/api";
+import { getMenu, getOutlet, getOutlets, getSettings } from "@/lib/api";
 import { pageMeta, siteUrl } from "@/lib/site";
 
 // Satu halaman per kios: alamat, jam, petunjuk arah, dan tautan pesan.
@@ -24,14 +24,20 @@ export async function generateMetadata({ params }: PageProps<"/locations/[slug]"
   const lead = `Cimol Bojot AA ${o.name} di ${o.city}: alamat, ${o.soon ? "jadwal buka" : "jam buka"}, dan petunjuk arah.`;
   const full = `${lead} ${o.address}`;
   const description = full.length <= 155 ? full : full.slice(0, 155).replace(/[\s,.]+\S*$/, "");
-  return pageMeta({ title: `Cimol Bojot AA ${o.name}, ${o.city}`, description, path: `/locations/${o.slug}` });
+  // Judul tanpa akhiran " | CRK Group"; kota ditambahkan hanya bila masih muat dalam 60 karakter.
+  const short = `Cimol Bojot AA ${o.name}`, withCity = `${short}, ${o.city}`;
+  const meta = pageMeta({ title: withCity.length <= 60 ? withCity : short, description, path: `/locations/${o.slug}` });
+  return { ...meta, title: { absolute: withCity.length <= 60 ? withCity : short } };
 }
 
 export default async function OutletPage({ params }: PageProps<"/locations/[slug]">) {
   const o = await getOutlet((await params).slug);
   if (!o) notFound();
-  const [all, st] = await Promise.all([getOutlets(), getSettings()]);
-  const near = all.filter((x) => x.city === o.city && x.id !== o.id).slice(0, 8);
+  const [all, st, menu] = await Promise.all([getOutlets(), getSettings(), getMenu()]);
+  // Menu andalan dengan harga wilayah kios ini (Bandung dan Cimahi memakai harga Bandung, selebihnya Jabodetabek).
+  const bandung = /bandung|cimahi/i.test(o.city);
+  const picks = menu.flatMap((cat) => cat.items).filter((i) => i.best).slice(0, 4).map((i) => ({ name: i.name, note: i.note, price: bandung ? i.bandung : i.jabodetabek }));
+  const near = all.filter((x) => x.city === o.city && x.id !== o.id).slice(0, 14);
   // Judul poster: kata pertama di atas merah, sisanya di panel krem, dipecah per baris (maks. sekitar 14 huruf)
   // supaya nama kios yang panjang tidak keluar layar di ponsel.
   const [first, ...rest] = o.name.split(" ");
@@ -80,7 +86,15 @@ export default async function OutletPage({ params }: PageProps<"/locations/[slug
           </div>
           <aside className="kd__side">
             <h2 className="h2">Mau pesan apa, Kak?</h2>
-            <p>Menu dan harga semua kios ada di satu halaman. Harga bisa beda sedikit di tiap gerobak dan kios.</p>
+            {picks.length > 0 && (
+              <>
+                <p>Menu andalan di {o.name}, harga {bandung ? "Bandung" : "Jabodetabek"}:</p>
+                <ul className="kd__menu">
+                  {picks.map((m) => <li key={m.name}><b>{m.name}</b><span>Rp{m.price.replace(/\s*\/\s*/g, " / Rp")}</span></li>)}
+                </ul>
+              </>
+            )}
+            <p>Harga bisa beda sedikit di tiap gerobak dan kios.</p>
             <div className="kd__act">
               <Link className="btn btn--cream" href="/brands">Lihat menu dan harga</Link>
               <WaLink variant="line" number={st.whatsappCs} text={`Halo Cimol Bojot AA, saya mau tanya soal ${o.name}.`}>Tanya lewat WhatsApp</WaLink>

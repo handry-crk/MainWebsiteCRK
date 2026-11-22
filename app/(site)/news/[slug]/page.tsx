@@ -17,7 +17,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/news/[slug]">): Promise<Metadata> {
   const a = await getArticle((await params).slug);
   if (!a) return {};
-  const meta = pageMeta({ title: a.title, description: a.excerpt, path: `/news/${a.slug}` });
+  const base = pageMeta({ title: a.title, description: a.excerpt, path: `/news/${a.slug}` });
+  // Judul yang sudah panjang tidak diberi akhiran " | CRK Group" supaya tidak terpotong di Google.
+  const meta: Metadata = {
+    ...base,
+    ...(a.title.length > 48 ? { title: { absolute: a.title } } : {}),
+    openGraph: { ...base.openGraph, type: "article", ...(a.isoDate ? { publishedTime: a.isoDate } : {}) },
+  };
   return a.cover ? { ...meta, openGraph: { ...meta.openGraph, images: [{ url: a.cover.src, width: a.cover.width, height: a.cover.height }] } } : meta;
 }
 
@@ -39,7 +45,7 @@ export default async function Article({ params }: PageProps<"/news/[slug]">) {
   return (
     <article className="sec">
       <JsonLd data={ld} />
-      <JsonLd data={breadcrumbLd("News & Updates", "/news")} />
+      <JsonLd data={breadcrumbLd(a.title, `/news/${a.slug}`, { name: "News & Updates", path: "/news" })} />
       <div className="wrap article">
         <p className="article__meta"><Link className="tlink" href="/news">Kabar terbaru</Link> · {a.category} · {a.date}</p>
         <h1 className="h2 article__h">{a.title}</h1>

@@ -234,6 +234,7 @@ export function OutletFinder({ outlets }: { outlets: Outlet[] }) {
             <span>{geoMsg || (pos ? `${list.length} kios, dari yang paling dekat` : `${list.length} kios`)}</span>
             {filtered && <button type="button" className="tlink" onClick={reset}>Hapus saringan</button>}
           </p>
+          <h2 className="sr">Daftar kios</h2>
           <div className="finder__list" ref={listEl}>
             {list.length === 0 && <p className="finder__empty">Belum ada kios yang cocok, Kak. Coba kota lain atau hapus saringan.</p>}
             {list.map((o, i) => {

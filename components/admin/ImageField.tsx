@@ -41,7 +41,8 @@ export function ImageField({ value, onChange, folder, label }: { value: string; 
     setBusy(true); setMsg("Mengunggah...");
     try {
       const { blob, width, height, ext } = await shrink(file);
-      const name = file.name.replace(/\.[^.]+$/, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "foto";
+      // Nama file asli tidak dipakai: alamat gambar terlihat publik, dan nama asli sering memuat hal yang tidak perlu tampil.
+      const name = label.toLowerCase().replace(/\(.*?\)/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 30) || "foto";
       const path = `${folder}/${Date.now()}-${name}.${ext}`;
       const sb = browserClient();
       const { error } = await sb.storage.from("media").upload(path, blob, { contentType: blob.type, cacheControl: "31536000" });

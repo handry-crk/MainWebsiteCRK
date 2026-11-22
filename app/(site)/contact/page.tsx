@@ -16,6 +16,7 @@ export default async function Contact() {
       </PageHero>
       <section className="sec">
         <div className="wrap">
+          <h2 className="sr">Cara menghubungi kami</h2>
           <ul className="ptypes ptypes--3">
             <li className="panel panel--line">
               <h3>Customer service</h3>
