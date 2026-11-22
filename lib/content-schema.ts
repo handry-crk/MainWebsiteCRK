@@ -49,7 +49,7 @@ export const contentSchema: ContentGroup[] = [
     fields: [
       { key: "about_intro", label: "Deskripsi singkat perusahaan", type: "textarea", def: "PT Citarasa Kuliner Indonesia adalah perusahaan F&B yang lahir di Bandung, berfokus pada penyajian jajanan lokal dengan citarasa yang otentik dan modern untuk melestarikan budaya lokal dengan cara baru." },
       { key: "about_story_1", label: "Sejarah, paragraf 1", type: "textarea", def: "PT Citarasa Kuliner Indonesia berdiri sejak tahun 2020, dipelopori pembukaan outlet berupa sebuah gerobak cimol di Kota Bandung." },
-      { key: "about_story_2", label: "Sejarah, paragraf 2", type: "textarea", def: "Seiring berkembangnya perusahaan, brand utama PT Citarasa Kuliner Indonesia, yaitu Cimol Bojot AA, sangat digemari oleh kalangan muda Bandung sehingga terus bertumbuh membuka outlet gerobak di berbagai wilayah di Bandung Raya hingga Jakarta." },
+      { key: "about_story_2", label: "Sejarah, paragraf 2", type: "textarea", def: "Seiring berkembangnya perusahaan, brand utama PT Citarasa Kuliner Indonesia, yaitu Cimol Bojot AA, sangat digemari oleh kalangan muda Bandung sehingga terus bertumbuh membuka outlet gerobak di berbagai wilayah di Bandung Raya hingga Jabodetabek, dan akan hadir di seluruh Indonesia pada tahun 2027." },
       { key: "about_vision", label: "Visi", type: "textarea", ph: "[ISI: visi perusahaan]" },
       { key: "about_mission", label: "Misi", type: "textarea", ph: "[ISI: misi perusahaan]", hint: "Satu misi per baris" },
       { key: "about_milestone_1_year", label: "Perjalanan 1, tahun", def: "2020" },
