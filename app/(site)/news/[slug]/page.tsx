@@ -33,7 +33,7 @@ export default async function Article({ params }: PageProps<"/news/[slug]">) {
     ...(a.isoDate ? { datePublished: a.isoDate } : {}),
     ...(a.cover ? { image: a.cover.src } : {}),
     mainEntityOfPage: `${siteUrl}/news/${a.slug}`,
-    author: { "@type": "Organization", name: brand.company, url: siteUrl },
+    author: { "@type": "Organization", name: brand.legalName, url: siteUrl + "/about", "@id": siteUrl + "/#organization" },
     publisher: { "@type": "Organization", name: brand.company, "@id": siteUrl + "/#organization" },
   };
   return (
@@ -43,6 +43,7 @@ export default async function Article({ params }: PageProps<"/news/[slug]">) {
       <div className="wrap article">
         <p className="article__meta"><Link className="tlink" href="/news">Kabar terbaru</Link> · {a.category} · {a.date}</p>
         <h1 className="h2 article__h">{a.title}</h1>
+        <p className="article__by">Diterbitkan oleh <Link className="tlink" href="/about">{brand.legalName}</Link></p>
         {a.cover && <Image className="article__cover" {...a.cover} alt="" priority sizes="(max-width: 900px) 100vw, 860px" />}
         <div className="prose"><RichText blocks={a.body} /></div>
       </div>
