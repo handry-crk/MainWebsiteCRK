@@ -10,8 +10,8 @@ export const brand = {
   kiosk: { src: "/brand/kiosk.jpg", width: 604, height: 334 },
   whatsappCs: "", // [ISI: nomor WA CS, format 62xxxxxxxxxx]
   whatsappPartnership: "", // [ISI: nomor WA kemitraan]
-  instagram: "", // [ISI]
-  tiktok: "", // [ISI]
+  instagram: "https://www.instagram.com/cimolbojotaa", // akun resmi (dari klien, 22 Nov 2026); bisa ditimpa di Admin > Pengaturan
+  tiktok: "https://www.tiktok.com/@cimolbojot.aa", // akun resmi (dari klien, 22 Nov 2026)
   careersUrl: "https://people.citarasakuliner.com/",
   order: { gofood: "", grabfood: "", shopeefood: "", tokopedia: "", shopee: "", tiktokshop: "" },
 } as const;

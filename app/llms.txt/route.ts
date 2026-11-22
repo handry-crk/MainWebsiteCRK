@@ -1,9 +1,9 @@
-import { getContent, getFrozen, getMenu } from "@/lib/api";
+import { getContent, getFrozen, getMenu, getSettings } from "@/lib/api";
 import { siteUrl } from "@/lib/site";
 
 // Ringkasan teks polos untuk AI assistant (GEO).
 export async function GET() {
-  const [menu, fz, c] = await Promise.all([getMenu(), getFrozen(), getContent()]);
+  const [menu, fz, c, st] = await Promise.all([getMenu(), getFrozen(), getContent(), getSettings()]);
   // Bagian Frozen hanya memuat isi yang nyata: c.v() tidak pernah mengembalikan penanda [ISI: ...].
   const fact = (label: string, key: string) => (c.v(key) ? [`- ${label}: ${c.v(key).replace(/\n+/g, "; ")}`] : []);
   const frozen = fz.ready ? [
@@ -25,6 +25,7 @@ export async function GET() {
     "## Menu dan harga Cimol Bojot AA (rupiah, Bandung | Jabodetabek)",
     ...menu.flatMap((c) => ["", `### ${c.name}${c.note ? ` (${c.note})` : ""}`, ...c.items.map((i) => `- ${i.name}: ${i.bandung} | ${i.jabodetabek}`)]),
     ...frozen,
+    ...(st.instagram || st.tiktok ? ["", "## Akun resmi", ...(st.instagram ? [`- Instagram: ${st.instagram}`] : []), ...(st.tiktok ? [`- TikTok: ${st.tiktok}`] : [])] : []),
     "",
     "## Halaman",
     ...[["About Us", "/about"], ["Our Brands & Products", "/brands"], ["Store Locations", "/locations"], ["FAQ", "/faq"], ["Member", "/member"], ["News & Updates", "/news"], ["Partnership", "/partnership"], ["Contact Us", "/contact"]].map(([t, p]) => `- [${t}](${siteUrl}${p})`),

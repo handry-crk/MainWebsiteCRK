@@ -1,5 +1,5 @@
 -- Artikel pernyataan resmi: tidak membuka kemitraan berbentuk franchise. Jalankan sekali di Supabase > SQL Editor. Aman dijalankan ulang.
--- Masuk sebagai DRAF (belum terbit). Lengkapi bagian bertanda [ISI ...] (nama akun media sosial resmi) di Admin > Kabar, unggah sampul 16:9, lalu centang "Terbitkan".
+-- Masuk sebagai DRAF (belum terbit). Periksa isinya di Admin > Kabar, unggah sampul 16:9, lalu centang "Terbitkan".
 insert into public.articles (slug, title, category, excerpt, body, is_published) values
   ('franchise-cimol-bojot-aa-pernyataan-resmi', 'Franchise Cimol Bojot AA: Pernyataan Resmi Perusahaan', 'Perusahaan', 'Pernyataan resmi PT Citarasa Kuliner Indonesia: Cimol Bojot AA tidak membuka kemitraan berbentuk franchise. Ini bentuk kerja sama yang tersedia.', 'PT Citarasa Kuliner Indonesia (CRK) dan Cimol Bojot AA **tidak membuka kemitraan berbentuk franchise** atau waralaba. Halaman ini adalah pernyataan resmi perusahaan pemilik brand Cimol Bojot AA.
 
@@ -30,7 +30,7 @@ Rincian dan form pendaftarannya ada di halaman [Partnership](/partnership).
 ## Cara memastikan informasi yang resmi
 
 1. Cek halaman [Partnership](/partnership) di website ini. Bentuk kerja sama yang tidak tercantum di sana tidak ditawarkan perusahaan.
-2. Cek akun media sosial resmi: [ISI: nama akun Instagram dan TikTok resmi].
+2. Cek akun media sosial resmi: [Instagram @cimolbojotaa](https://www.instagram.com/cimolbojotaa) dan [TikTok @cimolbojot.aa](https://www.tiktok.com/@cimolbojot.aa).
 3. Hubungi tim kami lewat halaman [Contact Us](/contact).
 
 ## Kalau menerima tawaran franchise Cimol Bojot AA

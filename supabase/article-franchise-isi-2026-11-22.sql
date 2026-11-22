@@ -23,3 +23,7 @@ where slug = 'franchise-cimol-bojot-aa-pernyataan-resmi'
 update public.articles set body = replace(body, '**Apakah saya bisa membuka gerobak atau kios Cimol Bojot AA sendiri?** Tidak. Perusahaan tidak membuka kemitraan berbentuk franchise.', '**Apakah saya bisa membuka gerobak atau kios Cimol Bojot AA sendiri?** Tidak. Perusahaan tidak membuka kemitraan berbentuk franchise. Yang dibuka adalah kesempatan menjadi mitra crew di gerobak milik perusahaan.')
 where slug = 'franchise-cimol-bojot-aa-pernyataan-resmi'
   and body not like '%mitra crew di gerobak milik perusahaan%';
+
+-- 4) Akun media sosial resmi.
+update public.articles set body = replace(body, '[ISI: nama akun Instagram dan TikTok resmi]', '[Instagram @cimolbojotaa](https://www.instagram.com/cimolbojotaa) dan [TikTok @cimolbojot.aa](https://www.tiktok.com/@cimolbojot.aa)')
+where slug = 'franchise-cimol-bojot-aa-pernyataan-resmi';

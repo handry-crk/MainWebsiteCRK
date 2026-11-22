@@ -36,7 +36,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
       <a className="skip" href="#main">Langsung ke isi</a>
       <Header logo={logo} frozen={fz.ready} />
       <main id="main">{children}</main>
-      <Footer lead={t("footer_lead")} count={t("footer_tape_count")} privacy={Boolean(t("privacy_body"))} frozen={fz.ready} />
+      <Footer lead={t("footer_lead")} count={t("footer_tape_count")} privacy={Boolean(t("privacy_body"))} frozen={fz.ready} instagram={st.instagram} tiktok={st.tiktok} />
       <Motion />
       {st.gaId && <Analytics id={st.gaId} />}
     </>
