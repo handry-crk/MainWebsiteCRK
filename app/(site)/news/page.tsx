@@ -20,7 +20,7 @@ export default async function News() {
           ) : (
             <>
               <Link href={`/news/${first.slug}`} className={`lead${first.cover ? " lead--photo" : ""}`}>
-                {first.cover && <Image className="lead__cover" {...first.cover} alt="" priority sizes="(max-width: 900px) 100vw, 420px" />}
+                {first.cover && <Image className="lead__cover" {...first.cover} alt="" priority sizes="(max-width: 900px) 100vw, 520px" />}
                 <span className="lead__meta">{first.category} · {first.date}</span>
                 <span className="lead__title">{first.title}</span>
                 <span>{first.excerpt}</span>

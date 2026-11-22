@@ -48,7 +48,7 @@ export const resources: Record<string, Resource> = {
       { key: "slug", label: "Slug (alamat halaman)", required: true, hint: "Huruf kecil, angka, dan tanda hubung. Mis. kios-baru-kelapa-dua" },
       { key: "category", label: "Kategori", type: "select", options: ["Outlet baru", "Produk", "Promo", "Perusahaan"], def: "Perusahaan", list: true },
       { key: "excerpt", label: "Ringkasan (1 kalimat)", type: "textarea", hint: "Dipakai sebagai deskripsi di Google" },
-      { key: "cover_url", label: "Foto sampul", type: "image", hint: "Tampil di daftar kabar, halaman kabar, dan saat tautan dibagikan. Sebaiknya mendatar (4:3)." },
+      { key: "cover_url", label: "Foto sampul", type: "image", hint: "Tampil di daftar kabar, halaman kabar, dan saat tautan dibagikan. Ukuran 16:9, mis. 1600 x 900 px. Jaga teks penting di tengah." },
       { key: "body", label: "Isi", type: "textarea", hint: "Baris kosong = paragraf baru. ## Subjudul, - butir daftar, 1. langkah, **tebal**, [teks](/halaman atau https://...)" },
       { key: "published_at", label: "Tanggal terbit", type: "datetime", list: true },
       { key: "is_published", label: "Terbitkan", type: "bool", def: false, list: true },
