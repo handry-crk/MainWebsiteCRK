@@ -120,5 +120,5 @@ Tiap kios juga punya halaman sendiri, jadi alamatnya gampang dibagikan ke teman.
 
 [ISI: info gerobak di luar daftar kios, dan pilihan pesan antar yang tersedia.]
 
-Untuk stok di rumah, ada [Cimol Frozen](/frozen). Tertarik membuka titik baru? Lihat halaman [Partnership](/partnership).', false)
+Untuk stok di rumah, ada [Cimol Frozen](/frozen). Mau jadi reseller atau pesan untuk acara? Lihat halaman [Partnership](/partnership).', false)
 on conflict (slug) do nothing;

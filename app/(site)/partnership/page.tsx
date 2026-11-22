@@ -41,7 +41,7 @@ export default async function Partnership() {
         )}
         <div className="wrap">
           <h2 className="h2">Pilih bentuk kerja samanya</h2>
-          <ul className="ptypes">
+          <ul className={types.length === 3 ? "ptypes ptypes--3" : "ptypes"}>
             {types.map((t, i) => (
               <li key={t.name} className="panel panel--line">
                 <h3>{t.name}</h3>

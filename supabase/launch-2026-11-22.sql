@@ -15,7 +15,7 @@ select 'umum', v.question, v.answer, v.sort from (values
   ('Bisa pesan antar?', '[ISI: aplikasi pesan antar yang tersedia dan cara mencarinya]', 5),
   ('Apakah Cimol Bojot AA halal?', '[ISI dari QC: status dan nomor sertifikat halal. Jangan diisi sebelum sertifikat ada.]', 6),
   ('Ada Cimol Bojot AA Frozen?', 'Ada. Varian, cara goreng, dan tautan belinya ada di halaman Cimol Frozen.', 7),
-  ('Bagaimana cara jadi mitra atau reseller?', 'Pilihan kerja sama dan form pendaftarannya ada di halaman Partnership.', 8),
+  ('Bagaimana cara jadi reseller atau pesan untuk acara?', 'Pilihan kerja sama dan form pendaftarannya ada di halaman Partnership.', 8),
   ('Saya mau melamar kerja, ke mana?', 'Lowongan dan pendaftaran ada di situs rekrutmen CRK Group: people.citarasakuliner.com.', 9),
   ('Mau kirim kritik atau saran, ke mana?', 'Lewat form atau WhatsApp di halaman Contact Us.', 10)
 ) as v(question, answer, sort)

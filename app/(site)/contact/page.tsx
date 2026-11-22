@@ -24,7 +24,7 @@ export default async function Contact() {
             </li>
             <li className="panel panel--line">
               <h3>Kemitraan</h3>
-              <p>Pesanan acara, hampers, reseller, dan titik outlet.</p>
+              <p>Pesanan acara, hampers, dan reseller Frozen.</p>
               <WaLink number={st.whatsappPartnership} text="Halo tim kemitraan CRK Group." variant="line">Chat kemitraan</WaLink>
             </li>
             {office.length > 0 && (

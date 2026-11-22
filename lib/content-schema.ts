@@ -38,7 +38,7 @@ export const contentSchema: ContentGroup[] = [
       { key: "home_quiz_mix", label: "Kuis, hasil tim mix", def: "Nggak bisa milih, jadi ambil dua rasa sekaligus." },
       { key: "home_quiz_baru", label: "Kuis, hasil tim menu baru (New Series)", def: "Paling kepo sama menu baru. Yang lain belum coba, Kakak udah duluan." },
       { key: "home_where_label", label: "Kalimat di atas daftar kota", def: "Kios Cimol Bojot AA ada di kota-kota ini." },
-      { key: "home_cta_1_text", label: "Kartu kemitraan, penjelasan", def: "Acara kantor, hampers, reseller Frozen, sampai buka titik baru." },
+      { key: "home_cta_1_text", label: "Kartu kemitraan, penjelasan", def: "Acara kantor, hampers, sampai reseller Frozen." },
       { key: "home_cta_1_button", label: "Kartu kemitraan, tulisan tautan", def: "Lihat pilihan kerja sama", max: 30 },
       { key: "home_cta_2_text", label: "Kartu karier, penjelasan", def: "Dari crew gerobak dan kios sampai tim kantor." },
       { key: "home_cta_2_button", label: "Kartu karier, tulisan tautan", def: "Lihat lowongan", max: 30 },
@@ -112,13 +112,12 @@ export const contentSchema: ContentGroup[] = [
   {
     page: "Partnership",
     fields: [
-      { key: "partnership_intro", label: "Kalimat pembuka", type: "textarea", def: "Buat acara kantor, hampers, reseller Frozen, sampai buka titik baru. Ngobrol aja dulu." },
+      { key: "partnership_intro", label: "Kalimat pembuka", type: "textarea", def: "Buat acara kantor, hampers, sampai reseller Frozen. Ngobrol aja dulu." },
       { key: "partnership_notice_title", label: "Pemberitahuan, judul", def: "Pemberitahuan resmi", max: 30 },
       { key: "partnership_notice", label: "Pemberitahuan, isi", type: "textarea", def: "PT Citarasa Kuliner Indonesia (CRK) dan Cimol Bojot AA tidak membuka kemitraan berbentuk franchise.", hint: "Tampil di bagian atas halaman Partnership dan di ringkasan untuk AI." },
       { key: "partner_type_1_text", label: "Pesanan acara dan kantor", type: "textarea", def: "Cimol buat rapat, ulang tahun kantor, atau acara komunitas.", hint: "Tambahkan minimal pesanan dan area layanan" },
       { key: "partner_type_2_text", label: "Hampers Frozen", type: "textarea", def: "Cimol Frozen dikemas jadi bingkisan.", hint: "Tambahkan pilihan paket dan waktu pesan" },
       { key: "partner_type_3_text", label: "Reseller dan agen Frozen", type: "textarea", def: "Jual Cimol Bojot AA Frozen di kota Kakak.", hint: "Tambahkan syarat dan skema" },
-      { key: "partner_type_4_text", label: "Kemitraan titik outlet", type: "textarea", def: "Buka titik Cimol Bojot AA bareng kami.", hint: "Tambahkan skema kemitraan" },
     ],
   },
   {
