@@ -1,5 +1,5 @@
 -- Artikel pernyataan resmi: tidak membuka kemitraan berbentuk franchise. Jalankan sekali di Supabase > SQL Editor. Aman dijalankan ulang.
--- Masuk sebagai DRAF (belum terbit). Lengkapi tiga bagian bertanda [ISI ...] di Admin > Kabar, unggah sampul 16:9, lalu centang "Terbitkan".
+-- Masuk sebagai DRAF (belum terbit). Lengkapi bagian bertanda [ISI ...] (nama akun media sosial resmi) di Admin > Kabar, unggah sampul 16:9, lalu centang "Terbitkan".
 insert into public.articles (slug, title, category, excerpt, body, is_published) values
   ('franchise-cimol-bojot-aa-pernyataan-resmi', 'Franchise Cimol Bojot AA: Pernyataan Resmi Perusahaan', 'Perusahaan', 'Pernyataan resmi PT Citarasa Kuliner Indonesia: Cimol Bojot AA tidak membuka kemitraan berbentuk franchise. Ini bentuk kerja sama yang tersedia.', 'PT Citarasa Kuliner Indonesia (CRK) dan Cimol Bojot AA **tidak membuka kemitraan berbentuk franchise** atau waralaba. Halaman ini adalah pernyataan resmi perusahaan pemilik brand Cimol Bojot AA.
 
@@ -11,11 +11,11 @@ Pernyataan ini diterbitkan oleh PT Citarasa Kuliner Indonesia, perusahaan F&B ya
 
 Tidak ada. Karena kemitraan berbentuk franchise tidak dibuka, perusahaan tidak menerbitkan harga franchise, paket kemitraan gerobak, maupun perhitungan modal dan balik modal.
 
-[ISI: sikap resmi perusahaan terhadap tawaran franchise yang mengatasnamakan Cimol Bojot AA. Diisi hanya bila sudah disetujui manajemen atau penasihat hukum.]
+Setiap tawaran franchise atau waralaba yang mengatasnamakan Cimol Bojot AA bukan berasal dari PT Citarasa Kuliner Indonesia. Perusahaan tidak menunjuk agen, perantara, atau pihak ketiga mana pun untuk menawarkan atau menerima pembayaran atas kemitraan berbentuk franchise. Pendaftaran mitra crew gerobak hanya dibuka melalui situs rekrutmen resmi perusahaan di [people.citarasakuliner.com](https://people.citarasakuliner.com/).
 
 ## Mengapa Cimol Bojot AA tidak membuka franchise?
 
-[ISI: alasan resmi dalam satu atau dua kalimat, mis. cara perusahaan mengelola gerobak dan kios serta menjaga mutu.]
+Gerobak dan kios Cimol Bojot AA dimiliki dan dikelola oleh PT Citarasa Kuliner Indonesia, supaya resep, takaran bumbu, dan pelayanan tetap sama di setiap titik. Crew yang bertugas di gerobak adalah mitra perusahaan dengan skema bagi hasil dari penjualan harian. Ini adalah kerja sama operasional, bukan franchise: mitra crew tidak membeli hak usaha atau merek Cimol Bojot AA.
 
 ## Bentuk kerja sama yang tersedia
 
@@ -39,7 +39,7 @@ Jangan melakukan pembayaran apa pun sebelum memastikannya ke perusahaan. Kirim t
 
 ## Pertanyaan yang sering diajukan
 
-**Apakah saya bisa membuka gerobak atau kios Cimol Bojot AA sendiri?** Tidak. Perusahaan tidak membuka kemitraan berbentuk franchise.
+**Apakah saya bisa membuka gerobak atau kios Cimol Bojot AA sendiri?** Tidak. Perusahaan tidak membuka kemitraan berbentuk franchise. Yang dibuka adalah kesempatan menjadi mitra crew di gerobak milik perusahaan.
 
 **Apakah saya bisa menjual Cimol Bojot AA?** Bisa, sebagai reseller atau agen Cimol Bojot AA Frozen. Lihat halaman [Partnership](/partnership).
 

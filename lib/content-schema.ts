@@ -70,7 +70,7 @@ export const contentSchema: ContentGroup[] = [
       { key: "about_value_5_text", label: "Core value 5, penjelasan", def: "Melakukan pemberdayaan untuk saling menumbuhkan" },
       { key: "about_value_6_title", label: "Core value 6, judul", def: "Noble" },
       { key: "about_value_6_text", label: "Core value 6, penjelasan", def: "Menciptakan kebahagiaan melalui kepedulian dan kebaikan" },
-      { key: "about_crew_count", label: "Jumlah crew dan karyawan", ph: "[ISI]", hint: "Mis. 1.200+" },
+      { key: "about_crew_count", label: "Jumlah mitra crew dan karyawan", ph: "[ISI]", hint: "Mis. 1.200+" },
     ],
   },
   {

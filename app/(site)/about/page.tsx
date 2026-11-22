@@ -69,7 +69,7 @@ export default async function About() {
         <div className="wrap"><div className="facts">
           <p><b>500+</b> titik gerobak</p>
           {kios > 0 && <p><b>{kios}</b> kios, termasuk yang segera buka</p>}
-          {crew && <p><b>{crew}</b> crew dan karyawan</p>}
+          {crew && <p><b>{crew}</b> mitra crew dan karyawan</p>}
         </div></div>
         <div className="wrap closing">
           <p>CRK Group adalah nama dagang {brand.legalName}, Bandung.</p>
